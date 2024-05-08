@@ -1,5 +1,5 @@
 {
-  "name": "daeng_v1_mobile",
+  "name": "com.petcampus.knock",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-native-firebase/app": "^19.2.2",
+    "@react-native-firebase/messaging": "^19.2.2",
     "react": "18.2.0",
     "react-native": "0.74.0",
     "react-native-webview": "^13.8.7"

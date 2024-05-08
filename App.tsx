@@ -7,8 +7,8 @@ function App(): React.JSX.Element {
     <SafeAreaView style={{height: '100%', width: '100%'}}>
       <WebView
         source={{
-          //uri: 'https://webapp.knock-dog.net/'
-          uri: 'http://localhost:3000/',
+          uri: 'https://webapp.knock-dog.net/',
+          //uri: 'http://localhost:3000/',
         }}
       />
     </SafeAreaView>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "678302067561",
+    "project_id": "daeng-b7219",
+    "storage_bucket": "daeng-b7219.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678302067561:android:e3369b791a23852bf16bf8",
+        "android_client_info": {
+          "package_name": "com.petcampus.knock"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAd-xsGzJQpiB4pgNY7Fv0NF-FiMsQH1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
