@@ -6,7 +6,7 @@ import {
   ImageURISource,
   Alert,
 } from 'react-native';
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import {
   launchCamera,
@@ -17,9 +17,34 @@ import {
 import AWS from 'aws-sdk';
 import RNFS from 'react-native-fs';
 import {Buffer} from 'buffer';
+import {WebView, WebViewMessageEvent} from 'react-native-webview';
 
 const firebaseMessaging = messaging();
 const [img, setImg] = useState<ImageURISource>({uri: ''});
+export const webviewRef = useRef<any>();
+
+// rn에서 웹뷰로 변수 호출
+export const handleEndLoading = (loadingState: string) => {
+  if (!webviewRef) return;
+  console.log('handleEndLoading');
+  /** rn에서 웹뷰로 정보를 보내는 메소드 */
+  webviewRef.current.postMessage(
+    JSON.stringify({type: 'LOADING', data: '보내준값'}),
+  );
+};
+
+export const handleIsApp = () => {
+  if (!webviewRef) return;
+  webviewRef.current.postMessage(
+    JSON.stringify({type: 'IS_APP', data: 'true'}),
+  );
+};
+
+// 웹뷰에서 rn으로 함수 또는 변수 호출
+export const onMessageFromWebView = ({nativeEvent}: WebViewMessageEvent) => {
+  const {type, data} = JSON.parse(nativeEvent.data);
+  console.log(type, data);
+};
 
 const awsS3config = {
   region: 'your_region',
