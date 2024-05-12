@@ -1,10 +1,25 @@
-import React from 'react';
-import {SafeAreaView} from 'react-native';
+import React, {useEffect} from 'react';
+import {SafeAreaView, TouchableOpacity, Platform} from 'react-native';
 import WebView from 'react-native-webview';
+import {iosRequestPermission, androidRequestPermission} from './utils';
 
 function App(): React.JSX.Element {
+  useEffect(() => {
+    Platform.OS === 'android'
+      ? androidRequestPermission()
+      : iosRequestPermission();
+  }, []);
+
   return (
     <SafeAreaView style={{height: '100%', width: '100%'}}>
+      <TouchableOpacity
+        style={{
+          height: '10%',
+          width: '100%',
+          backgroundColor: 'black',
+        }}
+        onPress={() => {}}
+      />
       <WebView
         source={{
           uri: 'https://webapp.knock-dog.net/',
