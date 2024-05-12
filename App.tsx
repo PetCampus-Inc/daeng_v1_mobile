@@ -4,8 +4,8 @@ import WebView from 'react-native-webview';
 import {
   iosRequestPermission,
   androidRequestPermission,
-  showPhoto,
   showCamera,
+  selectImage,
 } from './utils';
 
 function App(): React.JSX.Element {
@@ -23,7 +23,7 @@ function App(): React.JSX.Element {
           width: '100%',
           backgroundColor: 'black',
         }}
-        onPress={showPhoto}
+        onPress={selectImage}
       />
       <WebView
         source={{

@@ -6,19 +6,83 @@ import {
   ImageURISource,
   Alert,
 } from 'react-native';
-import {useCallback, useEffect, useState} from 'react';
+import {useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import {
   launchCamera,
   launchImageLibrary,
   CameraOptions,
   ImagePickerResponse,
-  ImageLibraryOptions,
-  Asset,
 } from 'react-native-image-picker';
+import AWS from 'aws-sdk';
+import RNFS from 'react-native-fs';
+import {Buffer} from 'buffer';
 
 const firebaseMessaging = messaging();
 const [img, setImg] = useState<ImageURISource>({uri: ''});
+
+const awsS3config = {
+  region: 'your_region',
+  bucket: 'your_bucketName',
+  accessKeyID: 'your_accessKeyID',
+  secretAccessKey: 'your_secretAccessKey',
+};
+
+const s3 = new AWS.S3({
+  accessKeyId: awsS3config.accessKeyID,
+  secretAccessKey: awsS3config.secretAccessKey,
+  region: awsS3config.region,
+});
+
+//s3 upload funciton
+const uploadImageToS3 = async (imgConfig: any) => {
+  return new Promise(async (resolve, reject) => {
+    const fileData = await RNFS.readFile(imgConfig.uri, 'base64');
+
+    const params = {
+      Bucket: awsS3config.bucket,
+      Key: imgConfig.fileName, // File name you want to save as in S3
+      Body: Buffer.from(fileData, 'base64'),
+      ACL: 'public-read',
+      ContentType: imgConfig.type,
+    };
+
+    // Uploading files to the bucket
+    s3.upload(params, function (err: any, data: any) {
+      if (err) {
+        reject(err);
+      } else {
+        console.log(`File uploaded successfully. ${data.Location}`);
+        resolve(data.Location);
+      }
+    });
+    console.log('end');
+  });
+};
+
+//갤러리 실행
+export const selectImage = () => {
+  const options: any = {
+    title: '사진 선택',
+    selectionLimit: 20,
+  };
+
+  let imageList: any = [];
+  launchImageLibrary(options, async (response: any) => {
+    if (response.didCancel) {
+      console.log('사용자가 이미지 선택을 취소했습니다.');
+    } else if (response.error) {
+      console.log('ImagePicker 에러: ', response.error);
+    } else if (response.customButton) {
+      console.log('Custom button clicked :', response.customButton);
+    } else {
+      imageList = response.assets;
+      imageList.forEach(async (item: any) => {
+        await uploadImageToS3(item);
+      });
+    }
+  });
+};
 
 //카메라 앱을 실행하는 함수
 export const showCamera = () => {
@@ -47,24 +111,6 @@ export const showCamera = () => {
       }
     }
   }); //파라미터로 응답객체 받음
-};
-
-//사진앱을 실행하는 기능 화살표 함수
-export const showPhoto = async () => {
-  const option: ImageLibraryOptions = {
-    mediaType: 'photo',
-    selectionLimit: 5,
-  };
-
-  const response = await launchImageLibrary(option);
-
-  if (response.didCancel) Alert.alert('취소');
-  else if (response.errorMessage)
-    Alert.alert('Error : ' + response.errorMessage);
-  else {
-    const uris: Asset[] = [];
-    response.assets?.forEach(value => uris.push(value));
-  }
 };
 
 // 전화걸기 함수
