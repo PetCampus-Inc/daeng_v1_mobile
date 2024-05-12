@@ -3,10 +3,69 @@ import {
   Platform,
   NativeModules,
   PermissionsAndroid,
+  ImageURISource,
+  Alert,
 } from 'react-native';
+import {useCallback, useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
+import {
+  launchCamera,
+  launchImageLibrary,
+  CameraOptions,
+  ImagePickerResponse,
+  ImageLibraryOptions,
+  Asset,
+} from 'react-native-image-picker';
 
 const firebaseMessaging = messaging();
+const [img, setImg] = useState<ImageURISource>({uri: ''});
+
+//카메라 앱을 실행하는 함수
+export const showCamera = () => {
+  //1. launchCamera 하기 위한 옵션 객체
+  const options: CameraOptions = {
+    //Property 'mediaType' is missing in type '{}' but required in type 'CameraOptions'
+    mediaType: 'photo', //필수 속성
+    cameraType: 'back',
+    saveToPhotos: true,
+    quality: 1,
+    videoQuality: 'high',
+  };
+
+  //2. 촬영 결과를 받아오는 callback 메소드 등록
+  launchCamera(options, (response: ImagePickerResponse) => {
+    if (response.didCancel) Alert.alert('촬영취소');
+    else if (response.errorMessage)
+      Alert.alert('Error : ' + response.errorMessage);
+    else {
+      if (response.assets != null) {
+        const uri = response.assets[0].uri;
+
+        const souce = {uri: uri};
+
+        setImg(souce);
+      }
+    }
+  }); //파라미터로 응답객체 받음
+};
+
+//사진앱을 실행하는 기능 화살표 함수
+export const showPhoto = async () => {
+  const option: ImageLibraryOptions = {
+    mediaType: 'photo',
+    selectionLimit: 5,
+  };
+
+  const response = await launchImageLibrary(option);
+
+  if (response.didCancel) Alert.alert('취소');
+  else if (response.errorMessage)
+    Alert.alert('Error : ' + response.errorMessage);
+  else {
+    const uris: Asset[] = [];
+    response.assets?.forEach(value => uris.push(value));
+  }
+};
 
 // 전화걸기 함수
 export const connenctCall = (telNumber: string) => {

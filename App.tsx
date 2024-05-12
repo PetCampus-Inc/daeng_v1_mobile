@@ -1,13 +1,18 @@
 import React, {useEffect} from 'react';
 import {SafeAreaView, TouchableOpacity, Platform} from 'react-native';
 import WebView from 'react-native-webview';
-import {iosRequestPermission, androidRequestPermission} from './utils';
+import {
+  iosRequestPermission,
+  androidRequestPermission,
+  showPhoto,
+  showCamera,
+} from './utils';
 
 function App(): React.JSX.Element {
   useEffect(() => {
-    Platform.OS === 'android'
-      ? androidRequestPermission()
-      : iosRequestPermission();
+    // Platform.OS === 'android'
+    //   ? androidRequestPermission()
+    //   : iosRequestPermission();
   }, []);
 
   return (
@@ -18,7 +23,7 @@ function App(): React.JSX.Element {
           width: '100%',
           backgroundColor: 'black',
         }}
-        onPress={() => {}}
+        onPress={showPhoto}
       />
       <WebView
         source={{
