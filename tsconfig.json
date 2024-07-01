@@ -1,3 +1,25 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json"
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+
+    "allowJs": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "jsx": "react-native",
+    "removeComments": true,
+    "skipLibCheck": true,
+
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["./*"],
+      "@screens/*": ["screens/*"],
+      "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
+      "@utils/*": ["utils/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "babel.config.cjs", "metro.config.cjs", "jest.config.cjs"]
 }
