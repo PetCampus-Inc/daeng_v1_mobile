@@ -14,12 +14,13 @@
     "baseUrl": "./src",
     "paths": {
       "~/*": ["./*"],
+      "@config/*": ["config/*"],
       "@screens/*": ["screens/*"],
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@utils/*": ["utils/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "env.d.ts"],
   "exclude": ["node_modules", "babel.config.cjs", "metro.config.cjs", "jest.config.cjs"]
 }

@@ -1,10 +1,5 @@
 module.exports = {
-  presets: [
-    "module:@react-native/babel-preset",
-    "@babel/preset-react",
-    "@babel/preset-typescript",
-    ["@babel/preset-env", { targets: { node: "current" } }]
-  ],
+  presets: ["module:@react-native/babel-preset", "@babel/preset-typescript"],
   plugins: [
     [
       "module-resolver",
@@ -23,11 +18,19 @@ module.exports = {
         ],
         alias: {
           "~": "./src",
+          "@config": "./src/config",
           "@screens": "./src/screens",
           "@components": "./src/components",
           "@hooks": "./src/hooks",
           "@utils": "./src/utils"
         }
+      }
+    ],
+    [
+      "module:react-native-dotenv",
+      {
+        moduleName: "@env",
+        path: ".env"
       }
     ]
   ]
