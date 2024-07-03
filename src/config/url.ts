@@ -6,5 +6,4 @@ const baseUrl = __DEV__ ? devBaseUrl : BASE_URL;
 
 const apiUrl = `${baseUrl}/${API_PATH}`;
 
-console.log(Platform.OS, devBaseUrl);
 export { baseUrl, apiUrl };
