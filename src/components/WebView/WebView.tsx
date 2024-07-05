@@ -20,6 +20,7 @@ const WebView = ({ webviewRef, path, ...props }: WebViewProps) => {
 
   const onPressHardwareBackButton = () => {
     if (webview.current) {
+      console.log(webview.current.state);
       webview.current.goBack();
       return true;
     } else {
@@ -39,6 +40,7 @@ const WebView = ({ webviewRef, path, ...props }: WebViewProps) => {
       ref={webview}
       windowWidth={windowWidth}
       windowHeight={windowHeight}
+      webviewDebuggingEnabled={__DEV__ ? true : false}
       source={{
         uri: baseUrl + pathSlash
       }}

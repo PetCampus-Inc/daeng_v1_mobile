@@ -26,6 +26,14 @@ module.exports = {
             group: "builtin"
           },
           {
+            pattern: "@config/*",
+            group: "unknown"
+          },
+          {
+            pattern: "@services/*",
+            group: "unknown"
+          },
+          {
             pattern: "@screens/*",
             group: "unknown"
           },

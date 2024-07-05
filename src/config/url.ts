@@ -1,9 +1,14 @@
 import { Platform } from "react-native";
-import { DEV_IOS_BASE_URL, DEV_ANDROID_BASE_URL, BASE_URL, API_PATH } from "@env";
+import {
+  DEV_IOS_SERVER_DOMAIN,
+  DEV_ANDROID_SERVER_DOMAIN,
+  SERVER_DOMAIN,
+  SERVER_API_PATH
+} from "@env";
 
-const devBaseUrl = Platform.OS === "ios" ? DEV_IOS_BASE_URL : DEV_ANDROID_BASE_URL;
-const baseUrl = __DEV__ ? devBaseUrl : BASE_URL;
+const devBaseUrl = Platform.OS === "ios" ? DEV_IOS_SERVER_DOMAIN : DEV_ANDROID_SERVER_DOMAIN;
+const baseUrl = __DEV__ ? devBaseUrl : SERVER_DOMAIN;
 
-const apiUrl = `${baseUrl}/${API_PATH}`;
+const apiUrl = `${baseUrl}${SERVER_API_PATH}`;
 
 export { baseUrl, apiUrl };

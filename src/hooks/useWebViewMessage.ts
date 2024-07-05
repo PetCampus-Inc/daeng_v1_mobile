@@ -1,30 +1,17 @@
-import WebView from "react-native-webview";
-import { RefObject, useCallback } from "react";
+import { useCallback } from "react";
 import { WebViewMessageEvent, WebViewProps } from "react-native-webview";
 
 export interface WebViewMessage {
   type: string;
-  data: string;
-}
-
-export interface ReactNativeMessage {
-  type: string;
-  data: string;
+  data: any;
 }
 
 interface WebViewMessageParams {
-  webviewRef?: RefObject<WebView>;
   onError?: (err: string) => void;
   onSubscribe?: (message: WebViewMessage) => void;
 }
 
-export const useWebViewMessage = ({
-  webviewRef,
-  onSubscribe,
-  onError
-}: WebViewMessageParams = {}) => {
-  const webview = webviewRef ? webviewRef.current : null;
-
+export const useWebViewMessage = ({ onSubscribe, onError }: WebViewMessageParams = {}) => {
   const onMessage: WebViewProps["onMessage"] = useCallback(
     (event: WebViewMessageEvent) => {
       try {

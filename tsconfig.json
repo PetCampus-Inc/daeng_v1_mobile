@@ -15,6 +15,7 @@
     "paths": {
       "~/*": ["./*"],
       "@config/*": ["config/*"],
+      "@services/*": ["services/*"],
       "@screens/*": ["screens/*"],
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
