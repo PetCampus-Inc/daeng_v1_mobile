@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import { WebView, WebViewRef } from "@components/WebView";
+import { WebView, WebViewRef } from "~/components/WebView";
 import useSavePicture from "~/hooks/useSavePicture";
 import { runCamera } from "~/native/camera";
-import { selectImage } from "~/native/gallery";
+import { selectImage } from "~/native/selectImage";
 import { GetMessage } from "~/types/getMessage";
 import useGetMessage from "~/hooks/useGetMessage";
 

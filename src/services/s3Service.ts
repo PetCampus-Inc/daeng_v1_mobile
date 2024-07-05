@@ -1,6 +1,6 @@
 import RNFS from "react-native-fs";
 import AWS from "aws-sdk";
-import { awsS3config } from "@config/s3";
+import { awsS3config } from "~/config/s3";
 
 const s3 = new AWS.S3({
   accessKeyId: awsS3config.accessKeyID,

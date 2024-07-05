@@ -3,7 +3,7 @@ import React from "react";
 import { ElementRef, RefObject, useEffect, useRef } from "react";
 import { BackHandler, Dimensions } from "react-native";
 import ParentWebView, { WebViewProps as ParentWebViewProps } from "react-native-webview";
-import { baseUrl } from "@config/url";
+import { baseUrl } from "~/config/url";
 import * as S from "./styles";
 
 const windowWidth = Dimensions.get("window").width;

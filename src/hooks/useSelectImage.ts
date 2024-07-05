@@ -1,6 +1,6 @@
 import { Asset, ImageLibraryOptions } from "react-native-image-picker";
 import { usePostMessage } from "~/hooks/usePostMessage";
-import { selectImage } from "~/native/gallery";
+import { selectImage } from "~/native/selectImage";
 import uploadImageToS3 from "~/services/s3Service";
 import { BaseNativeHookOptions } from "~/types/native";
 
