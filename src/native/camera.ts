@@ -2,7 +2,7 @@ import { Alert } from "react-native";
 import { CameraOptions, ImagePickerResponse, launchCamera } from "react-native-image-picker";
 
 //카메라 앱을 실행하는 함수
-export const showCamera = () => {
+export const runCamera = () => {
   const options: CameraOptions = {
     mediaType: "photo",
     cameraType: "back",

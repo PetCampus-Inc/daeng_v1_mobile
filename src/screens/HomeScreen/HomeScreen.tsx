@@ -1,33 +1,27 @@
 import React, { useRef } from "react";
 import { WebView, WebViewRef } from "@components/WebView";
-import { WebViewMessage, useWebViewMessage } from "@hooks/useWebViewMessage";
 import useSavePicture from "~/hooks/useSavePicture";
-import { usePostMessage } from "~/hooks/usePostMessage";
+import { runCamera } from "~/native/camera";
+import { selectImage } from "~/native/gallery";
+import { GetMessage } from "~/types/getMessage";
+import useGetMessage from "~/hooks/useGetMessage";
 
 export const HomeScreen = () => {
   const webviewRef = useRef<WebViewRef>(null);
 
-  const { post } = usePostMessage({ webviewRef });
+  const { save } = useSavePicture({ webviewRef });
 
-  const { save } = useSavePicture({
-    onProgress: (progress) => {
-      const data = JSON.stringify(progress);
-      post({ type: "IMAGE_DOWNLOAD_PROGRESS", data });
-    }
-  });
-
-  const { onMessage } = useWebViewMessage({
+  const { onMessage } = useGetMessage({
     onSubscribe: (message) => handleSubscribe(message)
   });
 
-  const handleSubscribe = (message: WebViewMessage) => {
-    switch (message.type) {
-      case "IMAGE_DOWNLOAD":
-        save(message.data);
-        break;
-      default:
-        console.error("Not Found Type");
-    }
+  const handleSubscribe = ({ type, data }: GetMessage) => {
+    const handlers: Record<GetMessage["type"], (data: any) => void> = {
+      SAVE_PICTURE: save,
+      RUN_CAMERA: runCamera,
+      SELECT_IMAGE: selectImage
+    };
+    return handlers[type](data);
   };
 
   return <WebView onMessage={onMessage} path="/login" />;
