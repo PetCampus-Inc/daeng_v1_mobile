@@ -49,7 +49,7 @@ const useSavePicture = ({ webviewRef, onProgress, onComplete, onError }: SavePic
     setProgress(progress);
     post({
       type: "SAVE_PICTURE_PROGRESS",
-      data: JSON.stringify(progress)
+      data: progress
     });
 
     onProgress?.(progress);

@@ -1,54 +1,47 @@
-import React from "react";
-
-import { ElementRef, RefObject, useEffect, useRef } from "react";
+import React, { forwardRef, RefObject, useEffect, useRef } from "react";
 import { BackHandler, Dimensions } from "react-native";
 import ParentWebView, { WebViewProps as ParentWebViewProps } from "react-native-webview";
+import { StyledWebView } from "~/components/WebView/styles";
 import { baseUrl } from "~/config/url";
-import * as S from "./styles";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 interface WebViewProps extends ParentWebViewProps {
-  webviewRef?: RefObject<ParentWebView>;
   path?: string;
 }
 
-const WebView = ({ webviewRef, path, ...props }: WebViewProps) => {
-  const webview = webviewRef ? webviewRef : useRef<ParentWebView>(null);
-  const pathSlash = path ? (path.startsWith("/") ? path : `/${path}`) : "";
+const WebView = forwardRef<ParentWebView, WebViewProps>(({ path = "", ...props }, ref) => {
+  const localRef = useRef<ParentWebView>(null);
+  const webviewRef = (ref as RefObject<ParentWebView>) || localRef;
+  const fullPath = path.startsWith("/") ? path : `/${path}`;
 
-  const onPressHardwareBackButton = () => {
-    if (webview.current) {
-      console.log(webview.current.state);
-      webview.current.goBack();
+  const handleBackPress = () => {
+    if (webviewRef.current) {
+      webviewRef.current.goBack();
       return true;
-    } else {
-      return false;
     }
+    return false;
   };
 
   useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", onPressHardwareBackButton);
+    BackHandler.addEventListener("hardwareBackPress", handleBackPress);
     return () => {
-      BackHandler.removeEventListener("hardwareBackPress", onPressHardwareBackButton);
+      BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
     };
   }, []);
 
   return (
-    <S.WebView
-      ref={webview}
+    <StyledWebView
+      ref={webviewRef}
       windowWidth={windowWidth}
       windowHeight={windowHeight}
-      webviewDebuggingEnabled={__DEV__ ? true : false}
-      source={{
-        uri: baseUrl + pathSlash
-      }}
+      webviewDebuggingEnabled={__DEV__}
+      source={{ uri: `${baseUrl}${fullPath}` }}
       {...props}
     />
   );
-};
+});
 
-type WebViewRef = ElementRef<typeof WebView>;
-
-export { WebView, type WebViewRef };
+export default WebView;
+export type WebViewElement = ParentWebView;

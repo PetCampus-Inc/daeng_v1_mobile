@@ -1,7 +1,7 @@
 import ParentWebView from "react-native-webview";
 import styled, { css } from "styled-components";
 
-export const WebView = styled(ParentWebView).withConfig({
+export const StyledWebView = styled(ParentWebView).withConfig({
   shouldForwardProp: (prop) => !["windowWidth", "windowHeight"].includes(prop)
 })<{ windowWidth?: number; windowHeight?: number }>`
   flex: 1;
