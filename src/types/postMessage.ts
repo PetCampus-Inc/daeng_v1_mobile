@@ -1,6 +1,6 @@
 import { MessageTypes, WebViewMessage } from "~/types/message";
 
-export interface PictureDownloadProgress {
+export interface SaveImageProgress {
   current: number;
   remaining: number;
   total: number;
@@ -8,8 +8,8 @@ export interface PictureDownloadProgress {
 
 export type PostMessageType = {
   IS_APP: boolean;
-  SAVE_PICTURE_SUCCESS: boolean;
-  SAVE_PICTURE_PROGRESS: PictureDownloadProgress;
+  SAVE_IMAGE_SUCCESS: boolean;
+  SAVE_IMAGE_PROGRESS: SaveImageProgress;
   SELECT_IMAGE_SUCCESS: string[] | boolean;
 };
 
@@ -22,8 +22,8 @@ export const isValidWebViewMessage = (message: any): message is PostMessage => {
 
   const validators: Record<MessageTypes<PostMessageType>, (data: any) => boolean> = {
     IS_APP: (data) => typeof data === "boolean",
-    SAVE_PICTURE_SUCCESS: (data) => typeof data === "boolean",
-    SAVE_PICTURE_PROGRESS: (data) => typeof data === "string",
+    SAVE_IMAGE_SUCCESS: (data) => typeof data === "boolean",
+    SAVE_IMAGE_PROGRESS: (data) => typeof data === "string",
     SELECT_IMAGE_SUCCESS: (data) =>
       Array.isArray(data)
         ? data.every((item) => typeof item === "string")

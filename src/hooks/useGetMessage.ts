@@ -3,8 +3,8 @@ import { WebViewMessageEvent, WebViewProps } from "react-native-webview";
 import { GetMessage, isValidGetMessage } from "~/types/getMessage";
 
 interface GetMessageOptions {
-  onError?: (err: string) => void;
   onSubscribe?: (message: GetMessage) => void;
+  onError?: (err: string) => void;
 }
 
 const useGetMessage = ({ onSubscribe, onError }: GetMessageOptions = {}) => {

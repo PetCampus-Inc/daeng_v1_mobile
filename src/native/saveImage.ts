@@ -46,7 +46,7 @@ async function hasAndroidPermission() {
   return await getRequestPermissionPromise();
 }
 
-const downloadImage = async (
+const fetch = async (
   imageUrl: string,
   fileName: string,
   path: string,
@@ -70,7 +70,7 @@ const downloadImage = async (
   return RNFetchBlob.config(options).fetch("GET", imageUrl);
 };
 
-const savePicture = async (imageUrl: string, albumName: string = "KnockDog") => {
+const saveImage = async (imageUrl: string, albumName: string = "KnockDog") => {
   if (Platform.OS === "android" && !(await hasAndroidPermission())) {
     return;
   }
@@ -84,10 +84,10 @@ const savePicture = async (imageUrl: string, albumName: string = "KnockDog") => 
 
     if (Platform.OS === "android") {
       const path = `${PictureDir}/${fileName}`;
-      await downloadImage(imageUrl, fileName, path, true);
+      await fetch(imageUrl, fileName, path, true);
     } else if (Platform.OS === "ios") {
       const path = `${DocumentDir}/${fileName}`;
-      const res = await downloadImage(imageUrl, fileName, path, false);
+      const res = await fetch(imageUrl, fileName, path, false);
       await CameraRoll.save(res.path(), { type: "photo", album: albumName });
     }
   } catch (error) {
@@ -95,4 +95,4 @@ const savePicture = async (imageUrl: string, albumName: string = "KnockDog") => 
   }
 };
 
-export default savePicture;
+export default saveImage;

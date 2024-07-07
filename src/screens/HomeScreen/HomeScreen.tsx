@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import useSavePicture from "~/hooks/useSavePicture";
+import useSaveImage from "~/hooks/useSaveImage";
 import { runCamera } from "~/native/camera";
 import { selectImage } from "~/native/selectImage";
 import { GetMessage } from "~/types/getMessage";
@@ -11,7 +11,7 @@ import SplashScreen from "react-native-splash-screen";
 export const HomeScreen = () => {
   const webviewRef = useRef<WebViewElement>(null);
 
-  const { save } = useSavePicture({ webviewRef });
+  const { save } = useSaveImage({ webviewRef });
   const { post } = usePostMessage({ webviewRef });
 
   const { onMessage } = useGetMessage({

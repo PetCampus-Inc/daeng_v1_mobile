@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { usePostMessage } from "~/hooks/usePostMessage";
-import savePicture from "~/native/savePicture";
+import saveImage from "~/native/saveImage";
 import { BaseNativeHookOptions } from "~/types/native";
-import { PictureDownloadProgress } from "~/types/postMessage";
+import { SaveImageProgress } from "~/types/postMessage";
 
-interface SavePictureOptions extends BaseNativeHookOptions {
-  onProgress?: (progress: PictureDownloadProgress) => void;
+interface SaveImageOptions extends BaseNativeHookOptions {
+  onProgress?: (progress: SaveImageProgress) => void;
 }
 
-const useSavePicture = ({ webviewRef, onProgress, onComplete, onError }: SavePictureOptions) => {
+const useSaveImage = ({ webviewRef, onProgress, onComplete, onError }: SaveImageOptions) => {
   const { post } = usePostMessage({ webviewRef });
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [progress, setProgress] = useState<PictureDownloadProgress>({
+  const [progress, setProgress] = useState<SaveImageProgress>({
     current: 0,
     remaining: 0,
     total: 0
@@ -31,7 +31,7 @@ const useSavePicture = ({ webviewRef, onProgress, onComplete, onError }: SavePic
         const remaining = total - current;
         const url = urls[i];
 
-        await savePicture(url);
+        await saveImage(url);
         handleProgress({ current, remaining, total });
       }
 
@@ -45,10 +45,10 @@ const useSavePicture = ({ webviewRef, onProgress, onComplete, onError }: SavePic
     }
   };
 
-  const handleProgress = (progress: PictureDownloadProgress) => {
+  const handleProgress = (progress: SaveImageProgress) => {
     setProgress(progress);
     post({
-      type: "SAVE_PICTURE_PROGRESS",
+      type: "SAVE_IMAGE_PROGRESS",
       data: progress
     });
 
@@ -56,12 +56,12 @@ const useSavePicture = ({ webviewRef, onProgress, onComplete, onError }: SavePic
   };
 
   const handleComplete = () => {
-    post({ type: "SAVE_PICTURE_SUCCESS", data: true });
+    post({ type: "SAVE_IMAGE_SUCCESS", data: true });
     onComplete?.();
   };
 
   const handleError = (error: Error) => {
-    post({ type: "SAVE_PICTURE_SUCCESS", data: false });
+    post({ type: "SAVE_IMAGE_SUCCESS", data: false });
     onError?.(error);
   };
 
@@ -72,4 +72,4 @@ const useSavePicture = ({ webviewRef, onProgress, onComplete, onError }: SavePic
   return { save, loading, progress };
 };
 
-export default useSavePicture;
+export default useSaveImage;
