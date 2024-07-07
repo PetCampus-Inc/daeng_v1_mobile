@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { usePostMessage } from "~/hooks/usePostMessage";
 import saveImage from "~/native/saveImage";
-import { BaseNativeHookOptions } from "~/types/native";
-import { SaveImageProgress } from "~/types/postMessage";
+import { BaseNativeHookOptions } from "~/types/native.types";
+import { SaveImageProgress } from "~/types/message.types";
 
 interface SaveImageOptions extends BaseNativeHookOptions {
   onProgress?: (progress: SaveImageProgress) => void;
@@ -12,11 +12,7 @@ const useSaveImage = ({ webviewRef, onProgress, onComplete, onError }: SaveImage
   const { post } = usePostMessage({ webviewRef });
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [progress, setProgress] = useState<SaveImageProgress>({
-    current: 0,
-    remaining: 0,
-    total: 0
-  });
+  const [progress, setProgress] = useState<SaveImageProgress | null>(null);
 
   const save = async (imgUrls: string | string[]) => {
     const urls = Array.isArray(imgUrls) ? imgUrls : [imgUrls];
@@ -31,8 +27,8 @@ const useSaveImage = ({ webviewRef, onProgress, onComplete, onError }: SaveImage
         const remaining = total - current;
         const url = urls[i];
 
-        await saveImage(url);
         handleProgress({ current, remaining, total });
+        await saveImage(url);
       }
 
       handleComplete();
@@ -41,32 +37,25 @@ const useSaveImage = ({ webviewRef, onProgress, onComplete, onError }: SaveImage
       handleError(error);
     } finally {
       setLoading(false);
-      resetProgress();
+      setProgress(null);
     }
   };
 
   const handleProgress = (progress: SaveImageProgress) => {
     setProgress(progress);
-    post({
-      type: "SAVE_IMAGE_PROGRESS",
-      data: progress
-    });
+    post("SAVE_IMAGE_PROGRESS", progress);
 
     onProgress?.(progress);
   };
 
   const handleComplete = () => {
-    post({ type: "SAVE_IMAGE_SUCCESS", data: true });
+    post("SAVE_IMAGE_SUCCESS", true);
     onComplete?.();
   };
 
   const handleError = (error: Error) => {
-    post({ type: "SAVE_IMAGE_SUCCESS", data: false });
+    post("SAVE_IMAGE_SUCCESS", false);
     onError?.(error);
-  };
-
-  const resetProgress = () => {
-    setProgress({ current: 0, remaining: 0, total: 0 });
   };
 
   return { save, loading, progress };

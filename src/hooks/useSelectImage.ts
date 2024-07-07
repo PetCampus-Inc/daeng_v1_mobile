@@ -2,7 +2,7 @@ import { Asset, ImageLibraryOptions } from "react-native-image-picker";
 import { usePostMessage } from "~/hooks/usePostMessage";
 import { selectImage } from "~/native/selectImage";
 import uploadImageToS3 from "~/services/s3Service";
-import { BaseNativeHookOptions } from "~/types/native";
+import { BaseNativeHookOptions } from "~/types/native.types";
 
 interface SelectImageOptions extends BaseNativeHookOptions {
   options?: ImageLibraryOptions;
@@ -52,12 +52,12 @@ const useSelectImage = ({
 
     if (imgUris.length === 0) return;
 
-    post({ type: "SELECT_IMAGE_SUCCESS", data: imgUris });
+    post("SELECT_IMAGE_SUCCESS", imgUris);
     onComplete?.(images);
   };
 
   const handleError = (error: Error) => {
-    post({ type: "SELECT_IMAGE_SUCCESS", data: false });
+    post("SELECT_IMAGE_SUCCESS", false);
     onError?.(error);
   };
 
