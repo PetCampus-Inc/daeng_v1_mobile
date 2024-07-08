@@ -8,7 +8,7 @@ import SplashScreen from "react-native-splash-screen";
 import { GetMessageType, WebViewMessage } from "~/types/message.types";
 import useSelectImage from "~/hooks/useSelectImage";
 
-export const HomeScreen = () => {
+const HomeScreen = () => {
   const webviewRef = useRef<WebViewElement>(null);
 
   const { save } = useSaveImage({ webviewRef });
@@ -41,3 +41,5 @@ export const HomeScreen = () => {
 
   return <WebView ref={webviewRef} onMessage={onMessage} onLoadEnd={handleLoadEnd} path="/login" />;
 };
+
+export default HomeScreen;

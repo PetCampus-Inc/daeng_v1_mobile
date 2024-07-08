@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">com.petcampus.knock</string>
+    <string name="kakao_app_key">dadd93e8d6ef459dd137647b2a3d5029</string>
 </resources>
