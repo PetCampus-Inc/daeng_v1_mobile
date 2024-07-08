@@ -13,12 +13,7 @@
 
     "baseUrl": "./src",
     "paths": {
-      "~/*": ["./*"],
-      "@config/*": ["config/*"],
-      "@screens/*": ["screens/*"],
-      "@components/*": ["components/*"],
-      "@hooks/*": ["hooks/*"],
-      "@utils/*": ["utils/*"]
+      "~/*": ["./*"]
     }
   },
   "include": ["src", "env.d.ts"],
