@@ -8,7 +8,7 @@ import {
   unlink
 } from "@react-native-seoul/kakao-login";
 import SplashScreen from "react-native-splash-screen";
-
+//test
 const LoginScreen = () => {
   const [result, setResult] = useState<string>("");
 
