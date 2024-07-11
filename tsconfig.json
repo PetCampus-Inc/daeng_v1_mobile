@@ -16,6 +16,6 @@
       "~/*": ["./*"]
     }
   },
-  "include": ["src", "env.d.ts"],
+  "include": ["src", "env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "babel.config.cjs", "metro.config.cjs", "jest.config.cjs"]
 }

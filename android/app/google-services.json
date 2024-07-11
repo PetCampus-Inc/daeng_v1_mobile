@@ -12,7 +12,20 @@
           "package_name": "com.petcampus.knock"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "678302067561-efh0igaff79pjdthb7tejfqs4n33gkv9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.petcampus.knock",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "678302067561-cgprfgnpsghrum0ej89ggifgpivjeajn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDAd-xsGzJQpiB4pgNY7Fv0NF-FiMsQH1g"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678302067561-cgprfgnpsghrum0ej89ggifgpivjeajn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "678302067561-ccqvorsdmhoo5ct2n60a94djc2ukp2jg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.petcampus.knock"
+              }
+            }
+          ]
         }
       }
     }

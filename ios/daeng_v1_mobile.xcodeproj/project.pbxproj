@@ -13,8 +13,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1679807B67ACF403C76C5E1E /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6372A6D86AEBBE0B3850826F /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework */; };
 		4C0C563D2BE21C3E0066164F /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C563C2BE21C3E0066164F /* main.jsbundle */; };
-		4CAD1D462BE23ED300FC1EA5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CAD1D452BE23ED300FC1EA5 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8B9103742C402F2300EF72D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CAD1D452BE23ED300FC1EA5 /* GoogleService-Info.plist */; };
 		D66E118C7797AF3ED7F03E95 /* Pods_daeng_v1_mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB1145A530CE0F32DF8C2D14 /* Pods_daeng_v1_mobile.framework */; };
 /* End PBXBuildFile section */
 
@@ -250,8 +250,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B9103742C402F2300EF72D5 /* GoogleService-Info.plist in Resources */,
 				4C0C563D2BE21C3E0066164F /* main.jsbundle in Resources */,
-				4CAD1D462BE23ED300FC1EA5 /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
