@@ -41,8 +41,6 @@ const useKakaoLogin = () => {
     // createFirebaseUser(email, password);
   };
 
-  // S2Jjzb92hJeaz6WyuV3YXacl59D2
-
   const createFirebaseUser = async (email: string, password: string): Promise<void> => {
     firebaseAuth.createUserWithEmailAndPassword(email, password).then(
       (success) => {
@@ -85,7 +83,7 @@ const LoginScreen = () => {
     const fetchLastLogin = async () => {
       const uniqueId = await getUniqueId();
       setUniqueId(uniqueId);
-
+      console.log(uniqueId);
       // 마지막 로그인 조회 API 호출
     };
 
