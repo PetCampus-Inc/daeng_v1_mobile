@@ -5,10 +5,10 @@ import KakaoSymbol from "assets/svg/kakao-logo.svg";
 import GoogleSymbol from "assets/svg/google-logo.svg";
 import AppleSymbol from "assets/svg/apple-logo.svg";
 import colors from "~/styles/colors";
+import { SignInMethod } from "~/types/auth/signin.types";
 
-type Social = "admin" | "kakao" | "google" | "apple";
 interface SocialButtonProps extends TouchableOpacityProps {
-  social: Social;
+  social: SignInMethod;
   lastLogin?: boolean;
 }
 

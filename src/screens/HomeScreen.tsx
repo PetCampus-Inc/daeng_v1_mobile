@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import useSaveImage from "~/hooks/useSaveImage";
 import { runCamera } from "~/native/camera";
 import useGetMessage from "~/hooks/useGetMessage";
 import { usePostMessage } from "~/hooks/usePostMessage";
 import WebView, { type WebViewElement } from "~/components/WebView/WebView";
-import SplashScreen from "react-native-splash-screen";
 import { GetMessageType, WebViewMessage } from "~/types/message.types";
 import useSelectImage from "~/hooks/useSelectImage";
 
@@ -32,8 +31,6 @@ const HomeScreen = () => {
   const { onMessage } = useGetMessage({
     onSubscribe: handleSubscribe
   });
-
-  useEffect(() => SplashScreen.hide(), []);
 
   const handleLoadEnd = () => {
     post("IS_APP", true);
