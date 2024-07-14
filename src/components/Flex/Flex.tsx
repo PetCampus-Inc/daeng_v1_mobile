@@ -6,8 +6,8 @@ interface FlexProps extends StyledFlexProps {
   children?: React.ReactNode;
 }
 
-const Flex = ({ children, ...props }: FlexProps) => {
-  return <View {...props}>{children}</View>;
+const Flex = ({ children, ...styles }: FlexProps) => {
+  return <View {...styles}>{children}</View>;
 };
 
 export default Flex;
