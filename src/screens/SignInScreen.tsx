@@ -76,11 +76,17 @@ const SignInScreen = () => {
       <Footer>
         <Flex flexDirection="row" justifyContent="center" gap={6}>
           <TouchableOpacity>
-            <Text typo="label2_14_M">이용약관</Text>
+            <Text typo="label2_14_M" color="gray_2">
+              이용약관
+            </Text>
           </TouchableOpacity>
-          <Text typo="label2_14_M">|</Text>
+          <Text typo="label2_14_M" color="gray_2">
+            |
+          </Text>
           <TouchableOpacity>
-            <Text typo="label2_14_M">개인정보 처리 방침</Text>
+            <Text typo="label2_14_M" color="gray_2">
+              개인정보 처리 방침
+            </Text>
           </TouchableOpacity>
         </Flex>
         <SocialButton social="admin" onPress={handleAdminLogin} />

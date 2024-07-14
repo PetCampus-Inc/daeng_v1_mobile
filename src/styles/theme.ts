@@ -84,4 +84,7 @@ const theme = {
   typo: typography
 } as const;
 
+export type TypographyType = keyof typeof typography;
+export type ColorType = keyof typeof colors;
+
 export default theme;

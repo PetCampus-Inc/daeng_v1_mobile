@@ -1,11 +1,10 @@
 import styled from "styled-components/native";
-import { colors, typography } from "~/styles/theme";
+import { colors, ColorType, typography, TypographyType } from "~/styles/theme";
 
-type TypographyType = keyof typeof typography;
-type ColorType = keyof typeof colors;
 export interface StyledTextProps {
   typo?: TypographyType;
   color?: ColorType | string;
+  fontFamily?: string;
 }
 
 export const StyledText = styled.Text<StyledTextProps>`
@@ -16,4 +15,5 @@ export const StyledText = styled.Text<StyledTextProps>`
     }
     return `color: ${color};`;
   }}
+  ${({ fontFamily }) => fontFamily && `font-family: ${fontFamily};`}
 `;
