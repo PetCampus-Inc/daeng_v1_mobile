@@ -2,32 +2,29 @@ import { useState } from "react";
 import { usePostMessage } from "~/hooks/usePostMessage";
 import saveImage from "~/native/saveImage";
 import { BaseNativeHookOptions } from "~/types/native.types";
-import { SaveImageProgress } from "~/types/message.types";
 
 interface SaveImageOptions extends BaseNativeHookOptions {
-  onProgress?: (progress: SaveImageProgress) => void;
+  onProgress?: (progress: number) => void;
 }
 
 const useSaveImage = ({ webviewRef, onProgress, onComplete, onError }: SaveImageOptions) => {
   const { post } = usePostMessage({ webviewRef });
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [progress, setProgress] = useState<SaveImageProgress | null>(null);
+  const [progress, setProgress] = useState<number | null>(null);
 
   const save = async (imgUrls: string | string[]) => {
     const urls = Array.isArray(imgUrls) ? imgUrls : [imgUrls];
     if (urls.length === 0) return;
 
     setLoading(true);
-    const total = urls.length;
 
     try {
       for (let i = 0; i < urls.length; i++) {
         const current = i + 1;
-        const remaining = total - current;
         const url = urls[i];
 
-        handleProgress({ current, remaining, total });
+        handleProgress(current);
         await saveImage(url);
       }
 
@@ -41,7 +38,7 @@ const useSaveImage = ({ webviewRef, onProgress, onComplete, onError }: SaveImage
     }
   };
 
-  const handleProgress = (progress: SaveImageProgress) => {
+  const handleProgress = (progress: number) => {
     setProgress(progress);
     post("SAVE_IMAGE_PROGRESS", progress);
 
