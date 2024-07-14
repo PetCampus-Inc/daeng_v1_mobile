@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { WebViewMessageEvent, WebViewProps } from "react-native-webview";
-import { GetMessageType, WebViewMessage, isValidGetMessage } from "~/types/message.types";
+import { MessageType, WebViewMessageGet, isValidGetMessage } from "~/types/message.types";
 
 interface GetMessageOptions {
-  onSubscribe?: <T extends GetMessageType>(message: WebViewMessage<T>) => void;
+  onSubscribe?: <T extends MessageType["GET"]>(message: WebViewMessageGet<T>) => void;
   onError?: (err: string) => void;
 }
 
