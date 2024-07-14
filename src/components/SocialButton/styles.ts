@@ -12,24 +12,19 @@ export const SocialButton = styled.TouchableOpacity<StyledSocialButtonProps>`
   justify-content: center;
 
   width: 100%;
-  height: 50px;
-  border-radius: 4px;
+  height: 47px;
+  border-radius: 8px;
   background-color: ${({ bgColor }) => bgColor};
   border: 1px solid ${({ borderColor }) => (borderColor ? borderColor : "transparent")};
-
+  /* 
   ${({ lastLogin }) =>
     lastLogin &&
     css`
       border: 2px solid red;
-    `}
+    `} */
 `;
 
 export const IconWrap = styled.View`
   position: absolute;
   left: 16px;
-`;
-
-export const ButtonLabel = styled.Text<{ color: string }>`
-  font-size: 17px;
-  color: ${({ color }) => color};
 `;

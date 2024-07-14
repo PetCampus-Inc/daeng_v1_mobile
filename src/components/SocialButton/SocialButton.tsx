@@ -4,8 +4,9 @@ import * as S from "./styles";
 import KakaoSymbol from "assets/svg/kakao-logo.svg";
 import GoogleSymbol from "assets/svg/google-logo.svg";
 import AppleSymbol from "assets/svg/apple-logo.svg";
-import colors from "~/styles/colors";
+import { colors } from "~/styles/theme";
 import { SignInMethod } from "~/types/auth/signin.types";
+import Text from "~/components/Text/Text";
 
 interface SocialButtonProps extends TouchableOpacityProps {
   social: SignInMethod;
@@ -16,8 +17,8 @@ const SocialButton = ({ social, lastLogin, ...props }: SocialButtonProps) => {
   const socials = {
     admin: {
       label: "관리자로 시작하기",
-      color: colors.primaryForeground,
-      bgColor: colors.primary
+      color: colors.white,
+      bgColor: colors.primaryColor
     },
     kakao: {
       label: "카카오로 계속하기",
@@ -48,7 +49,9 @@ const SocialButton = ({ social, lastLogin, ...props }: SocialButtonProps) => {
   return (
     <S.SocialButton lastLogin={lastLogin} {...styles} {...props}>
       <S.IconWrap>{symbolSVG[social]}</S.IconWrap>
-      <S.ButtonLabel color={color}>{label}</S.ButtonLabel>
+      <Text typo="label1_16_R" color={color}>
+        {label}
+      </Text>
     </S.SocialButton>
   );
 };
