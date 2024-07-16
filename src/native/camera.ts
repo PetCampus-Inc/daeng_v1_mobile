@@ -15,8 +15,8 @@ export const runCamera = () => {
     else if (response.errorMessage) Alert.alert("Error : " + response.errorMessage);
     else {
       if (response.assets != null) {
-        const uri = response.assets[0].uri;
-        const souce = { uri: uri };
+        // const uri = response.assets[0].uri;
+        // const souce = { uri: uri };
       }
     }
   });

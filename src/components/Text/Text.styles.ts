@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+
 import { colors, ColorType, typography, TypographyType } from "~/styles/theme";
 
 export interface StyledTextProps {

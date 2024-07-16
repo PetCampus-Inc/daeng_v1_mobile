@@ -1,4 +1,5 @@
 import React from "react";
+
 import { StyledText, StyledTextProps } from "./Text.styles";
 
 interface TextProps extends StyledTextProps {

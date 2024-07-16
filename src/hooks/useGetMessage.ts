@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { WebViewMessageEvent, WebViewProps } from "react-native-webview";
+
 import { MessageType, WebViewMessageGet, isValidGetMessage } from "~/types/message.types";
 
 interface GetMessageOptions {

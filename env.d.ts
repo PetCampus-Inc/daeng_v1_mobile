@@ -1,4 +1,5 @@
 declare module "@env" {
+  export const WEBVIEW_CONNECT_KEY: string;
   export const DEV_IOS_SERVER_DOMAIN: string;
   export const DEV_ANDROID_SERVER_DOMAIN: string;
 

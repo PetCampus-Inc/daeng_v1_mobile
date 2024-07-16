@@ -1,12 +1,14 @@
-import React, { useRef } from "react";
-import { TouchableOpacityProps } from "react-native";
-import * as S from "./styles";
-import KakaoSymbol from "assets/svg/kakao-logo.svg";
-import GoogleSymbol from "assets/svg/google-logo.svg";
 import AppleSymbol from "assets/svg/apple-logo.svg";
+import GoogleSymbol from "assets/svg/google-logo.svg";
+import KakaoSymbol from "assets/svg/kakao-logo.svg";
+import React from "react";
+import { TouchableOpacityProps } from "react-native";
+
+import * as S from "./styles";
+
+import Text from "~/components/Text/Text";
 import { colors, TypographyType } from "~/styles/theme";
 import { SignInMethod } from "~/types/auth/signin.types";
-import Text from "~/components/Text/Text";
 
 interface SocialButtonProps extends TouchableOpacityProps {
   social: SignInMethod;

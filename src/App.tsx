@@ -1,10 +1,9 @@
 import React from "react";
-
 import { SafeAreaView } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 
-import theme from "~/styles/theme";
 import AppRouter from "~/components/AppRouter";
+import theme from "~/styles/theme";
 
 function App(): React.JSX.Element {
   return (

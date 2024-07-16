@@ -35,22 +35,22 @@ export interface MessageType {
 //
 // ----------------------------------------------------------------------------------
 
-export type WebViewMessageGet<T extends MessageType["GET"] = MessageType["GET"]> = T extends any
+export type WebViewMessageGet<T extends MessageType["GET"] = MessageType["GET"]> = T extends unknown
   ? { type: T; data: MessageData["GET"][T] }
   : never;
 
-export const isValidGetMessage = (message: any): message is WebViewMessageGet => {
+export const isValidGetMessage = (message: unknown): message is WebViewMessageGet => {
   if (!message || typeof message !== "object") return false;
 
   const { type, data } = message as WebViewMessageGet;
 
-  const validators: Record<MessageType["GET"], (data: any) => boolean> = {
-    SAVE_IMAGE: (data) =>
-      typeof data === "string" ||
-      (Array.isArray(data) && data.every((item) => typeof item === "string")),
-    SELECT_IMAGE: (data) => data === null,
-    RUN_CAMERA: (data) => data === null,
-    GET_ID_TOKEN: (data) => data === null
+  const validators: Record<MessageType["GET"], (value: unknown) => boolean> = {
+    SAVE_IMAGE: (value) =>
+      typeof value === "string" ||
+      (Array.isArray(value) && value.every((item) => typeof item === "string")),
+    SELECT_IMAGE: (value) => value === null,
+    RUN_CAMERA: (value) => value === null,
+    GET_ID_TOKEN: (value) => value === null
   };
 
   return type in validators && validators[type](data);

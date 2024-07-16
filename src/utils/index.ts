@@ -1,5 +1,5 @@
-import { Platform, NativeModules, PermissionsAndroid } from "react-native";
 import messaging from "@react-native-firebase/messaging";
+import { Platform, NativeModules, PermissionsAndroid } from "react-native";
 
 const firebaseMessaging = messaging();
 

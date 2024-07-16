@@ -1,5 +1,6 @@
 import React from "react";
 import { View } from "react-native";
+
 import { StyledFlexProps } from "~/components/Flex/styles";
 
 interface FlexProps extends StyledFlexProps {
