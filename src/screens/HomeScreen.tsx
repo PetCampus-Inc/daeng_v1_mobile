@@ -1,20 +1,27 @@
 import React, { useRef } from "react";
-import useSaveImage from "~/hooks/useSaveImage";
-import { runCamera } from "~/native/camera";
+
+import WebView, { type WebViewElement } from "~/components/WebView";
 import useGetMessage from "~/hooks/useGetMessage";
 import { usePostMessage } from "~/hooks/usePostMessage";
-import WebView, { type WebViewElement } from "~/components/WebView/WebView";
-import { MessageType, WebViewMessageGet } from "~/types/message.types";
+import useSaveImage from "~/hooks/useSaveImage";
 import useSelectImage from "~/hooks/useSelectImage";
+import { runCamera } from "~/native/camera";
+import { WebViewMessageGet } from "~/types/message.types";
 
-const HomeScreen = () => {
+interface HomeScreenProps {
+  token: string;
+}
+
+const HomeScreen = ({ token }: HomeScreenProps) => {
   const webviewRef = useRef<WebViewElement>(null);
+
+  const { onMessage } = useGetMessage({ onSubscribe: (message) => handleSubscribe(message) });
 
   const { save } = useSaveImage({ webviewRef });
   const { post } = usePostMessage({ webviewRef });
   const { select } = useSelectImage({ webviewRef });
 
-  const handleSubscribe = <T extends MessageType["GET"]>({ type, data }: WebViewMessageGet<T>) => {
+  const handleSubscribe = ({ type, data }: WebViewMessageGet) => {
     switch (type) {
       case "SAVE_IMAGE":
         save(data);
@@ -25,18 +32,13 @@ const HomeScreen = () => {
       case "RUN_CAMERA":
         runCamera();
         break;
+      case "GET_ID_TOKEN":
+        post("ID_TOKEN", token);
+        break;
     }
   };
 
-  const { onMessage } = useGetMessage({
-    onSubscribe: handleSubscribe
-  });
-
-  const handleLoadEnd = () => {
-    post("IS_APP", true);
-  };
-
-  return <WebView ref={webviewRef} onMessage={onMessage} onLoadEnd={handleLoadEnd} path="/login" />;
+  return <WebView ref={webviewRef} onMessage={onMessage} path="/login" />;
 };
 
 export default HomeScreen;
