@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { RefObject, useState } from "react";
+
+import { WebViewElement } from "~/components/WebView";
 import { usePostMessage } from "~/hooks/usePostMessage";
 import saveImage from "~/native/saveImage";
-import { BaseNativeHookOptions } from "~/types/native.types";
 
-interface SaveImageOptions extends BaseNativeHookOptions {
+interface SaveImageOptions {
+  webviewRef: RefObject<WebViewElement>;
+  onSuccess?: () => void;
+  onError?: (error: Error) => void;
   onProgress?: (progress: number) => void;
 }
 
-const useSaveImage = ({ webviewRef, onProgress, onComplete, onError }: SaveImageOptions) => {
+const useSaveImage = ({
+  webviewRef,
+  onProgress,
+  onSuccess: onComplete,
+  onError
+}: SaveImageOptions) => {
   const { post } = usePostMessage({ webviewRef });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -38,11 +47,11 @@ const useSaveImage = ({ webviewRef, onProgress, onComplete, onError }: SaveImage
     }
   };
 
-  const handleProgress = (progress: number) => {
-    setProgress(progress);
-    post("SAVE_IMAGE_PROGRESS", progress);
+  const handleProgress = (current: number) => {
+    setProgress(current);
+    post("SAVE_IMAGE_PROGRESS", current);
 
-    onProgress?.(progress);
+    onProgress?.(current);
   };
 
   const handleComplete = () => {

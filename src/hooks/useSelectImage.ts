@@ -1,23 +1,27 @@
+import { RefObject } from "react";
 import { Asset, ImageLibraryOptions } from "react-native-image-picker";
+
+import { WebViewElement } from "~/components/WebView";
 import { usePostMessage } from "~/hooks/usePostMessage";
 import { selectImage } from "~/native/selectImage";
 import uploadImageToS3 from "~/services/s3Service";
-import { BaseNativeHookOptions } from "~/types/native.types";
 
-interface SelectImageOptions extends BaseNativeHookOptions {
+interface SelectImageOptions {
+  webviewRef: RefObject<WebViewElement>;
   options?: ImageLibraryOptions;
   uploadToS3?: boolean;
-  onComplete?: (images: Asset[]) => void;
-  onCompleteUpload?: () => void;
+  onSuccess?: (images: Asset[]) => void;
+  onError?: (error: Error) => void;
+  onUpload?: () => void;
 }
 
 const useSelectImage = ({
   webviewRef,
   options,
   uploadToS3,
-  onError,
-  onComplete,
-  onCompleteUpload
+  onSuccess,
+  onUpload,
+  onError
 }: SelectImageOptions) => {
   const { post } = usePostMessage({ webviewRef });
 
@@ -29,7 +33,7 @@ const useSelectImage = ({
 
       if (uploadToS3) {
         await uploadImagesToS3(images);
-        onCompleteUpload?.();
+        onUpload?.();
       }
 
       handleComplete(images);
@@ -53,7 +57,7 @@ const useSelectImage = ({
     if (imgUris.length === 0) return;
 
     post("SELECT_IMAGE_SUCCESS", imgUris);
-    onComplete?.(images);
+    onSuccess?.(images);
   };
 
   const handleError = (error: Error) => {
