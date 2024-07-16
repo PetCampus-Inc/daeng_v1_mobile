@@ -1,44 +1,48 @@
-import auth from "@react-native-firebase/auth";
-import { getProfile, login } from "@react-native-seoul/kakao-login";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import appleAuth from "@invertase/react-native-apple-authentication";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { getProfile, login } from "@react-native-seoul/kakao-login";
 
 const firebaseAuth = auth();
 
 interface LoginHookParams {
-  onSuccess?: (token: string) => void;
+  onSuccess?: (IdToken: string) => void;
   onError?: (error: Error) => void;
 }
 
-const useLogin = ({ onSuccess, onError }: LoginHookParams = {}) => {
-  const serverLogin = (firebaseToken: string) => {
-    console.log(firebaseToken);
+const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
+  const handleAuthSuccess = async (credential: FirebaseAuthTypes.UserCredential) => {
+    try {
+      if (!credential.user) throw new Error("Firebase Auth Error");
 
-    // 서버 로그인 API 호출
+      const token = await credential.user.getIdToken();
+      onSuccess?.(token);
+    } catch (error: any) {
+      console.error("[Auth]", error);
+      onError?.(error);
+    }
   };
 
   const emailLogin = async (email: string, password: string) => {
     try {
       // Firebase Auth
-      const signInResult = await firebaseAuth.signInWithEmailAndPassword(email, password);
-      const token = await signInResult.user.getIdToken();
-
-      serverLogin(token);
-    } catch (err: any) {
-      if (err.code == "auth/invalid-credential") {
+      const response = await firebaseAuth.signInWithEmailAndPassword(email, password);
+      await handleAuthSuccess(response);
+    } catch (error: any) {
+      if (error.code === "auth/invalid-credential") {
         try {
           // Firebase SignUp
-          const signUpResult = await firebaseAuth.createUserWithEmailAndPassword(email, password);
-          const token = await signUpResult.user.getIdToken();
-
-          serverLogin(token);
-        } catch (err: any) {
-          console.error("[Firebase Auth]", err);
-          onError?.(err);
+          const response = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+          await handleAuthSuccess(response);
+        } catch (innerErr: any) {
+          console.error("[Firebase Auth]", innerErr);
+          onError?.(innerErr);
         }
       } else {
-        console.error("[Firebase Auth]", err);
-        onError?.(err);
+        console.error("[Firebase Auth]", error);
+        onError?.(error);
       }
     }
   };
@@ -51,9 +55,9 @@ const useLogin = ({ onSuccess, onError }: LoginHookParams = {}) => {
       const password = `A!@${id}`;
 
       emailLogin(email, password);
-    } catch (err: any) {
-      console.error("[Kakao Auth]", err);
-      onError?.(err);
+    } catch (error: any) {
+      console.error("[Kakao Auth]", error);
+      onError?.(error);
     }
   };
 
@@ -67,15 +71,12 @@ const useLogin = ({ onSuccess, onError }: LoginHookParams = {}) => {
 
       // Firebase Auth
       const googleCredential = auth.GoogleAuthProvider.credential(googleAuthResult.idToken);
-      const signInResult = await firebaseAuth.signInWithCredential(googleCredential);
-      if (!signInResult.user) throw new Error("Firebase Auth Error");
-
-      const token = await signInResult.user.getIdToken();
-      if (!token) throw new Error("Firebase Token Error");
-
-      serverLogin(token);
-    } catch (err) {
-      console.error("[Google Auth]", err);
+      const response = await firebaseAuth.signInWithCredential(googleCredential);
+      await handleAuthSuccess(response);
+    } catch (error: any) {
+      console.log(error.message);
+      console.error("[Google Auth]", error);
+      onError?.(error);
     }
   };
 
@@ -94,19 +95,15 @@ const useLogin = ({ onSuccess, onError }: LoginHookParams = {}) => {
       const { identityToken, nonce } = appleAuthResult;
 
       const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
-      const signInResult = await firebaseAuth.signInWithCredential(appleCredential);
-      if (!signInResult.user) throw new Error("Firebase Auth Error");
-
-      const token = await signInResult.user.getIdToken();
-      if (!token) throw new Error("Firebase Token Error");
-
-      serverLogin(token);
-    } catch (err) {
-      console.error("[Apple Auth]", err);
+      const response = await firebaseAuth.signInWithCredential(appleCredential);
+      await handleAuthSuccess(response);
+    } catch (error: any) {
+      console.error("[Apple Auth]", error);
+      onError?.(error);
     }
   };
 
   return { emailLogin, kakaoLogin, googleLogin, appleLogin };
 };
 
-export default useLogin;
+export default useFirebaseAuth;
