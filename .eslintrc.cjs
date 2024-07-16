@@ -2,13 +2,18 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true, node: true },
   parser: "@typescript-eslint/parser",
-  extends: ["@react-native", "prettier"],
-  plugins: ["import"],
+  extends: [
+    "@react-native",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  plugins: ["import", "react-hooks", "@typescript-eslint"],
   rules: {
+    "prettier/prettier": "error",
     "import/prefer-default-export": "off",
     "import/extensions": ["off", "error", "ignorePackages"],
     "import/order": [
-      "warn",
+      "error",
       {
         groups: [
           "builtin",
@@ -17,38 +22,7 @@ module.exports = {
           ["parent", "sibling"],
           "index",
           "object",
-          "type",
-          "unknown"
-        ],
-        pathGroups: [
-          {
-            pattern: "react",
-            group: "builtin"
-          },
-          {
-            pattern: "@config/*",
-            group: "unknown"
-          },
-          {
-            pattern: "@services/*",
-            group: "unknown"
-          },
-          {
-            pattern: "@screens/*",
-            group: "unknown"
-          },
-          {
-            pattern: "@components/*",
-            group: "unknown"
-          },
-          {
-            pattern: "@hooks/*",
-            group: "unknown"
-          },
-          {
-            pattern: "@utils/*",
-            group: "unknown"
-          }
+          "type"
         ],
         "newlines-between": "always",
         alphabetize: {
@@ -57,6 +31,17 @@ module.exports = {
         }
       }
     ],
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }]
+  },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 };
