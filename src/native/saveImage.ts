@@ -1,18 +1,18 @@
-import RNFetchBlob, { RNFetchBlobConfig } from "rn-fetch-blob";
+import { CameraRoll } from "@react-native-camera-roll/camera-roll";
 import { PermissionsAndroid, Platform } from "react-native";
-import CameraRoll from "@react-native-community/cameraroll";
+import RNFetchBlob, { RNFetchBlobConfig } from "rn-fetch-blob";
 
 async function hasAndroidPermission() {
-  if (Platform.OS !== "android") return true;
-  const version = Platform.Version;
-
-  const getCheckPermissionPromise = async () => {
-    if (version >= 33) {
-      const [hasReadMediaImagesPermission, hasReadMediaVideoPermission] = await Promise.all([
+  const getCheckPermissionPromise = () => {
+    if (Platform.OS !== "android") return true;
+    if (Platform.Version >= 33) {
+      return Promise.all([
         PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES),
         PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO)
-      ]);
-      return hasReadMediaImagesPermission && hasReadMediaVideoPermission;
+      ]).then(
+        ([hasReadMediaImagesPermission, hasReadMediaVideoPermission]) =>
+          hasReadMediaImagesPermission && hasReadMediaVideoPermission
+      );
     } else {
       return PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
     }
@@ -22,24 +22,23 @@ async function hasAndroidPermission() {
   if (hasPermission) {
     return true;
   }
-
-  const getRequestPermissionPromise = async () => {
-    if (version >= 33) {
-      const statuses = await PermissionsAndroid.requestMultiple([
+  const getRequestPermissionPromise = () => {
+    if (Platform.OS !== "android") return true;
+    if (Platform.Version >= 33) {
+      return PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
         PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO
-      ]);
-      return (
-        statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES] ===
-          PermissionsAndroid.RESULTS.GRANTED &&
-        statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO] ===
-          PermissionsAndroid.RESULTS.GRANTED
+      ]).then(
+        (statuses) =>
+          statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES] ===
+            PermissionsAndroid.RESULTS.GRANTED &&
+          statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO] ===
+            PermissionsAndroid.RESULTS.GRANTED
       );
     } else {
-      const status = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
+      return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then(
+        (status) => status === PermissionsAndroid.RESULTS.GRANTED
       );
-      return status === PermissionsAndroid.RESULTS.GRANTED;
     }
   };
 
