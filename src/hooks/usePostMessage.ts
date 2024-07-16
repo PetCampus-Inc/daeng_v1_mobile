@@ -1,7 +1,7 @@
 import { RefObject } from "react";
 import WebView from "react-native-webview";
 
-import { Message, MessageType } from "~/types/message.types";
+import { MessageData, MessageType } from "~/types/message.types";
 
 interface PostMessageParams {
   webviewRef: RefObject<WebView>;
@@ -9,7 +9,7 @@ interface PostMessageParams {
 }
 
 export const usePostMessage = ({ onError, webviewRef }: PostMessageParams) => {
-  const post = <T extends MessageType["POST"]>(type: T, data: Message["POST"][T]) => {
+  const post = <T extends MessageType["POST"]>(type: T, data: MessageData["POST"][T]) => {
     if (webviewRef.current) {
       const message = JSON.stringify({ type, data });
       webviewRef.current.postMessage(message);
