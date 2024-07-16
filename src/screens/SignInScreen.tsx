@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
-
-import SocialButton from "~/components/SocialButton/SocialButton";
-import { getUniqueId } from "react-native-device-info";
-import Flex from "~/components/Flex";
-import styled from "styled-components/native";
-import useLogin from "~/hooks/useLogin";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { GOOGLE_WEB_CLIENT_ID } from "@env";
-import { getSignInMethod } from "~/apis/auth";
-import { SignInMethod } from "~/types/auth/signin.types";
-import Text from "~/components/Text/Text";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
+import { getUniqueId } from "react-native-device-info";
+import styled from "styled-components/native";
+
+import { getSignInMethod } from "~/apis/auth";
+import { RootStackParam } from "~/components/AppRouter/AppRouter";
+import Flex from "~/components/Flex";
+import SocialButton from "~/components/SocialButton/SocialButton";
+import Text from "~/components/Text/Text";
+import useFirebaseAuth from "~/hooks/useLogin";
+import { SignInMethod } from "~/types/auth/signin.types";
 
 const googleSigninConfigure = () => {
   GoogleSignin.configure({
@@ -21,11 +24,10 @@ const googleSigninConfigure = () => {
 const SignInScreen = () => {
   const [lastLogin, setLastLogin] = useState<SignInMethod | null>(null);
 
-  const { kakaoLogin, googleLogin, emailLogin } = useLogin();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
+  const { kakaoLogin, googleLogin } = useFirebaseAuth();
 
-  const handleAdminLogin = () => {
-    emailLogin("jsn_@naver.com", "123456");
-  };
+  const handleAdminLogin = () => navigation.navigate("AdminLogin");
 
   useEffect(() => {
     const fetchLastLogin = async () => {

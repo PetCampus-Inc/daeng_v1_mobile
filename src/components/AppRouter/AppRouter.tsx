@@ -1,45 +1,67 @@
-import React, { useEffect, useState } from "react";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "~/screens/HomeScreen";
-import SignInScreen from "~/screens/SignInScreen";
+import React, { useEffect, useState, useCallback } from "react";
 import SplashScreen from "react-native-splash-screen";
 
-const Stack = createNativeStackNavigator();
+import AdminLoginScreen from "~/screens/AdminLoginScreen";
+import HomeScreen from "~/screens/HomeScreen";
+import SignInScreen from "~/screens/SignInScreen";
+
+const Stack = createNativeStackNavigator<RootStackParam>();
 const FirebaseAuth = auth();
 
-const AppRouter = () => {
+export type RootStackParam = {
+  Home: { token: string };
+  SignIn: undefined;
+  AdminLogin: undefined;
+};
+
+const AppRouter: React.FC = () => {
   const [initializing, setInitializing] = useState(true);
   const [token, setToken] = useState<string | null>(null);
 
-  const onAuthStateChanged: FirebaseAuthTypes.AuthListenerCallback = async (user) => {
-    if (user) {
-      const token = await user.getIdToken();
-      setToken(token);
-    } else setToken(null);
+  const handleAuthStateChanged = useCallback(
+    async (user: FirebaseAuthTypes.User | null) => {
+      if (user) {
+        try {
+          await user.reload();
 
-    if (initializing) {
-      setInitializing(false);
-    }
+          const newToken = await user.getIdToken(true);
+          setToken(newToken);
+        } catch (error) {
+          console.error("[Firebase Auth]", error);
+          await FirebaseAuth.signOut();
+          setToken(null);
+        }
+      } else {
+        setToken(null);
+      }
 
-    SplashScreen.hide();
-  };
+      if (initializing) setInitializing(false);
+      SplashScreen.hide();
+    },
+    [initializing]
+  );
 
   useEffect(() => {
-    const subscriber = FirebaseAuth.onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  }, []);
+    const unsubscribe = FirebaseAuth.onAuthStateChanged(handleAuthStateChanged);
+    return () => unsubscribe();
+  }, [handleAuthStateChanged]);
 
   if (initializing) return null;
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {token ? (
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Home" options={{ headerShown: false }}>
+            {(props) => <HomeScreen {...props} token={token} />}
+          </Stack.Screen>
         ) : (
-          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="SignIn" options={{ title: "로그인" }} component={SignInScreen} />
         )}
+        <Stack.Screen name="AdminLogin" component={AdminLoginScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
