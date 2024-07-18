@@ -8,7 +8,7 @@ import * as S from "./styles";
 
 import Text from "~/components/Text/Text";
 import { colors, TypographyType } from "~/styles/theme";
-import { SignInMethod } from "~/types/auth/signin.types";
+import { SignInMethod } from "~/types/auth.types";
 
 interface SocialButtonProps extends TouchableOpacityProps {
   social: SignInMethod;

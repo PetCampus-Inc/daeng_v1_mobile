@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { getUniqueId } from "react-native-device-info";
 import SplashScreen from "react-native-splash-screen";
 
 import WebView, { type WebViewElement } from "~/components/WebView";
@@ -7,6 +8,7 @@ import { usePostMessage } from "~/hooks/usePostMessage";
 import useSaveImage from "~/hooks/useSaveImage";
 import useSelectImage from "~/hooks/useSelectImage";
 import { runCamera } from "~/native/camera";
+import { FirebaseAuthResponse } from "~/types/auth.types";
 import { WebViewMessageGet } from "~/types/message.types";
 
 interface HomeScreenProps {
@@ -33,12 +35,25 @@ const HomeScreen = ({ token }: HomeScreenProps) => {
       case "RUN_CAMERA":
         runCamera();
         break;
-      case "GET_ID_TOKEN":
-        token && post("ID_TOKEN", token);
+      case "FIREBASE_AUTH":
+        postToken();
         break;
     }
   };
 
+  const postToken = async () => {
+    if (!token) return;
+
+    const uniqueId = await getUniqueId();
+    const data: FirebaseAuthResponse = {
+      idToken: token,
+      deviceId: uniqueId
+    };
+
+    post("FIREBASE_AUTH_SUCCESS", data);
+  };
+
+  if (!token) return null;
   return (
     <WebView
       ref={webviewRef}

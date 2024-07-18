@@ -14,7 +14,7 @@ import Flex from "~/components/Flex";
 import SocialButton from "~/components/SocialButton/SocialButton";
 import Text from "~/components/Text/Text";
 import useFirebaseAuth from "~/hooks/useFirebaseAuth";
-import { SignInMethod } from "~/types/auth/signin.types";
+import { SignInMethod } from "~/types/auth.types";
 
 const googleSigninConfigure = () => {
   GoogleSignin.configure({

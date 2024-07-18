@@ -1,5 +1,5 @@
 import { apiUrl } from "~/config/url";
-import { SignInMethod } from "~/types/auth/signin.types";
+import { SignInMethod } from "~/types/auth.types";
 
 export const getSignInMethod = async (uniqueId: string): Promise<SignInMethod> => {
   const queryString = new URLSearchParams({ id: uniqueId }).toString();

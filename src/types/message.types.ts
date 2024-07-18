@@ -1,10 +1,12 @@
+import { FirebaseAuthResponse } from "~/types/auth.types";
+
 interface ServiceData {
   GET: {
-    GET_ID_TOKEN: null;
+    FIREBASE_AUTH: null;
   };
   POST: {
     IS_APP: string;
-    ID_TOKEN: string;
+    FIREBASE_AUTH_SUCCESS: FirebaseAuthResponse;
   };
 }
 
@@ -50,7 +52,7 @@ export const isValidGetMessage = (message: unknown): message is WebViewMessageGe
       (Array.isArray(value) && value.every((item) => typeof item === "string")),
     SELECT_IMAGE: (value) => value === null,
     RUN_CAMERA: (value) => value === null,
-    GET_ID_TOKEN: (value) => value === null
+    FIREBASE_AUTH: (value) => value === null
   };
 
   return type in validators && validators[type](data);
