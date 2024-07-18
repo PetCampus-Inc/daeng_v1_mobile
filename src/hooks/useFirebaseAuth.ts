@@ -3,7 +3,7 @@
 import appleAuth from "@invertase/react-native-apple-authentication";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { getProfile, login } from "@react-native-seoul/kakao-login";
+import { getAccessToken, getProfile, login } from "@react-native-seoul/kakao-login";
 import { useCallback } from "react";
 
 const firebaseAuth = auth();
@@ -19,6 +19,15 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
       if (user) {
         try {
           await user.reload();
+
+          // 카카오 로그인일 경우, 카카오 인증 상태 확인
+          if (user.displayName === "kakao_auth_account") {
+            const isKakaoAuth = await isKakaoAuthenticated();
+            if (!isKakaoAuth) {
+              await firebaseAuth.signOut();
+              return null;
+            }
+          }
 
           const newToken = await user.getIdToken(true);
           return newToken;
@@ -49,7 +58,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
   );
 
   const emailLogin = useCallback(
-    async (email: string, password: string) => {
+    async (email: string, password: string, kakao?: boolean) => {
       try {
         // Firebase Auth
         const response = await firebaseAuth.signInWithEmailAndPassword(email, password);
@@ -59,6 +68,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
           try {
             // Firebase SignUp
             const response = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+            if (kakao) await response.user.updateProfile({ displayName: "kakao_auth_account" });
             await handleAuthSuccess(response);
           } catch (innerErr: any) {
             console.error("[Firebase Auth]", innerErr);
@@ -80,12 +90,27 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
       const { id, email } = await getProfile();
       const password = `A!@${id}`;
 
-      emailLogin(email, password);
+      emailLogin(email, password, true);
     } catch (error: any) {
       console.error("[Kakao Auth]", error);
       onError?.(error);
     }
   }, [emailLogin, onError]);
+
+  /**
+   * 카카오 인증 상태를 확인합니다.
+   * @returns 카카오 인증이 유효하면 true, 그렇지 않으면 false를 반환합니다.
+   */
+  const isKakaoAuthenticated = async (): Promise<boolean> => {
+    try {
+      const kakaoToken = await getAccessToken();
+      if (!kakaoToken) throw new Error("Kakao Auth Error");
+    } catch (error) {
+      console.log("[Kakao Auth]", error);
+      return false;
+    }
+    return true;
+  };
 
   const googleLogin = useCallback(async (): Promise<void> => {
     try {
