@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useEffect, useState, useCallback } from "react";
 import SplashScreen from "react-native-splash-screen";
 
+import useFirebaseAuth from "~/hooks/useFirebaseAuth";
 import AdminLoginScreen from "~/screens/AdminLoginScreen";
 import HomeScreen from "~/screens/HomeScreen";
 import SignInScreen from "~/screens/SignInScreen";
@@ -17,31 +18,25 @@ export type RootStackParam = {
   AdminLogin: undefined;
 };
 
-const AppRouter: React.FC = () => {
+const AppRouter = () => {
   const [initializing, setInitializing] = useState(true);
   const [token, setToken] = useState<string | null>(null);
 
+  const { getFirebaseToken } = useFirebaseAuth();
+
   const handleAuthStateChanged = useCallback(
     async (user: FirebaseAuthTypes.User | null) => {
-      if (user) {
-        try {
-          await user.reload();
-
-          const newToken = await user.getIdToken(true);
-          setToken(newToken);
-        } catch (error) {
-          console.error("[Firebase Auth]", error);
-          await FirebaseAuth.signOut();
-          setToken(null);
-        }
-      } else {
-        setToken(null);
+      try {
+        const firebaseToken = await getFirebaseToken(user);
+        setToken(firebaseToken);
+      } catch (error) {
+        console.log(error);
       }
 
-      if (initializing) setInitializing(false);
+      setInitializing(false);
       SplashScreen.hide();
     },
-    [initializing]
+    [getFirebaseToken]
   );
 
   useEffect(() => {

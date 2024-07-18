@@ -4,6 +4,7 @@ import appleAuth from "@invertase/react-native-apple-authentication";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { getProfile, login } from "@react-native-seoul/kakao-login";
+import { useCallback } from "react";
 
 const firebaseAuth = auth();
 
@@ -13,41 +14,66 @@ interface LoginHookParams {
 }
 
 const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
-  const handleAuthSuccess = async (credential: FirebaseAuthTypes.UserCredential) => {
-    try {
-      if (!credential.user) throw new Error("Firebase Auth Error");
-
-      const token = await credential.user.getIdToken();
-      onSuccess?.(token);
-    } catch (error: any) {
-      console.error("[Auth]", error);
-      onError?.(error);
-    }
-  };
-
-  const emailLogin = async (email: string, password: string) => {
-    try {
-      // Firebase Auth
-      const response = await firebaseAuth.signInWithEmailAndPassword(email, password);
-      await handleAuthSuccess(response);
-    } catch (error: any) {
-      if (error.code === "auth/invalid-credential") {
+  const getFirebaseToken = useCallback(
+    async (user: FirebaseAuthTypes.User | null): Promise<string | null> => {
+      if (user) {
         try {
-          // Firebase SignUp
-          const response = await firebaseAuth.createUserWithEmailAndPassword(email, password);
-          await handleAuthSuccess(response);
-        } catch (innerErr: any) {
-          console.error("[Firebase Auth]", innerErr);
-          onError?.(innerErr);
+          await user.reload();
+
+          const newToken = await user.getIdToken(true);
+          return newToken;
+        } catch (error) {
+          console.error("[Firebase Auth]", error);
+          return null;
         }
       } else {
-        console.error("[Firebase Auth]", error);
+        return null;
+      }
+    },
+    []
+  );
+
+  const handleAuthSuccess = useCallback(
+    async (credential: FirebaseAuthTypes.UserCredential) => {
+      try {
+        if (!credential.user) throw new Error("Firebase Auth Error");
+
+        const token = await credential.user.getIdToken();
+        onSuccess?.(token);
+      } catch (error: any) {
+        console.error("[Auth]", error);
         onError?.(error);
       }
-    }
-  };
+    },
+    [onSuccess, onError]
+  );
 
-  const kakaoLogin = async (): Promise<void> => {
+  const emailLogin = useCallback(
+    async (email: string, password: string) => {
+      try {
+        // Firebase Auth
+        const response = await firebaseAuth.signInWithEmailAndPassword(email, password);
+        await handleAuthSuccess(response);
+      } catch (error: any) {
+        if (error.code === "auth/invalid-credential") {
+          try {
+            // Firebase SignUp
+            const response = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+            await handleAuthSuccess(response);
+          } catch (innerErr: any) {
+            console.error("[Firebase Auth]", innerErr);
+            onError?.(innerErr);
+          }
+        } else {
+          console.error("[Firebase Auth]", error);
+          onError?.(error);
+        }
+      }
+    },
+    [handleAuthSuccess, onError]
+  );
+
+  const kakaoLogin = useCallback(async (): Promise<void> => {
     try {
       // Kakao Auth
       await login();
@@ -59,9 +85,9 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
       console.error("[Kakao Auth]", error);
       onError?.(error);
     }
-  };
+  }, [emailLogin, onError]);
 
-  const googleLogin = async (): Promise<void> => {
+  const googleLogin = useCallback(async (): Promise<void> => {
     try {
       // Google Auth
       await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -78,12 +104,12 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
       console.error("[Google Auth]", error);
       onError?.(error);
     }
-  };
+  }, [handleAuthSuccess, onError]);
 
   /**
    * Apple 로그인 [ Apple 개발자 유료 등록 후 사용가능 ]
    */
-  const appleLogin = async (): Promise<void> => {
+  const appleLogin = useCallback(async (): Promise<void> => {
     try {
       const appleAuthResult = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
@@ -101,9 +127,15 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
       console.error("[Apple Auth]", error);
       onError?.(error);
     }
-  };
+  }, [handleAuthSuccess, onError]);
 
-  return { emailLogin, kakaoLogin, googleLogin, appleLogin };
+  return {
+    getFirebaseToken,
+    emailLogin,
+    kakaoLogin,
+    googleLogin,
+    appleLogin
+  };
 };
 
 export default useFirebaseAuth;

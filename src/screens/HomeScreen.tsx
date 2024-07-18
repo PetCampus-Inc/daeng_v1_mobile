@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import SplashScreen from "react-native-splash-screen";
 
 import WebView, { type WebViewElement } from "~/components/WebView";
 import useGetMessage from "~/hooks/useGetMessage";
@@ -9,7 +10,7 @@ import { runCamera } from "~/native/camera";
 import { WebViewMessageGet } from "~/types/message.types";
 
 interface HomeScreenProps {
-  token: string;
+  token?: string;
 }
 
 const HomeScreen = ({ token }: HomeScreenProps) => {
@@ -33,12 +34,19 @@ const HomeScreen = ({ token }: HomeScreenProps) => {
         runCamera();
         break;
       case "GET_ID_TOKEN":
-        post("ID_TOKEN", token);
+        token && post("ID_TOKEN", token);
         break;
     }
   };
 
-  return <WebView ref={webviewRef} onMessage={onMessage} path="/login" />;
+  return (
+    <WebView
+      ref={webviewRef}
+      onLoadEnd={() => SplashScreen.hide()}
+      onMessage={onMessage}
+      path="/login"
+    />
+  );
 };
 
 export default HomeScreen;

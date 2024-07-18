@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { getUniqueId } from "react-native-device-info";
+import SplashScreen from "react-native-splash-screen";
 import styled from "styled-components/native";
 
 import { getSignInMethod } from "~/apis/auth";
@@ -12,7 +13,7 @@ import { RootStackParam } from "~/components/AppRouter/AppRouter";
 import Flex from "~/components/Flex";
 import SocialButton from "~/components/SocialButton/SocialButton";
 import Text from "~/components/Text/Text";
-import useFirebaseAuth from "~/hooks/useLogin";
+import useFirebaseAuth from "~/hooks/useFirebaseAuth";
 import { SignInMethod } from "~/types/auth/signin.types";
 
 const googleSigninConfigure = () => {
@@ -41,6 +42,8 @@ const SignInScreen = () => {
 
     googleSigninConfigure();
     fetchLastLogin();
+
+    SplashScreen.hide();
   }, []);
 
   const socialButtons = [
