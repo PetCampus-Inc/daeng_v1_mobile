@@ -1,7 +1,12 @@
 import { useCallback } from "react";
 import { WebViewMessageEvent, WebViewProps } from "react-native-webview";
 
-import { isValidMessageData, MessageType, WebViewMessage } from "~/types/message.types";
+import {
+  isValidMessageData,
+  isWebViewMessage,
+  MessageType,
+  WebViewMessage
+} from "~/types/message.types";
 
 interface WebViewMessageParams {
   onSubscribe?: <T extends MessageType["Request"]>(message: WebViewMessage<T>) => void;
@@ -12,10 +17,17 @@ export const useWebViewMessage = ({ onSubscribe, onError }: WebViewMessageParams
   const handleMessage: WebViewProps["onMessage"] = useCallback(
     (event: WebViewMessageEvent) => {
       try {
-        const response = JSON.parse(event.nativeEvent.data);
+        const message = JSON.parse(event.nativeEvent.data);
 
-        if (onSubscribe && isValidMessageData(response)) onSubscribe(response);
-        else throw new Error("메세지 타입 또는 데이터 오류");
+        if (!isWebViewMessage(message)) {
+          throw new Error("[Native 통신 오류]: 메시지 타입 오류");
+        }
+
+        if (!isValidMessageData(message)) {
+          throw new Error("[Native 통신 오류]: 데이터 타입 오류");
+        }
+
+        onSubscribe?.(message);
       } catch (error: unknown) {
         const errMsg = error instanceof Error ? error.message : "알 수 없는 오류 발생";
         console.error("[Webview 통신 오류] :", errMsg);
