@@ -43,5 +43,13 @@ module.exports = {
         extensions: [".js", ".jsx", ".ts", ".tsx"]
       }
     }
-  }
+  },
+  overrides: [
+    {
+      files: ["*.js", "*.cjs"],
+      rules: {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
 };
