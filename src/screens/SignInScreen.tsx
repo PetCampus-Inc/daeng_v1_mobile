@@ -3,7 +3,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { Platform, TouchableOpacity } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 import SplashScreen from "react-native-splash-screen";
 import styled from "styled-components/native";
@@ -26,7 +26,7 @@ const SignInScreen = () => {
   const [lastLogin, setLastLogin] = useState<SignInMethod | null>(null);
 
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
-  const { kakaoLogin, googleLogin } = useFirebaseAuth();
+  const { kakaoLogin, googleLogin, appleLogin } = useFirebaseAuth();
 
   const handleAdminLogin = () => navigation.navigate("AdminLogin");
 
@@ -48,9 +48,11 @@ const SignInScreen = () => {
 
   const socialButtons = [
     { social: "kakao" as SignInMethod, onPress: kakaoLogin },
-    { social: "google" as SignInMethod, onPress: googleLogin },
-    { social: "apple" as SignInMethod }
+    { social: "google" as SignInMethod, onPress: googleLogin }
   ];
+
+  if (Platform.OS === "ios")
+    socialButtons.push({ social: "apple" as SignInMethod, onPress: appleLogin });
 
   return (
     <StyledSignInScreen>
