@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { RefObject, useCallback } from "react";
 import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
@@ -5,6 +6,7 @@ import WebView from "react-native-webview";
 import usePostMessage from "~/hooks/usePostMessage";
 import useSaveImage from "~/hooks/useSaveImage";
 import useSelectImage from "~/hooks/useSelectImage";
+import { runCamera } from "~/native/camera";
 import { MessageDataType, WebViewMessage } from "~/types/message.types";
 
 interface MessageHandlerOptions {
@@ -18,6 +20,7 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
   const { postMessage } = usePostMessage({ webviewRef });
   const { save } = useSaveImage();
   const { select } = useSelectImage();
+  const navigation = useNavigation();
 
   const handler = useCallback(
     async ({ type, data }: WebViewMessage) => {
@@ -37,6 +40,13 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
           case "GET_DEVICE_ID":
             response = await getUniqueId();
             break;
+          case "LAUNCH_CAMERA":
+            response = await runCamera();
+            break;
+          case "GO_BACK":
+            navigation.canGoBack() && navigation.goBack();
+            response = null;
+            break;
           default:
             throw new Error(`지원하지 않는 메세지 타입입니다. [${type}]`);
         }
@@ -48,7 +58,7 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
         onError?.(newError);
       }
     },
-    [token, postMessage, save, select, onSuccess, onError]
+    [navigation, token, postMessage, save, select, onSuccess, onError]
   );
 
   return { handler };

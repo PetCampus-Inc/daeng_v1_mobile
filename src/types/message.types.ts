@@ -1,10 +1,11 @@
 interface CoreMessage {
   Request: {
+    GO_BACK: null;
     GET_ID_TOKEN: null;
     GET_DEVICE_ID: null;
   };
   Response: {
-    IS_APP: string;
+    GO_BACK: null;
     GET_ID_TOKEN: string;
     GET_DEVICE_ID: string;
   };
@@ -19,7 +20,7 @@ interface DeviceActionMessage {
   Response: {
     SAVE_IMAGE: boolean;
     SELECT_IMAGE: string[] | boolean;
-    RUN_CAMERA: string;
+    LAUNCH_CAMERA: string;
   };
 }
 
@@ -45,10 +46,12 @@ export type MessageDataType = {
 export type WebViewMessage<T extends MessageType["Request"] = MessageType["Request"]> =
   T extends unknown ? { type: T; data: MessageData["Request"][T] } : never;
 
-export const isValidMessageData = (message: unknown): message is WebViewMessage => {
-  if (!message || typeof message !== "object") return false;
+export const isWebViewMessage = (obj: unknown): obj is WebViewMessage => {
+  return obj !== null && typeof obj === "object" && "type" in obj && "data" in obj;
+};
 
-  const { type, data } = message as WebViewMessage;
+export const isValidMessageData = (message: WebViewMessage): message is WebViewMessage => {
+  const { type, data } = message;
 
   const validators: Record<MessageType["Request"], (value: unknown) => boolean> = {
     SAVE_IMAGE: (value) =>
@@ -56,6 +59,7 @@ export const isValidMessageData = (message: unknown): message is WebViewMessage 
       (Array.isArray(value) && value.every((item) => typeof item === "string")),
     SELECT_IMAGE: (value) => value === null,
     LAUNCH_CAMERA: (value) => value === null,
+    GO_BACK: (value) => value === null,
     GET_ID_TOKEN: (value) => value === null,
     GET_DEVICE_ID: (value) => value === null
   };
