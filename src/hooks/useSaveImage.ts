@@ -1,70 +1,52 @@
-import { RefObject, useState } from "react";
+import { useState, useCallback } from "react";
 
-import { WebViewElement } from "~/components/WebView";
-import { usePostMessage } from "~/hooks/usePostMessage";
 import saveImage from "~/native/saveImage";
 
-interface SaveImageOptions {
-  webviewRef: RefObject<WebViewElement>;
-  onSuccess?: () => void;
-  onError?: (error: Error) => void;
-  onProgress?: (progress: number) => void;
+interface SaveImageState {
+  loading: boolean;
+  progress: number | null;
 }
 
-const useSaveImage = ({
-  webviewRef,
-  onProgress,
-  onSuccess: onComplete,
-  onError
-}: SaveImageOptions) => {
-  const { post } = usePostMessage({ webviewRef });
+const useSaveImage = () => {
+  const [state, setState] = useState<SaveImageState>({
+    loading: false,
+    progress: null
+  });
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [progress, setProgress] = useState<number | null>(null);
+  const updateProgress = useCallback((current: number, total: number) => {
+    setState((prevState) => ({
+      ...prevState,
+      progress: Math.round((current / total) * 100)
+    }));
+  }, []);
 
-  const save = async (imgUrls: string | string[]) => {
-    const urls = Array.isArray(imgUrls) ? imgUrls : [imgUrls];
-    if (urls.length === 0) return;
+  const save = useCallback(
+    async (imgUrls: string | string[]): Promise<boolean> => {
+      const urls = Array.isArray(imgUrls) ? imgUrls : [imgUrls];
+      if (urls.length === 0) throw new Error("저장할 이미지가 없습니다.");
 
-    setLoading(true);
+      setState({ loading: true, progress: 0 });
 
-    try {
-      for (let i = 0; i < urls.length; i++) {
-        const current = i + 1;
-        const url = urls[i];
+      try {
+        for (let i = 0; i < urls.length; i++) {
+          const url = urls[i];
+          await saveImage(url);
+          updateProgress(i + 1, urls.length);
+        }
 
-        handleProgress(current);
-        await saveImage(url);
+        return true;
+      } catch (error) {
+        if (error instanceof Error) throw error;
+
+        throw new Error("이미지 저장 중 오류가 발생했습니다.");
+      } finally {
+        setState({ loading: false, progress: null });
       }
+    },
+    [updateProgress]
+  );
 
-      handleComplete();
-    } catch (e) {
-      const error = e instanceof Error ? e : new Error(String(e));
-      handleError(error);
-    } finally {
-      setLoading(false);
-      setProgress(null);
-    }
-  };
-
-  const handleProgress = (current: number) => {
-    setProgress(current);
-    post("SAVE_IMAGE_PROGRESS", current);
-
-    onProgress?.(current);
-  };
-
-  const handleComplete = () => {
-    post("SAVE_IMAGE_SUCCESS", true);
-    onComplete?.();
-  };
-
-  const handleError = (error: Error) => {
-    post("SAVE_IMAGE_SUCCESS", false);
-    onError?.(error);
-  };
-
-  return { save, loading, progress };
+  return { save, ...state };
 };
 
 export default useSaveImage;

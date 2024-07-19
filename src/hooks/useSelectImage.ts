@@ -1,68 +1,35 @@
-import { RefObject } from "react";
-import { Asset, ImageLibraryOptions } from "react-native-image-picker";
+import { Asset, ImageLibraryOptions, ImagePickerResponse } from "react-native-image-picker";
 
-import { WebViewElement } from "~/components/WebView";
-import { usePostMessage } from "~/hooks/usePostMessage";
 import { selectImage } from "~/native/selectImage";
 import uploadImageToS3 from "~/services/s3Service";
 
 interface SelectImageOptions {
-  webviewRef: RefObject<WebViewElement>;
   options?: ImageLibraryOptions;
   uploadToS3?: boolean;
-  onSuccess?: (images: Asset[]) => void;
-  onError?: (error: Error) => void;
-  onUpload?: () => void;
 }
 
-const useSelectImage = ({
-  webviewRef,
-  options,
-  uploadToS3,
-  onSuccess,
-  onUpload,
-  onError
-}: SelectImageOptions) => {
-  const { post } = usePostMessage({ webviewRef });
+const useSelectImage = ({ options, uploadToS3 }: SelectImageOptions = {}) => {
+  const uploadImagesToS3 = async (assets: Asset[]): Promise<void> => {
+    await Promise.all(assets.map(uploadImageToS3));
+  };
 
-  const select = async () => {
+  const select = async (): Promise<string[]> => {
     try {
-      const response = await selectImage(options);
-      const images = response.assets;
-      if (!images) return;
+      const response: ImagePickerResponse = await selectImage(options);
+      const assets = response.assets ?? [];
+      const uris = assets
+        .map((image) => image.uri)
+        .filter((uri): uri is string => uri !== undefined);
 
-      if (uploadToS3) {
-        await uploadImagesToS3(images);
-        onUpload?.();
-      }
+      if (uris.length === 0) throw new Error("이미지를 선택하지 않았습니다.");
 
-      handleComplete(images);
-    } catch (e) {
-      const error = e instanceof Error ? e : new Error(String(e));
-      handleError(error);
+      if (uploadToS3) await uploadImagesToS3(assets);
+
+      return uris;
+    } catch (error) {
+      if (error instanceof Error) throw error;
+      throw new Error("이미지 선택 중 오류가 발생했습니다.");
     }
-  };
-
-  const uploadImagesToS3 = async (images: Asset[]) => {
-    for (const item of images) {
-      await uploadImageToS3(item);
-    }
-  };
-
-  const handleComplete = (images: Asset[]) => {
-    const imgUris = images
-      .map((image) => image.uri)
-      .filter((uri): uri is string => uri !== undefined);
-
-    if (imgUris.length === 0) return;
-
-    post("SELECT_IMAGE_SUCCESS", imgUris);
-    onSuccess?.(images);
-  };
-
-  const handleError = (error: Error) => {
-    post("SELECT_IMAGE_SUCCESS", false);
-    onError?.(error);
   };
 
   return { select };

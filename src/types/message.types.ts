@@ -1,58 +1,63 @@
-import { FirebaseAuthResponse } from "~/types/auth.types";
-
-interface ServiceData {
-  GET: {
-    FIREBASE_AUTH: null;
+interface CoreMessage {
+  Request: {
+    GET_ID_TOKEN: null;
+    GET_DEVICE_ID: null;
   };
-  POST: {
+  Response: {
     IS_APP: string;
-    FIREBASE_AUTH_SUCCESS: FirebaseAuthResponse;
+    GET_ID_TOKEN: string;
+    GET_DEVICE_ID: string;
   };
 }
 
-interface NativeData {
-  GET: {
+interface DeviceActionMessage {
+  Request: {
     SAVE_IMAGE: string | string[];
     SELECT_IMAGE: null;
-    RUN_CAMERA: null;
+    LAUNCH_CAMERA: null;
   };
-  POST: {
-    SAVE_IMAGE_SUCCESS: boolean;
-    SAVE_IMAGE_PROGRESS: number;
-    SELECT_IMAGE_SUCCESS: string[] | boolean;
+  Response: {
+    SAVE_IMAGE: boolean;
+    SELECT_IMAGE: string[] | boolean;
+    RUN_CAMERA: string;
   };
 }
 
 export interface MessageData {
-  GET: NativeData["GET"] & ServiceData["GET"];
-  POST: NativeData["POST"] & ServiceData["POST"];
+  Request: CoreMessage["Request"] & DeviceActionMessage["Request"];
+  Response: CoreMessage["Response"] & DeviceActionMessage["Response"];
 }
 
 export interface MessageType {
-  GET: keyof MessageData["GET"];
-  POST: keyof MessageData["POST"];
+  Request: keyof MessageData["Request"];
+  Response: keyof MessageData["Response"];
 }
+
+export type MessageDataType = {
+  Request: MessageData["Request"][MessageType["Request"]];
+  Response: MessageData["Response"][MessageType["Response"]];
+};
 
 // ----------------------------------------------------------------------------------
 //
 // ----------------------------------------------------------------------------------
 
-export type WebViewMessageGet<T extends MessageType["GET"] = MessageType["GET"]> = T extends unknown
-  ? { type: T; data: MessageData["GET"][T] }
-  : never;
+export type WebViewMessage<T extends MessageType["Request"] = MessageType["Request"]> =
+  T extends unknown ? { type: T; data: MessageData["Request"][T] } : never;
 
-export const isValidGetMessage = (message: unknown): message is WebViewMessageGet => {
+export const isValidMessageData = (message: unknown): message is WebViewMessage => {
   if (!message || typeof message !== "object") return false;
 
-  const { type, data } = message as WebViewMessageGet;
+  const { type, data } = message as WebViewMessage;
 
-  const validators: Record<MessageType["GET"], (value: unknown) => boolean> = {
+  const validators: Record<MessageType["Request"], (value: unknown) => boolean> = {
     SAVE_IMAGE: (value) =>
       typeof value === "string" ||
       (Array.isArray(value) && value.every((item) => typeof item === "string")),
     SELECT_IMAGE: (value) => value === null,
-    RUN_CAMERA: (value) => value === null,
-    FIREBASE_AUTH: (value) => value === null
+    LAUNCH_CAMERA: (value) => value === null,
+    GET_ID_TOKEN: (value) => value === null,
+    GET_DEVICE_ID: (value) => value === null
   };
 
   return type in validators && validators[type](data);

@@ -1,24 +1,25 @@
-import { RefObject } from "react";
-import WebView from "react-native-webview";
-
+import { WebViewElement } from "~/components/WebView";
 import { MessageData, MessageType } from "~/types/message.types";
 
 interface PostMessageParams {
-  webviewRef: RefObject<WebView>;
-  onError?: (err: string) => void;
+  webviewRef: React.RefObject<WebViewElement>;
+  onError?: (err: Error) => void;
 }
 
-export const usePostMessage = ({ onError, webviewRef }: PostMessageParams) => {
-  const post = <T extends MessageType["POST"]>(type: T, data: MessageData["POST"][T]) => {
+const usePostMessage = ({ webviewRef, onError }: PostMessageParams) => {
+  const postMessage = <T extends MessageType["Response"]>(
+    type: T,
+    data: MessageData["Response"][T]
+  ) => {
     if (webviewRef.current) {
       const message = JSON.stringify({ type, data });
       webviewRef.current.postMessage(message);
     } else {
-      const errMsg = "WebView 참조를 찾을 수 없습니다.";
-      console.error("[WebView 통신 오류] :", errMsg);
-      onError?.(errMsg);
+      onError?.(new Error("WebView 참조를 찾을 수 없습니다."));
     }
   };
 
-  return { post };
+  return { postMessage };
 };
+
+export default usePostMessage;

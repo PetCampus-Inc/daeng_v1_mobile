@@ -1,7 +1,6 @@
-import { Alert } from "react-native";
-import { CameraOptions, ImagePickerResponse, launchCamera } from "react-native-image-picker";
+import { CameraOptions, launchCamera } from "react-native-image-picker";
 
-export const runCamera = () => {
+export const runCamera = async (): Promise<string> => {
   const options: CameraOptions = {
     mediaType: "photo",
     cameraType: "back",
@@ -10,14 +9,21 @@ export const runCamera = () => {
     videoQuality: "high"
   };
 
-  launchCamera(options, (response: ImagePickerResponse) => {
-    if (response.didCancel) Alert.alert("촬영취소");
-    else if (response.errorMessage) Alert.alert("Error : " + response.errorMessage);
-    else {
-      if (response.assets != null) {
-        // const uri = response.assets[0].uri;
-        // const souce = { uri: uri };
-      }
-    }
-  });
+  const response = await launchCamera(options);
+
+  if (response.didCancel) {
+    throw new Error("User cancelled image picker");
+  }
+
+  if (response.errorCode || response.errorMessage) {
+    throw new Error(response.errorMessage || "An unknown error occurred");
+  }
+
+  const asset = response.assets?.[0];
+
+  if (!asset || !asset.uri) {
+    throw new Error("Failed to get image asset or uri");
+  }
+
+  return asset.uri;
 };
