@@ -21,7 +21,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
           await user.reload();
 
           // 카카오 로그인일 경우, 카카오 인증 상태 확인
-          if (user.displayName === "kakao_auth_account") {
+          if (user.displayName === "kakao") {
             const isKakaoAuth = await isKakaoAuthenticated();
             if (!isKakaoAuth) {
               await firebaseAuth.signOut();
@@ -68,7 +68,8 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
           try {
             // Firebase SignUp
             const response = await firebaseAuth.createUserWithEmailAndPassword(email, password);
-            if (kakao) await response.user.updateProfile({ displayName: "kakao_auth_account" });
+            if (kakao) await response.user.updateProfile({ displayName: "kakao" });
+            else await response.user.updateProfile({ displayName: "email" });
             await handleAuthSuccess(response);
           } catch (innerErr: any) {
             console.error("[Firebase Auth]", innerErr);
@@ -123,6 +124,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
       // Firebase Auth
       const googleCredential = auth.GoogleAuthProvider.credential(googleAuthResult.idToken);
       const response = await firebaseAuth.signInWithCredential(googleCredential);
+      await response.user.updateProfile({ displayName: "google" });
       await handleAuthSuccess(response);
     } catch (error: any) {
       console.log(error.message);
@@ -147,6 +149,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
 
       const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
       const response = await firebaseAuth.signInWithCredential(appleCredential);
+      await response.user.updateProfile({ displayName: "apple" });
       await handleAuthSuccess(response);
     } catch (error: any) {
       console.error("[Apple Auth]", error);
