@@ -55,6 +55,7 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
         onSuccess?.(response);
       } catch (error) {
         const newError = error instanceof Error ? error : new Error(String(error));
+        postMessage("ERROR", newError.message);
         onError?.(newError);
       }
     },
