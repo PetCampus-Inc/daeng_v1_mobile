@@ -22,7 +22,7 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
   const { select } = useSelectImage();
   const navigation = useNavigation();
 
-  const handler = useCallback(
+  const messageHandler = useCallback(
     async ({ type, data }: WebViewMessage) => {
       try {
         let response: MessageDataType["Response"];
@@ -61,7 +61,7 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
     [navigation, token, postMessage, save, select, onSuccess, onError]
   );
 
-  return { handler };
+  return { messageHandler };
 };
 
 export default useMessageHandler;

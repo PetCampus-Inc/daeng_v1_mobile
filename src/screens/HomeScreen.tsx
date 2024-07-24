@@ -15,8 +15,8 @@ interface HomeScreenProps {
 const HomeScreen = ({ token }: HomeScreenProps) => {
   const webviewRef = useRef<WebViewElement>(null);
 
-  const { handler } = useMessageHandler({ webviewRef, token });
-  const { handleMessage } = useWebViewMessage({ onSubscribe: handler });
+  const { messageHandler } = useMessageHandler({ webviewRef, token });
+  const { handleMessage } = useWebViewMessage({ onSubscribe: messageHandler });
 
   const statusBarHeight = useStatusBarHeight();
   const isActiveKeyboard = useKeyboardStatus();
