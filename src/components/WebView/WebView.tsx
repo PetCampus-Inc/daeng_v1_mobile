@@ -35,6 +35,7 @@ const WebView = forwardRef<ParentWebView, WebViewProps>(({ path = "", ...props }
   return (
     <StyledWebView
       ref={webviewRef}
+      hideKeyboardAccessoryView={true}
       windowWidth={windowWidth}
       windowHeight={windowHeight}
       webviewDebuggingEnabled={__DEV__}
