@@ -1,4 +1,4 @@
-import { Asset, ImageLibraryOptions, ImagePickerResponse } from "react-native-image-picker";
+import { Asset, ImageLibraryOptions } from "react-native-image-picker";
 
 import { selectImage } from "~/native/selectImage";
 import uploadImageToS3 from "~/services/s3Service";
@@ -15,14 +15,11 @@ const useSelectImage = ({ options, uploadToS3 }: SelectImageOptions = {}) => {
 
   const select = async (): Promise<string[]> => {
     try {
-      const response: ImagePickerResponse = await selectImage(options);
-      const assets = response.assets ?? [];
+      const response: Asset[] = await selectImage(options);
+      const assets = response ?? [];
       const uris = assets
         .map((image) => image.uri)
         .filter((uri): uri is string => uri !== undefined);
-
-      if (uris.length === 0) throw new Error("이미지를 선택하지 않았습니다.");
-
       if (uploadToS3) await uploadImagesToS3(assets);
 
       return uris;

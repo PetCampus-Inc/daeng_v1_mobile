@@ -70,14 +70,14 @@ const fetch = async (
 };
 
 const saveImage = async (imageUrl: string, albumName: string = "KnockDog") => {
-  if (Platform.OS === "android" && !(await hasAndroidPermission())) {
-    return;
-  }
-
-  const PictureDir = RNFetchBlob.fs.dirs.PictureDir;
-  const DocumentDir = RNFetchBlob.fs.dirs.DocumentDir;
-
   try {
+    if (Platform.OS === "android" && !(await hasAndroidPermission())) {
+      return;
+    }
+
+    const PictureDir = RNFetchBlob.fs.dirs.PictureDir;
+    const DocumentDir = RNFetchBlob.fs.dirs.DocumentDir;
+
     const date = new Date();
     const fileName = `${albumName}_${date.getTime()}.jpg`;
 
@@ -90,7 +90,7 @@ const saveImage = async (imageUrl: string, albumName: string = "KnockDog") => {
       await CameraRoll.save(res.path(), { type: "photo", album: albumName });
     }
   } catch (error) {
-    console.error("Error saving picture:", error);
+    throw error;
   }
 };
 
