@@ -68,8 +68,8 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
           try {
             // Firebase SignUp
             const response = await firebaseAuth.createUserWithEmailAndPassword(email, password);
-            if (kakao) await response.user.updateProfile({ displayName: "kakao" });
-            else await response.user.updateProfile({ displayName: "email" });
+            if (kakao) await response.user.updateProfile({ displayName: "KAKAO" });
+            else await response.user.updateProfile({ displayName: "EMAIL" });
             await handleAuthSuccess(response);
           } catch (innerErr: any) {
             console.error("[Firebase Auth]", innerErr);
@@ -124,7 +124,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
       // Firebase Auth
       const googleCredential = auth.GoogleAuthProvider.credential(googleAuthResult.idToken);
       const response = await firebaseAuth.signInWithCredential(googleCredential);
-      await response.user.updateProfile({ displayName: "google" });
+      await response.user.updateProfile({ displayName: "GOOGLE" });
       await handleAuthSuccess(response);
     } catch (error: any) {
       console.log(error.message);
@@ -149,7 +149,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
 
       const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
       const response = await firebaseAuth.signInWithCredential(appleCredential);
-      await response.user.updateProfile({ displayName: "apple" });
+      await response.user.updateProfile({ displayName: "APPLE" });
       await handleAuthSuccess(response);
     } catch (error: any) {
       console.error("[Apple Auth]", error);
