@@ -46,24 +46,3 @@ export type MessageDataType = {
 
 export type WebViewMessage<T extends MessageType["Request"] = MessageType["Request"]> =
   T extends unknown ? { type: T; data: MessageData["Request"][T] } : never;
-
-export const isWebViewMessage = (obj: unknown): obj is WebViewMessage => {
-  return obj !== null && typeof obj === "object" && "type" in obj && "data" in obj;
-};
-
-export const isValidMessageData = (message: WebViewMessage): message is WebViewMessage => {
-  const { type, data } = message;
-
-  const validators: Record<MessageType["Request"], (value: unknown) => boolean> = {
-    SAVE_IMAGE: (value) =>
-      typeof value === "string" ||
-      (Array.isArray(value) && value.every((item) => typeof item === "string")),
-    SELECT_IMAGE: (value) => value === null,
-    LAUNCH_CAMERA: (value) => value === null,
-    GO_BACK: (value) => value === null,
-    GET_ID_TOKEN: (value) => value === null,
-    GET_DEVICE_ID: (value) => value === null
-  };
-
-  return type in validators && validators[type](data);
-};

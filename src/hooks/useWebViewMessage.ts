@@ -1,12 +1,8 @@
 import { useCallback } from "react";
 import { WebViewMessageEvent, WebViewProps } from "react-native-webview";
 
-import {
-  isValidMessageData,
-  isWebViewMessage,
-  MessageType,
-  WebViewMessage
-} from "~/types/message.types";
+import { MessageType, WebViewMessage } from "~/types/message.types";
+import { isValidMessageData, isWebViewMessage } from "~/utils/typeGuard";
 
 interface WebViewMessageParams {
   onSubscribe?: <T extends MessageType["Request"]>(message: WebViewMessage<T>) => void;
