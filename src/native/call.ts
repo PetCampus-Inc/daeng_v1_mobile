@@ -1,5 +1,9 @@
 import { Linking } from "react-native";
 
 export const connectCall = (telNumber: string) => {
-  Linking.openURL(`tel:${telNumber}`);
+  try {
+    Linking.openURL(`tel:${telNumber}`);
+  } catch (error) {
+    throw error;
+  }
 };

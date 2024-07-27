@@ -6,6 +6,7 @@ import WebView from "react-native-webview";
 import usePostMessage from "~/hooks/usePostMessage";
 import useSaveImage from "~/hooks/useSaveImage";
 import useSelectImage from "~/hooks/useSelectImage";
+import { connectCall } from "~/native/call";
 import { runCamera } from "~/native/camera";
 import { MessageDataType, WebViewMessage } from "~/types/message.types";
 
@@ -33,6 +34,10 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
             break;
           case "SELECT_IMAGE":
             response = await select();
+            break;
+          case "CALL":
+            connectCall(data);
+            response = null;
             break;
           case "GET_ID_TOKEN":
             response = token;

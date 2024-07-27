@@ -25,6 +25,7 @@ const validators: Record<MessageType["Request"], ValidatorFunction<unknown>> = {
   GET_DEVICE_ID: isNull,
 
   // DEVICE ACTION
+  CALL: isString,
   SELECT_IMAGE: isNull,
   LAUNCH_CAMERA: isNull,
   SAVE_IMAGE: isStringOrStringArray

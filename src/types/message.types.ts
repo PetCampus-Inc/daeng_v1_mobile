@@ -14,11 +14,13 @@ interface CoreMessage {
 
 interface DeviceActionMessage {
   Request: {
+    CALL: string;
     SAVE_IMAGE: string | string[];
     SELECT_IMAGE: null;
     LAUNCH_CAMERA: null;
   };
   Response: {
+    CALL: null;
     SAVE_IMAGE: boolean;
     SELECT_IMAGE: string[] | boolean;
     LAUNCH_CAMERA: string;
