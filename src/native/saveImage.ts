@@ -1,6 +1,6 @@
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
 import { PermissionsAndroid, Platform } from "react-native";
-import RNFetchBlob, { RNFetchBlobConfig } from "rn-fetch-blob";
+import RNFS from "react-native-fs";
 
 async function hasAndroidPermission() {
   const getCheckPermissionPromise = () => {
@@ -45,49 +45,43 @@ async function hasAndroidPermission() {
   return await getRequestPermissionPromise();
 }
 
-const fetch = async (
-  imageUrl: string,
-  fileName: string,
-  path: string,
-  useDownloadManager: boolean
-) => {
-  const options: RNFetchBlobConfig = {
-    fileCache: true,
-    appendExt: "jpg",
-    path,
-    ...(useDownloadManager && {
-      addAndroidDownloads: {
-        useDownloadManager: true,
-        notification: true,
-        path,
-        title: fileName,
-        description: "이미지를 다운로드합니다."
-      }
-    })
-  };
-
-  return RNFetchBlob.config(options).fetch("GET", imageUrl);
+const fetch = async (imageUrl: string, filePath: string) => {
+  return RNFS.downloadFile({
+    fromUrl: imageUrl,
+    toFile: filePath
+  }).promise;
 };
 
-const saveImage = async (imageUrl: string, albumName: string = "KnockDog") => {
+const saveImage = async (
+  imageUrl: string,
+  albumName: string = "똑독",
+  imageName: string = "knockdog"
+) => {
   try {
     if (Platform.OS === "android" && !(await hasAndroidPermission())) {
-      return;
+      // TODO: 에러 말고, 권한 재요청으로 바꾸기
+      throw new Error("Permission denied");
+    }
+    let directory: string;
+    if (Platform.OS === "android") {
+      directory = `${RNFS.ExternalDirectoryPath}/Pictures/${albumName}`;
+    } else {
+      directory = `${RNFS.DocumentDirectoryPath}/${albumName}`;
     }
 
-    const PictureDir = RNFetchBlob.fs.dirs.PictureDir;
-    const DocumentDir = RNFetchBlob.fs.dirs.DocumentDir;
+    await RNFS.mkdir(directory);
 
     const date = new Date();
-    const fileName = `${albumName}_${date.getTime()}.jpg`;
+    const fileName = `${imageName}_${date.getTime()}.png`;
+    const filePath = `${directory}/${fileName}`;
 
-    if (Platform.OS === "android") {
-      const path = `${PictureDir}/${fileName}`;
-      await fetch(imageUrl, fileName, path, true);
-    } else if (Platform.OS === "ios") {
-      const path = `${DocumentDir}/${fileName}`;
-      const res = await fetch(imageUrl, fileName, path, false);
-      await CameraRoll.save(res.path(), { type: "photo", album: albumName });
+    await fetch(imageUrl, filePath);
+
+    if (Platform.OS === "ios") {
+      await CameraRoll.saveAsset(filePath, { type: "photo", album: imageName });
+      await RNFS.unlink(filePath);
+    } else if (Platform.OS === "android") {
+      await RNFS.scanFile(filePath);
     }
   } catch (error) {
     throw error;
