@@ -1,4 +1,4 @@
-import { GOOGLE_WEB_CLIENT_ID } from "@env";
+import { GOOGLE_WEB_CLIENT_ID, GOOGLE_WEB_CLIENT_ID_IOS } from "@env";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -18,7 +18,9 @@ import { SignInMethod } from "~/types/auth.types";
 
 const googleSigninConfigure = () => {
   GoogleSignin.configure({
-    webClientId: GOOGLE_WEB_CLIENT_ID
+    webClientId: GOOGLE_WEB_CLIENT_ID,
+    iosClientId: GOOGLE_WEB_CLIENT_ID_IOS,
+    offlineAccess: true
   });
 };
 
@@ -32,10 +34,10 @@ const SignInScreen = () => {
 
   useEffect(() => {
     const fetchLastLogin = async () => {
-      const uniqueId = await getUniqueId();
+      const deviceId = await getUniqueId();
 
       // 마지막 로그인 조회 API 호출
-      const method = await getSignInMethod(uniqueId);
+      const method = await getSignInMethod(deviceId);
       if (method) setLastLogin(method);
       else setLastLogin(null);
     };
