@@ -24,7 +24,7 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
   const navigation = useNavigation();
 
   const messageHandler = useCallback(
-    async ({ type, data }: WebViewMessage) => {
+    async ({ type, data, requestId }: WebViewMessage) => {
       try {
         let response: MessageDataType["Response"];
 
@@ -56,11 +56,11 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
             throw new Error(`지원하지 않는 메세지 타입입니다. [${type}]`);
         }
 
-        postMessage(type, response);
+        postMessage(type, response, requestId);
         onSuccess?.(response);
       } catch (error) {
         const newError = error instanceof Error ? error : new Error(String(error));
-        postMessage("ERROR", newError.message);
+        postMessage("ERROR", newError.message, requestId);
         onError?.(newError);
       }
     },
