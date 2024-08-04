@@ -8,13 +8,13 @@ import { getUniqueId } from "react-native-device-info";
 import SplashScreen from "react-native-splash-screen";
 import styled from "styled-components/native";
 
-import { getSignInMethod } from "~/apis/auth";
+import { getFirebaseProvider } from "~/apis/auth";
 import { RootStackParam } from "~/components/AppRouter/AppRouter";
 import Flex from "~/components/Flex";
 import SocialButton from "~/components/SocialButton/SocialButton";
 import Text from "~/components/Text/Text";
 import useFirebaseAuth from "~/hooks/useFirebaseAuth";
-import { SignInMethod } from "~/types/auth.types";
+import { FirebaseProvider } from "~/types/auth.types";
 
 const googleSigninConfigure = () => {
   GoogleSignin.configure({
@@ -25,7 +25,7 @@ const googleSigninConfigure = () => {
 };
 
 const SignInScreen = () => {
-  const [lastLogin, setLastLogin] = useState<SignInMethod | null>(null);
+  const [lastLoginProvider, setLastLoginProvider] = useState<FirebaseProvider | null>(null);
 
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParam>>();
   const { kakaoLogin, googleLogin, appleLogin } = useFirebaseAuth();
@@ -34,12 +34,17 @@ const SignInScreen = () => {
 
   useEffect(() => {
     const fetchLastLogin = async () => {
-      const deviceId = await getUniqueId();
+      try {
+        const deviceId = await getUniqueId();
 
-      // 마지막 로그인 조회 API 호출
-      const method = await getSignInMethod(deviceId);
-      if (method) setLastLogin(method);
-      else setLastLogin(null);
+        // 마지막 로그인 조회 API 호출
+        const provider = await getFirebaseProvider(deviceId);
+
+        if (provider) setLastLoginProvider(provider);
+        else setLastLoginProvider(null);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     googleSigninConfigure();
@@ -49,12 +54,12 @@ const SignInScreen = () => {
   }, []);
 
   const socialButtons = [
-    { social: "kakao" as SignInMethod, onPress: kakaoLogin },
-    { social: "google" as SignInMethod, onPress: googleLogin }
+    { social: "KAKAO" as FirebaseProvider, onPress: kakaoLogin },
+    { social: "GOOGLE" as FirebaseProvider, onPress: googleLogin }
   ];
 
   if (Platform.OS === "ios")
-    socialButtons.push({ social: "apple" as SignInMethod, onPress: appleLogin });
+    socialButtons.push({ social: "APPLE" as FirebaseProvider, onPress: appleLogin });
 
   return (
     <StyledSignInScreen>
@@ -70,7 +75,7 @@ const SignInScreen = () => {
       <Flex gap={36} justifyContent="center">
         <Flex gap={12} style={{ marginTop: 214 }}>
           {socialButtons.map((props) => {
-            const isLast = lastLogin === props.social;
+            const isLast = lastLoginProvider === props.social;
             return <SocialButton key={props.social} lastLogin={isLast} {...props} />;
           })}
         </Flex>
@@ -98,7 +103,7 @@ const SignInScreen = () => {
             </Text>
           </TouchableOpacity>
         </Flex>
-        <SocialButton social="admin" onPress={handleAdminLogin} />
+        <SocialButton social="ADMIN" onPress={handleAdminLogin} />
       </Footer>
     </StyledSignInScreen>
   );

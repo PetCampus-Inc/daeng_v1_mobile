@@ -42,9 +42,5 @@ export type MessageDataType = {
   Response: MessageData["Response"][MessageType["Response"]];
 };
 
-// ----------------------------------------------------------------------------------
-//
-// ----------------------------------------------------------------------------------
-
 export type WebViewMessage<T extends MessageType["Request"] = MessageType["Request"]> =
   T extends unknown ? { type: T; data: MessageData["Request"][T] } : never;

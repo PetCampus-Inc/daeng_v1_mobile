@@ -1,6 +1,1 @@
-export type SignInMethod = "admin" | "kakao" | "google" | "apple";
-
-export interface FirebaseAuthResponse {
-  deviceId: string;
-  idToken: string;
-}
+export type FirebaseProvider = "GOOGLE" | "APPLE" | "KAKAO";
