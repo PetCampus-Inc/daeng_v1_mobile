@@ -58,6 +58,24 @@
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
+		<key>NSExceptionDomains</key>
+		<!-- Daum 주소 검색 HTTP 연결 허용 -->
+    <dict>
+			<key>postcode.map.daum.net</key>
+			<dict>
+					<key>NSExceptionAllowsInsecureHTTPLoads</key>
+					<true/>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+			</dict>
+			<key>t1.daumcdn.net</key>
+			<dict>
+					<key>NSExceptionAllowsInsecureHTTPLoads</key>
+					<true/>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+			</dict>
+    </dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>카메라 사용 권한은 이미지 촬영 및 첨부를 위해 필요합니다.</string>
