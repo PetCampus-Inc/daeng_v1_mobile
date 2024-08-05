@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 
 import useAuthStateChange from "~/hooks/useAuthStateChange";
-import AdminLoginScreen from "~/screens/AdminLoginScreen";
+import AdminScreen from "~/screens/AdminScreen";
 import HomeScreen from "~/screens/HomeScreen";
 import SignInScreen from "~/screens/SignInScreen";
 
@@ -29,7 +29,7 @@ const AppRouter = () => {
         ) : (
           <Stack.Screen name="SignIn" options={{ title: "로그인" }} component={SignInScreen} />
         )}
-        <Stack.Screen name="AdminLogin" component={AdminLoginScreen} />
+        <Stack.Screen name="AdminLogin" component={AdminScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
