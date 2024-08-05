@@ -1,10 +1,11 @@
-import React, { forwardRef, RefObject, useCallback, useEffect, useRef } from "react";
-import { BackHandler, Dimensions } from "react-native";
+import React, { forwardRef, RefObject, useRef } from "react";
+import { Dimensions } from "react-native";
 import ParentWebView, { WebViewProps as ParentWebViewProps } from "react-native-webview";
 
 import { StyledWebView } from "~/components/WebView/styles";
 import { baseUrl } from "~/config/url";
-import useWebViewDebugging from "~/hooks/useWebViewDebugging";
+import useBackHandler from "~/hooks/useBackHandler";
+import useLogInterceptor from "~/hooks/useLogInterceptor";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -19,22 +20,8 @@ const WebView = forwardRef<ParentWebView, WebViewProps>(
     const webviewRef = (ref as RefObject<ParentWebView>) || localRef;
     const fullPath = path.startsWith("/") ? path : `/${path}`;
 
-    const { debuggingScript, handleMessageInterceptor } = useWebViewDebugging(onMessage);
-
-    const handleBackPress = useCallback(() => {
-      if (webviewRef.current) {
-        webviewRef.current.goBack();
-        return true;
-      }
-      return false;
-    }, [webviewRef]);
-
-    useEffect(() => {
-      BackHandler.addEventListener("hardwareBackPress", handleBackPress);
-      return () => {
-        BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
-      };
-    }, [handleBackPress]);
+    useBackHandler(webviewRef);
+    const { debuggingScript, handleMessageInterceptor } = useLogInterceptor(onMessage);
 
     return (
       <StyledWebView
