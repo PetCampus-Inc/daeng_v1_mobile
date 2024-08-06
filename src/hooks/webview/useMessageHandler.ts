@@ -3,9 +3,9 @@ import { RefObject, useCallback } from "react";
 import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
 
-import usePostMessage from "~/hooks/usePostMessage";
-import useSaveImage from "~/hooks/useSaveImage";
-import useSelectImage from "~/hooks/useSelectImage";
+import useSaveImage from "~/hooks/native/useSaveImage";
+import useSelectImage from "~/hooks/native/useSelectImage";
+import usePostMessage from "~/hooks/webview/usePostMessage";
 import { connectCall } from "~/native/call";
 import { runCamera } from "~/native/camera";
 import { MessageDataType, WebViewMessage } from "~/types/message.types";
