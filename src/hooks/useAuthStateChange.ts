@@ -1,14 +1,16 @@
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import { useCallback, useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useCallback, useLayoutEffect } from "react";
 import SplashScreen from "react-native-splash-screen";
 
+import { RootStackParam } from "~/components/AppRouter";
 import useFirebaseAuth from "~/hooks/useFirebaseAuth";
 
 const FirebaseAuth = auth();
 
 const useAuthStateChange = () => {
-  const [initializing, setInitializing] = useState(true);
-  const [token, setToken] = useState<string | null>(null);
+  const { navigate } = useNavigation<NativeStackNavigationProp<RootStackParam>>();
 
   const { getFirebaseToken } = useFirebaseAuth();
 
@@ -16,23 +18,21 @@ const useAuthStateChange = () => {
     async (user: FirebaseAuthTypes.User | null) => {
       try {
         const firebaseToken = await getFirebaseToken(user);
-        setToken(firebaseToken);
+        if (firebaseToken) {
+          navigate("Home", { token: firebaseToken });
+        } else throw new Error("Firebase token is not found");
       } catch (error) {
-        console.log(error);
+      } finally {
+        SplashScreen.hide();
       }
-
-      setInitializing(false);
-      SplashScreen.hide();
     },
-    [getFirebaseToken]
+    [navigate, getFirebaseToken]
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const unsubscribe = FirebaseAuth.onAuthStateChanged(handleAuthStateChanged);
     return () => unsubscribe();
-  });
-
-  return { initializing, token };
+  }, [handleAuthStateChanged]);
 };
 
 export default useAuthStateChange;

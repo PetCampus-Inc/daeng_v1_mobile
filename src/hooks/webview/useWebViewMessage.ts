@@ -9,7 +9,7 @@ interface WebViewMessageParams {
   onError?: (err: string) => void;
 }
 
-export const useWebViewMessage = ({ onSubscribe, onError }: WebViewMessageParams) => {
+const useWebViewMessage = ({ onSubscribe, onError }: WebViewMessageParams) => {
   const handleMessage: WebViewProps["onMessage"] = useCallback(
     (event: WebViewMessageEvent) => {
       try {
@@ -35,3 +35,5 @@ export const useWebViewMessage = ({ onSubscribe, onError }: WebViewMessageParams
 
   return { handleMessage };
 };
+
+export default useWebViewMessage;

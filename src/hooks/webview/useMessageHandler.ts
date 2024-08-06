@@ -12,7 +12,7 @@ import { MessageDataType, WebViewMessage } from "~/types/message.types";
 
 interface MessageHandlerOptions {
   webviewRef: RefObject<WebView>;
-  token: string;
+  token?: string;
   onSuccess?: (data: MessageDataType["Response"]) => void;
   onError?: (err: Error) => void;
 }
@@ -40,7 +40,7 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
             response = null;
             break;
           case "GET_ID_TOKEN":
-            response = token;
+            response = token ?? "";
             break;
           case "GET_DEVICE_ID":
             response = await getUniqueId();

@@ -5,6 +5,7 @@ interface CoreMessage {
     GET_DEVICE_ID: null;
   };
   Response: {
+    ACCESS_TOKEN: string;
     ERROR: string;
     GO_BACK: null;
     GET_ID_TOKEN: string;

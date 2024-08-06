@@ -10,10 +10,10 @@ const usePostMessage = ({ webviewRef, onError }: PostMessageParams) => {
   const postMessage = <T extends MessageType["Response"]>(
     type: T,
     data: MessageData["Response"][T],
-    requestId: string
+    requestId?: string
   ) => {
     if (webviewRef.current) {
-      const message = JSON.stringify({ type, data, requestId });
+      const message = JSON.stringify({ type, data, requestId: requestId ?? type });
       webviewRef.current.postMessage(message);
     } else {
       onError?.(new Error("WebView 참조를 찾을 수 없습니다."));

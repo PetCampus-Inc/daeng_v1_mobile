@@ -6,7 +6,7 @@ import { WebViewMessageEvent } from "react-native-webview";
  * @returns handleMessageInterceptor onMessage 이벤트 핸들러
  * @returns debuggingScript WebView 디버깅 스크립트
  */
-const useLogInterceptor = (callbackEvent?: (event: WebViewMessageEvent) => void) => {
+const useWebviewLog = (callbackEvent?: (event: WebViewMessageEvent) => void) => {
   const handleMessageInterceptor = (event: WebViewMessageEvent) => {
     try {
       const dataPayload = JSON.parse(event.nativeEvent.data);
@@ -43,4 +43,4 @@ const useLogInterceptor = (callbackEvent?: (event: WebViewMessageEvent) => void)
   return { handleMessageInterceptor, debuggingScript };
 };
 
-export default useLogInterceptor;
+export default useWebviewLog;

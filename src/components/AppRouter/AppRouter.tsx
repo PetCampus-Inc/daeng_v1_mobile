@@ -2,34 +2,25 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 
-import useAuthStateChange from "~/hooks/useAuthStateChange";
 import AdminScreen from "~/screens/AdminScreen";
-import HomeScreen from "~/screens/HomeScreen";
+import MemberScreen from "~/screens/MemberScreen";
 import SignInScreen from "~/screens/SignInScreen";
 
-const Stack = createNativeStackNavigator<RootStackParam>();
+const Stack = createNativeStackNavigator<RootStackParams>();
 
-export type RootStackParam = {
-  Home: { token: string };
-  SignIn: undefined;
-  AdminLogin: undefined;
+export type RootStackParams = {
+  SignInScreen: undefined;
+  MemberScreen: undefined;
+  AdminScreen: undefined;
 };
 
 const AppRouter = () => {
-  const { initializing, token } = useAuthStateChange();
-
-  if (initializing) return null;
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {token ? (
-          <Stack.Screen name="Home" options={{ headerShown: false }}>
-            {(props) => <HomeScreen {...props} token={token} />}
-          </Stack.Screen>
-        ) : (
-          <Stack.Screen name="SignIn" options={{ title: "로그인" }} component={SignInScreen} />
-        )}
-        <Stack.Screen name="AdminLogin" component={AdminScreen} />
+        <Stack.Screen name="SignInScreen" component={SignInScreen} />
+        <Stack.Screen name="MemberScreen" component={MemberScreen} />
+        <Stack.Screen name="AdminScreen" component={AdminScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
