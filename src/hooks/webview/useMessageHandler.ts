@@ -1,6 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
 import { RefObject, useCallback } from "react";
-import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
 
 import useSaveImage from "~/hooks/native/useSaveImage";
@@ -12,12 +11,11 @@ import { MessageDataType, WebViewMessage } from "~/types/message.types";
 
 interface MessageHandlerOptions {
   webviewRef: RefObject<WebView>;
-  token?: string;
   onSuccess?: (data: MessageDataType["Response"]) => void;
   onError?: (err: Error) => void;
 }
 
-const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHandlerOptions) => {
+const useMessageHandler = ({ webviewRef, onSuccess, onError }: MessageHandlerOptions) => {
   const { postMessage } = usePostMessage({ webviewRef });
   const { save } = useSaveImage();
   const { select } = useSelectImage();
@@ -39,12 +37,6 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
             connectCall(data);
             response = null;
             break;
-          case "GET_ID_TOKEN":
-            response = token ?? "";
-            break;
-          case "GET_DEVICE_ID":
-            response = await getUniqueId();
-            break;
           case "LAUNCH_CAMERA":
             response = await runCamera();
             break;
@@ -64,7 +56,7 @@ const useMessageHandler = ({ webviewRef, token, onSuccess, onError }: MessageHan
         onError?.(newError);
       }
     },
-    [navigation, token, postMessage, save, select, onSuccess, onError]
+    [navigation, postMessage, save, select, onSuccess, onError]
   );
 
   return { messageHandler };

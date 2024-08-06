@@ -8,8 +8,6 @@ import { WebViewMessage } from "~/types/message.types";
 const validators = {
   // CORE
   GO_BACK: z.null(),
-  GET_ID_TOKEN: z.null(),
-  GET_DEVICE_ID: z.null(),
 
   // DEVICE ACTION
   CALL: z.string(),
