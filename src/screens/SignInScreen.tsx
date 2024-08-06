@@ -9,12 +9,11 @@ import SplashScreen from "react-native-splash-screen";
 import styled from "styled-components/native";
 
 import { getFirebaseProvider } from "~/apis/auth";
-import { RootStackParams } from "~/components/AppRouter/AppRouter";
 import Flex from "~/components/Flex";
 import SocialButton from "~/components/SocialButton/SocialButton";
 import Text from "~/components/Text/Text";
-import useAuthStateChange from "~/hooks/useAuthStateChange";
 import useFirebaseAuth from "~/hooks/useFirebaseAuth";
+import { MainStackParams } from "~/navigator/MainNavigator";
 import { FirebaseProvider } from "~/types/auth.types";
 
 const googleSigninConfigure = () => {
@@ -27,12 +26,11 @@ const googleSigninConfigure = () => {
 
 const SignInScreen = () => {
   const [lastLoginProvider, setLastLoginProvider] = useState<FirebaseProvider | null>(null);
-  useAuthStateChange();
 
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation = useNavigation<NativeStackNavigationProp<MainStackParams>>();
   const { kakaoLogin, googleLogin, appleLogin } = useFirebaseAuth();
 
-  const handleAdminLogin = () => navigation.navigate("AdminScreen");
+  const handleAdminLogin = () => navigation.navigate("Admin");
 
   useEffect(() => {
     const fetchLastLogin = async () => {
@@ -51,8 +49,6 @@ const SignInScreen = () => {
 
     googleSigninConfigure();
     fetchLastLogin();
-
-    SplashScreen.hide();
   }, []);
 
   const socialButtons = [

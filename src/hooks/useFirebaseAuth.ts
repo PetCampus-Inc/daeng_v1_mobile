@@ -69,7 +69,6 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
     try {
       // Kakao Auth
       const { idToken } = await login();
-
       const credential = auth.OIDCAuthProvider.credential("kakao", idToken);
       await handleAuthSuccess(credential);
     } catch (error: any) {

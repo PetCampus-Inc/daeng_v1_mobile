@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import SplashScreen from "react-native-splash-screen";
 
 import KeyboardAvoidingWebView from "~/components/KeyboardAvoidingWebView";
 import { WebViewElement } from "~/components/WebView";
@@ -11,7 +12,14 @@ const AdminScreen = () => {
   const { messageHandler } = useMessageHandler({ webviewRef });
   const { handleMessage } = useWebViewMessage({ onSubscribe: messageHandler });
 
-  return <KeyboardAvoidingWebView ref={webviewRef} path="/admin/login" onMessage={handleMessage} />;
+  return (
+    <KeyboardAvoidingWebView
+      ref={webviewRef}
+      path="/admin/login"
+      onMessage={handleMessage}
+      onLoadEnd={() => SplashScreen.hide()}
+    />
+  );
 };
 
 export default AdminScreen;
