@@ -17,35 +17,33 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
   /**
    * Firebase 유저 검증 후 IDToken을 반환합니다.
    */
-  const getFirebaseToken = useCallback(
-    async (user: FirebaseAuthTypes.User | null): Promise<string | null> => {
-      if (user) {
-        try {
-          await user.reload();
+  const getFirebaseToken = useCallback(async (): Promise<string | null> => {
+    const user = firebaseAuth.currentUser;
+    if (user) {
+      try {
+        await user.reload();
 
-          const { signInProvider } = await user.getIdTokenResult();
+        const { signInProvider } = await user.getIdTokenResult();
 
-          // 카카오 로그인일 경우, 카카오 인증 상태 확인
-          if (signInProvider && signInProvider.includes("kakao")) {
-            const isKakaoAuth = await isKakaoAuthenticated();
-            if (!isKakaoAuth) {
-              await firebaseAuth.signOut();
-              return null;
-            }
+        // 카카오 로그인일 경우, 카카오 인증 상태 확인
+        if (signInProvider && signInProvider.includes("kakao")) {
+          const isKakaoAuth = await isKakaoAuthenticated();
+          if (!isKakaoAuth) {
+            await firebaseAuth.signOut();
+            return null;
           }
-
-          const newToken = await user.getIdToken(true);
-          return newToken;
-        } catch (error) {
-          console.error("[Firebase Auth]", error);
-          return null;
         }
-      } else {
+
+        const newToken = await user.getIdToken(true);
+        return newToken;
+      } catch (error) {
+        console.error("[Firebase Auth]", error);
         return null;
       }
-    },
-    []
-  );
+    } else {
+      return null;
+    }
+  }, []);
 
   const handleAuthSuccess = useCallback(
     async (credential: FirebaseAuthTypes.AuthCredential) => {
