@@ -3,37 +3,34 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp
 } from "@react-navigation/native-stack";
-import { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import SplashScreen from "react-native-splash-screen";
 
-import MainNavigator from "~/navigator/MainNavigator";
-import SignInScreen from "~/screens/SignInScreen";
-import { idTokenState } from "~/store/idTokenStore";
+import useAuth from "~/hooks/auth/useAuth";
+import SignInNavigator from "~/navigator/SignInNavigator";
+import HomeScreen from "~/screens/HomeScreen";
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 export type RootStackParams = {
-  Main: undefined;
-  SignIn: undefined;
+  Home: undefined;
+  SignInNavigator: undefined;
 };
 
-const RootNavigator = ({ idToken }: { idToken: string | null }) => {
-  const setIdToken = useSetRecoilState(idTokenState);
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
+const RootNavigator = () => {
+  const { navigate } = useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  useEffect(() => {
-    setIdToken(idToken);
-    if (idToken !== null) navigation.navigate("Main");
-    else navigation.navigate("SignIn");
-  }, [idToken, navigation, setIdToken]);
+  useAuth({
+    onUnauthenticated: () => navigate("SignInNavigator"),
+    onFinally: () => SplashScreen.hide()
+  });
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Main" component={MainNavigator} />
+      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen
-        name="SignIn"
-        component={SignInScreen}
-        options={{ presentation: "containedModal" }}
+        name="SignInNavigator"
+        component={SignInNavigator}
+        options={{ presentation: "formSheet", animation: "slide_from_bottom" }}
       />
     </Stack.Navigator>
   );

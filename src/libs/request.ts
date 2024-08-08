@@ -4,7 +4,7 @@ import type { AxiosError, AxiosRequestConfig } from "axios";
 
 import { isCustomAxiosError } from "~/utils/is";
 
-export interface Response<T> {
+export interface Response<T = unknown> {
   data: T;
   status: number;
   message: string;

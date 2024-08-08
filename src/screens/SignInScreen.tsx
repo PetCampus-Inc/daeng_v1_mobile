@@ -2,18 +2,15 @@ import { GOOGLE_WEB_CLIENT_ID, GOOGLE_WEB_CLIENT_ID_IOS } from "@env";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useEffect, useState } from "react";
-import { Platform, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import { Platform, Text, TouchableOpacity, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
-import SplashScreen from "react-native-splash-screen";
-import styled from "styled-components/native";
 
-import { getFirebaseProvider } from "~/apis/auth";
-import Flex from "~/components/Flex";
-import SocialButton from "~/components/SocialButton/SocialButton";
-import Text from "~/components/Text/Text";
+import SocialButton from "~/components/SocialButton";
+import useLogin from "~/hooks/auth/useLogin";
 import useFirebaseAuth from "~/hooks/useFirebaseAuth";
-import { MainStackParams } from "~/navigator/MainNavigator";
+import useFirebaseProvider from "~/hooks/useFirebaseProvider";
+import { SignInStackParams } from "~/navigator/SignInNavigator";
 import { FirebaseProvider } from "~/types/auth.types";
 
 const googleSigninConfigure = () => {
@@ -25,101 +22,75 @@ const googleSigninConfigure = () => {
 };
 
 const SignInScreen = () => {
-  const [lastLoginProvider, setLastLoginProvider] = useState<FirebaseProvider | null>(null);
+  const navigation = useNavigation<NativeStackNavigationProp<SignInStackParams>>();
+  const lastLoginProvider = useFirebaseProvider();
 
-  const navigation = useNavigation<NativeStackNavigationProp<MainStackParams>>();
-  const { kakaoLogin, googleLogin, appleLogin } = useFirebaseAuth();
+  const { memberLogin } = useLogin();
+  const { kakaoLogin, googleLogin, appleLogin } = useFirebaseAuth({
+    onSuccess: (idToken) => handleSuccessAuth(idToken)
+  });
 
-  const handleAdminLogin = () => navigation.navigate("Admin");
+  const handleAdminLogin = () => navigation.navigate("AdminSignIn");
+  const handleSuccessAuth = async (idToken: string) => {
+    try {
+      const deviceId = await getUniqueId();
+      const user = await memberLogin({ idToken, deviceId });
+      console.log(user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchLastLogin = async () => {
-      try {
-        const deviceId = await getUniqueId();
-
-        // 마지막 로그인 조회 API 호출
-        const provider = await getFirebaseProvider(deviceId);
-
-        if (provider) setLastLoginProvider(provider);
-        else setLastLoginProvider(null);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     googleSigninConfigure();
-    fetchLastLogin();
   }, []);
 
   const socialButtons = [
     { social: "KAKAO" as FirebaseProvider, onPress: kakaoLogin },
-    { social: "GOOGLE" as FirebaseProvider, onPress: googleLogin }
+    { social: "GOOGLE" as FirebaseProvider, onPress: googleLogin },
+    ...(Platform.OS === "ios" ? [{ social: "APPLE" as FirebaseProvider, onPress: appleLogin }] : [])
   ];
 
-  if (Platform.OS === "ios")
-    socialButtons.push({ social: "APPLE" as FirebaseProvider, onPress: appleLogin });
-
   return (
-    <StyledSignInScreen>
-      <Flex>
-        <Text typo="title1_24_B" color="darkBlack">
-          <Text color="primaryColor">우리 강아지</Text>의 유치원
+    <View className="px-4 bg-white h-full">
+      {/* 타이틀 */}
+      <View className="mt-[108]">
+        <Text className="text-title-24-b text-foreground font-bold">
+          <Text className="text-primary">우리 강아지</Text>의 유치원
         </Text>
-        <Text typo="title1_24_B" color="darkBlack">
-          생활을 보러 갈까요?
-        </Text>
-      </Flex>
+        <Text className="text-title-24-b text-foreground font-bold">생활을 보러 갈까요?</Text>
+      </View>
 
-      <Flex gap={36} justifyContent="center">
-        <Flex gap={12} style={{ marginTop: 214 }}>
-          {socialButtons.map((props) => {
-            const isLast = lastLoginProvider === props.social;
-            return <SocialButton key={props.social} lastLogin={isLast} {...props} />;
-          })}
-        </Flex>
+      {/* 소셜 로그인 버튼 */}
+      <View className="gap-y-3 mt-[214]">
+        {socialButtons.map((option) => {
+          const isLast = lastLoginProvider === option.social;
+          return <SocialButton key={option.social} isLastLogin={isLast} {...option} />;
+        })}
+      </View>
 
-        <TouchableOpacity style={{ alignSelf: "center" }}>
-          <Text typo="label2_14_B" color="darkBlack">
-            서비스 체험하기
-          </Text>
-        </TouchableOpacity>
-      </Flex>
+      {/* 서비스 체험하기 버튼 */}
+      <TouchableOpacity className="self-center mt-6 px-4 py-3">
+        <Text className="text-label-14-b text-gray-1 font-bold">서비스 체험하기</Text>
+      </TouchableOpacity>
 
-      <Footer>
-        <Flex flexDirection="row" justifyContent="center" gap={6}>
-          <TouchableOpacity>
-            <Text typo="label2_14_M" color="gray_2">
-              이용약관
-            </Text>
+      <View className="absolute bottom-6 left-4 right-4 gap-y-1">
+        {/* 이용 약관 | 개인정보 처리 방침 */}
+        <View className="flex-row justify-center items-center">
+          <TouchableOpacity className="py-1 px-2">
+            <Text className="text-label-14-m text-gray-2">이용약관</Text>
           </TouchableOpacity>
-          <Text typo="label2_14_M" color="gray_2">
-            |
-          </Text>
-          <TouchableOpacity>
-            <Text typo="label2_14_M" color="gray_2">
-              개인정보 처리 방침
-            </Text>
+          <Text className="text-label-14-m text-gray-2">|</Text>
+          <TouchableOpacity className="py-1 px-2">
+            <Text className="text-label-14-m text-gray-2">개인정보 처리 방침</Text>
           </TouchableOpacity>
-        </Flex>
+        </View>
+
+        {/* 관리자 로그인 버튼 */}
         <SocialButton social="ADMIN" onPress={handleAdminLogin} />
-      </Footer>
-    </StyledSignInScreen>
+      </View>
+    </View>
   );
 };
-
-const StyledSignInScreen = styled.View`
-  padding: 108px 16px 24px;
-  height: 100%;
-  background-color: ${({ theme }) => theme.color.white};
-`;
-
-const Footer = styled.View`
-  flex: 1;
-  gap: 12px;
-  position: absolute;
-  bottom: 24px;
-  left: 16px;
-  right: 16px;
-`;
 
 export default SignInScreen;
