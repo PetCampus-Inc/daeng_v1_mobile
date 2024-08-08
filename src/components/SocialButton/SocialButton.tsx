@@ -2,70 +2,60 @@ import AppleSymbol from "assets/svg/apple-logo.svg";
 import GoogleSymbol from "assets/svg/google-logo.svg";
 import KakaoSymbol from "assets/svg/kakao-logo.svg";
 import React from "react";
-import { TouchableOpacityProps } from "react-native";
+import { TouchableOpacityProps, View, Text, TouchableOpacity } from "react-native";
 
-import * as S from "./styles";
-
-import Text from "~/components/Text/Text";
-import { colors, TypographyType } from "~/styles/theme";
 import { FirebaseProvider } from "~/types/auth.types";
+import { cn } from "~/utils/cn";
 
 interface SocialButtonProps extends TouchableOpacityProps {
+  className?: string;
   social: "ADMIN" | FirebaseProvider;
-  lastLogin?: boolean;
+  isLastLogin?: boolean;
 }
 
-interface SocialStyleOptions {
-  label: string;
-  color: string;
-  bgColor: string;
-  typo?: TypographyType;
-  borderColor?: string;
-  fontFamily?: string;
-}
-
-const socials: { [key: string]: SocialStyleOptions } = {
+const socials = {
   ADMIN: {
     label: "관리자로 시작하기",
-    color: colors.white,
-    bgColor: colors.primaryColor,
-    typo: "label1_16_B"
+    buttonClassName: "bg-primary",
+    labelClassName: "text-white text-label-16-b font-bold",
+    symbol: null
   },
   KAKAO: {
     label: "카카오로 시작하기",
-    color: "rgba(0, 0, 0, 0.85)",
-    bgColor: "#FEE500"
+    buttonClassName: "bg-[#FEE500]",
+    labelClassName: "text-black/85 text-label-16",
+    symbol: <KakaoSymbol width={18} height={18} />
   },
   GOOGLE: {
     label: "Google로 시작하기",
-    color: "rgba(0, 0, 0, 0.54)",
-    bgColor: "#fff",
-    borderColor: "#CCCCCC",
-    fontFamily: "Roboto-Medium"
+    buttonClassName: "bg-white border-[#CCCCCC]",
+    labelClassName: "text-black/54 text-label-16 font-roboto",
+    symbol: <GoogleSymbol width={18} height={18} />
   },
   APPLE: {
     label: "Apple로 시작하기",
+    buttonClassName: "bg-black",
+    labelClassName: "text-white text-label-16",
     color: "#fff",
-    bgColor: "#000"
+    bgColor: "#000",
+    symbol: <AppleSymbol width={18} height={18} />
   }
 };
 
-const symbolSVG = {
-  ADMIN: null,
-  KAKAO: <KakaoSymbol width={18} height={18} />,
-  GOOGLE: <GoogleSymbol width={18} height={18} />,
-  APPLE: <AppleSymbol width={18} height={18} />
-};
-
-const SocialButton = ({ social, lastLogin, ...props }: SocialButtonProps) => {
-  const { label, typo, color, fontFamily, ...styles } = socials[social];
+const SocialButton = ({ className, social, isLastLogin, ...props }: SocialButtonProps) => {
+  const { label, buttonClassName, labelClassName, symbol } = socials[social];
   return (
-    <S.SocialButton lastLogin={lastLogin} {...styles} {...props}>
-      <S.IconWrap>{symbolSVG[social]}</S.IconWrap>
-      <Text typo={typo ?? "label1_16_R"} color={color} fontFamily={fontFamily}>
-        {label}
-      </Text>
-    </S.SocialButton>
+    <TouchableOpacity
+      className={cn(
+        "h-[47] items-center justify-center rounded-lg border border-transparent",
+        className,
+        buttonClassName
+      )}
+      {...props}
+    >
+      <View className="absolute left-4">{symbol}</View>
+      <Text className={labelClassName}>{label}</Text>
+    </TouchableOpacity>
   );
 };
 
