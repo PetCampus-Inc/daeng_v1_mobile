@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { WebViewMessage } from "~/types/message.types";
 import { AdminRole, MemberRole, Role } from "~/types/role.types";
+import { Status } from "~/types/status.type";
 
 /**
  * WebView Message Type Guard
@@ -45,14 +46,18 @@ export const isCustomAxiosError = (error: unknown): error is CustomAxiosError =>
   return CustomAxiosErrorSchema.safeParse(error).success;
 };
 
-export function isValidRole(role: string): role is Role {
+export function isStatus(status: string): status is Status {
+  return Object.values(Status).includes(status as Status);
+}
+
+export function isRole(role: string): role is Role {
   return Object.values(Role).includes(role as Role);
 }
 
-export function isValidMemberRole(role: string): role is MemberRole {
+export function isMemberRole(role: string): role is MemberRole {
   return Object.values(MemberRole).includes(role as MemberRole);
 }
 
-export function isValidAdminRole(role: string): role is AdminRole {
+export function isAdminRole(role: string): role is AdminRole {
   return Object.values(AdminRole).includes(role as AdminRole);
 }
