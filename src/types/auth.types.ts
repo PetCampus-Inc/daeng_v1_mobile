@@ -1,4 +1,5 @@
 import { Role } from "~/types/role.types";
+import { Status } from "~/types/status.type";
 
 export type FirebaseProvider = "GOOGLE" | "APPLE" | "KAKAO";
 
@@ -8,7 +9,7 @@ export interface FirebaseAuthData {
 }
 
 export interface UserInfo {
-  isLogin: boolean;
   accessToken: string;
   role: Role;
+  status: Status;
 }

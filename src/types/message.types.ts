@@ -1,11 +1,11 @@
-import { FirebaseAuthData } from "~/types/auth.types";
+import { UserInfo } from "~/types/auth.types";
 
 interface CoreMessage {
   Request: {
     GO_BACK: null;
   };
   Response: {
-    FIREBASE_AUTH: FirebaseAuthData;
+    AUTH_DATA: UserInfo;
     ERROR: string;
     GO_BACK: null;
   };

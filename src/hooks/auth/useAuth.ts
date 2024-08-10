@@ -5,7 +5,7 @@ import useTokenProvider from "~/hooks/auth/useTokenProvider";
 import useFirebaseAuth from "~/hooks/useFirebaseAuth";
 import { loginState, userState } from "~/store/user";
 import { UserInfo } from "~/types/auth.types";
-import { isValidMemberRole } from "~/utils/is";
+import { isMemberRole } from "~/utils/is";
 
 interface AuthParams {
   onAuthenticated?: (user: UserInfo) => void;
@@ -16,7 +16,8 @@ interface AuthParams {
 const useAuth = ({ onAuthenticated, onUnauthenticated, onFinally }: AuthParams) => {
   const user = useRecoilValue(userState);
   const [isLogin, setIsLogin] = useRecoilState(loginState);
-  const { verifyAndRefreshToken } = useTokenProvider();
+
+  const verifyAndRefreshToken = useTokenProvider();
   const { getFirebaseToken } = useFirebaseAuth();
 
   const verifyUser = useCallback(async () => {
@@ -41,7 +42,7 @@ const useAuth = ({ onAuthenticated, onUnauthenticated, onFinally }: AuthParams) 
 
       // 멤버일 경우 Firebase IDToken 검증
       const idToken = await getFirebaseToken();
-      if (isValidMemberRole(user.role) && !idToken) throw new Error("IDToken is not found");
+      if (isMemberRole(user.role) && !idToken) throw new Error("IDToken is not found");
 
       setIsLogin(true);
       onAuthenticated?.(user);
