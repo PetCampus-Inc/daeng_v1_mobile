@@ -5,10 +5,10 @@ import WebView, { WebViewElement, WebViewProps } from "~/components/WebView";
 import useKeyboardAvoiding from "~/hooks/useKeyboardAvoiding";
 
 const KeyboardAvoidingWebView = forwardRef<WebViewElement, WebViewProps>((webviewProps, ref) => {
-  const keyboardAvoidingProps = useKeyboardAvoiding();
+  const keyboardAvoidingProps = useKeyboardAvoiding(0);
 
   return (
-    <KeyboardAvoidingView className="flex-1" {...keyboardAvoidingProps}>
+    <KeyboardAvoidingView className="flex-1 bg-white" {...keyboardAvoidingProps}>
       <WebView ref={ref} {...webviewProps} />
     </KeyboardAvoidingView>
   );
