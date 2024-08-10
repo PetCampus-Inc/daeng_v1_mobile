@@ -3,38 +3,39 @@ import axios, { AxiosResponse } from "axios";
 import { apiUrl } from "~/config/url";
 import { request, Response } from "~/libs/request";
 import { FirebaseProvider } from "~/types/auth.types";
-import { AdminRole, MemberRole } from "~/types/role.types";
+import { AdminRole, MemberRole, Role } from "~/types/role.types";
+import { Status } from "~/types/status.type";
+
+export interface LoginResponse<R = Role> {
+  role: R;
+  status: Status;
+}
 
 export interface MemberLoginRequest {
   idToken: string;
   deviceId: string;
 }
 
-export interface MemberLoginResponse {
-  memberId: number;
-  role: MemberRole;
-}
-
-export const postMemberLogin = async (
-  req: MemberLoginRequest
-): Promise<AxiosResponse<Response<MemberLoginResponse>>> => {
-  const url = `${apiUrl}member/firebase/login`;
-  return await axios.post<Response<MemberLoginResponse>>(url, {
-    idToken: req.idToken,
-    deviceId: req.deviceId
-  });
-};
-
 export interface AdminLoginRequest {
   id: string;
   password: string;
 }
 
+export const postMemberLogin = async (
+  req: MemberLoginRequest
+): Promise<AxiosResponse<Response<LoginResponse<MemberRole>>>> => {
+  const url = `${apiUrl}member/firebase/login`;
+  return await axios.post<Response<LoginResponse<MemberRole>>>(url, {
+    idToken: req.idToken,
+    deviceId: req.deviceId
+  });
+};
+
 export const postAdminLogin = async (
   req: AdminLoginRequest
-): Promise<AxiosResponse<Response<AdminRole>>> => {
+): Promise<AxiosResponse<Response<LoginResponse<AdminRole>>>> => {
   const url = `${apiUrl}admin/login`;
-  return await axios.post<Response<AdminRole>>(url, {
+  return await axios.post<Response<LoginResponse<AdminRole>>>(url, {
     id: req.id,
     password: req.password
   });
