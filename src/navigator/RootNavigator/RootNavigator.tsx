@@ -6,21 +6,21 @@ import {
 import SplashScreen from "react-native-splash-screen";
 
 import useAuth from "~/hooks/auth/useAuth";
-import SignInNavigator from "~/navigator/SignInNavigator";
+import LoginNavigator from "~/navigator/LogInNavigator";
 import HomeScreen from "~/screens/HomeScreen";
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 export type RootStackParams = {
   Home: undefined;
-  SignInNavigator: undefined;
+  LoginNavigator: undefined;
 };
 
 const RootNavigator = () => {
   const { navigate } = useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   useAuth({
-    onUnauthenticated: () => navigate("SignInNavigator"),
+    onUnauthenticated: () => navigate("LoginNavigator"),
     onFinally: () => SplashScreen.hide()
   });
 
@@ -28,8 +28,8 @@ const RootNavigator = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen
-        name="SignInNavigator"
-        component={SignInNavigator}
+        name="LoginNavigator"
+        component={LoginNavigator}
         options={{ presentation: "formSheet", animation: "slide_from_bottom" }}
       />
     </Stack.Navigator>

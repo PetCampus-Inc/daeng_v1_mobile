@@ -4,14 +4,14 @@ import ChevronLeft from "assets/svg/chevron-left.svg";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 
-import AdminSignInScreen from "~/screens/AdminSignInScreen";
-import SignInScreen from "~/screens/SignInScreen";
+import AdminLoginScreen from "~/screens/AdminLoginScreen";
+import LoginScreen from "~/screens/LogInScreen";
 
-const Stack = createNativeStackNavigator<SignInStackParams>();
+const Stack = createNativeStackNavigator<LoginStackParams>();
 
-export type SignInStackParams = {
-  SignIn: undefined;
-  AdminSignIn: undefined;
+export type LoginStackParams = {
+  Login: undefined;
+  AdminLogin: undefined;
 };
 
 const BackButton = () => {
@@ -23,13 +23,13 @@ const BackButton = () => {
   );
 };
 
-const SignInNavigator = () => {
+const LoginNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen
-        name="AdminSignIn"
-        component={AdminSignInScreen}
+        name="AdminLogin"
+        component={AdminLoginScreen}
         options={{
           title: "",
           headerShown: true,
@@ -42,4 +42,4 @@ const SignInNavigator = () => {
   );
 };
 
-export default SignInNavigator;
+export default LoginNavigator;

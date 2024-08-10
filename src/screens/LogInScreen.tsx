@@ -10,7 +10,7 @@ import SocialButton from "~/components/SocialButton";
 import useLogin from "~/hooks/auth/useLogin";
 import useFirebaseAuth from "~/hooks/useFirebaseAuth";
 import useFirebaseProvider from "~/hooks/useFirebaseProvider";
-import { SignInStackParams } from "~/navigator/SignInNavigator";
+import { LoginStackParams } from "~/navigator/LogInNavigator";
 import { FirebaseProvider } from "~/types/auth.types";
 
 const googleSigninConfigure = () => {
@@ -21,8 +21,8 @@ const googleSigninConfigure = () => {
   });
 };
 
-const SignInScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<SignInStackParams>>();
+const LogInScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<LoginStackParams>>();
   const lastLoginProvider = useFirebaseProvider();
 
   const { memberLogin } = useLogin();
@@ -30,12 +30,11 @@ const SignInScreen = () => {
     onSuccess: (idToken) => handleSuccessAuth(idToken)
   });
 
-  const handleAdminLogin = () => navigation.navigate("AdminSignIn");
+  const handleAdminLogin = () => navigation.navigate("AdminLogin");
   const handleSuccessAuth = async (idToken: string) => {
     try {
       const deviceId = await getUniqueId();
-      const user = await memberLogin({ idToken, deviceId });
-      console.log(user);
+      await memberLogin({ idToken, deviceId });
     } catch (error) {
       console.error(error);
     }
@@ -93,4 +92,4 @@ const SignInScreen = () => {
   );
 };
 
-export default SignInScreen;
+export default LogInScreen;

@@ -1,13 +1,9 @@
 import React, { forwardRef, RefObject, useRef } from "react";
-import { Dimensions } from "react-native";
 import ParentWebView, { WebViewProps as ParentWebViewProps } from "react-native-webview";
 
 import { baseUrl } from "~/config/url";
 import useBackHandler from "~/hooks/webview/useBackHandler";
 import useWebviewLog from "~/hooks/webview/useWebviewLog";
-
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 interface Headers {
   [key: string]: string;
@@ -30,7 +26,7 @@ const WebView = forwardRef<ParentWebView, WebViewProps>(
     return (
       <ParentWebView
         ref={webviewRef}
-        style={{ width: windowWidth, height: windowHeight }}
+        className="flex-1"
         hideKeyboardAccessoryView={true}
         scalesPageToFit={false}
         automaticallyAdjustContentInsets={false}

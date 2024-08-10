@@ -3,8 +3,8 @@ import { KeyboardAvoidingView, Text, TextInput, View } from "react-native";
 import SocialButton from "~/components/SocialButton";
 import useKeyboardAvoiding from "~/hooks/useKeyboardAvoiding";
 
-const AdminSignInScreen = () => {
-  const keyboardAvoidingProps = useKeyboardAvoiding();
+const AdminLoginScreen = () => {
+  const keyboardAvoidingProps = useKeyboardAvoiding(44);
 
   return (
     <KeyboardAvoidingView {...keyboardAvoidingProps}>
@@ -36,4 +36,4 @@ const AdminSignInScreen = () => {
   );
 };
 
-export default AdminSignInScreen;
+export default AdminLoginScreen;
