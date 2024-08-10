@@ -3,8 +3,10 @@ import { UserInfo } from "~/types/auth.types";
 interface CoreMessage {
   Request: {
     GO_BACK: null;
+    LOGOUT: null;
   };
   Response: {
+    LOGOUT: null;
     AUTH_DATA: UserInfo;
     ERROR: string;
     GO_BACK: null;

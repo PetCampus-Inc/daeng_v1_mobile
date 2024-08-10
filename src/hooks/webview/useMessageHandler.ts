@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { RefObject, useCallback } from "react";
 import WebView from "react-native-webview";
 
+import useLogout from "~/hooks/auth/useLogout";
 import useSaveImage from "~/hooks/native/useSaveImage";
 import useSelectImage from "~/hooks/native/useSelectImage";
 import usePostMessage from "~/hooks/webview/usePostMessage";
@@ -20,6 +21,7 @@ const useMessageHandler = ({ webviewRef, onSuccess, onError }: MessageHandlerOpt
   const { save } = useSaveImage();
   const { select } = useSelectImage();
   const navigation = useNavigation();
+  const logout = useLogout();
 
   const messageHandler = useCallback(
     async ({ type, data, requestId }: WebViewMessage) => {
@@ -44,6 +46,10 @@ const useMessageHandler = ({ webviewRef, onSuccess, onError }: MessageHandlerOpt
             navigation.canGoBack() && navigation.goBack();
             response = null;
             break;
+          case "LOGOUT":
+            logout();
+            response = null;
+            break;
           default:
             throw new Error(`지원하지 않는 메세지 타입입니다. [${type}]`);
         }
@@ -56,7 +62,7 @@ const useMessageHandler = ({ webviewRef, onSuccess, onError }: MessageHandlerOpt
         onError?.(newError);
       }
     },
-    [navigation, postMessage, save, select, onSuccess, onError]
+    [navigation, postMessage, save, select, onSuccess, onError, logout]
   );
 
   return { messageHandler };

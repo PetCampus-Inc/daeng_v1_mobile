@@ -10,6 +10,7 @@ import { Status } from "~/types/status.type";
 const validators = {
   // CORE
   GO_BACK: z.null(),
+  LOGOUT: z.null(),
 
   // DEVICE ACTION
   CALL: z.string(),

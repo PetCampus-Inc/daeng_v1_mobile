@@ -52,11 +52,7 @@ const useLogin = () => {
     }
   };
 
-  const logout = () => {
-    setUser(null);
-  };
-
-  return { memberLogin, adminLogin, logout };
+  return { memberLogin, adminLogin };
 };
 
 export default useLogin;

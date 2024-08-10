@@ -133,11 +133,14 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
     }
   }, [handleAuthSuccess, onError]);
 
+  const firebaseSignOut = useCallback(async () => firebaseAuth.signOut(), []);
+
   return {
     getFirebaseToken,
     kakaoLogin,
     googleLogin,
-    appleLogin
+    appleLogin,
+    firebaseSignOut
   };
 };
 
