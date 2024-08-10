@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
+import useFirebaseAuth from "~/hooks/auth/useFirebaseAuth";
 import useTokenProvider from "~/hooks/auth/useTokenProvider";
-import useFirebaseAuth from "~/hooks/useFirebaseAuth";
 import { loginState, userState } from "~/store/user";
 import { UserInfo } from "~/types/auth.types";
 import { isMemberRole } from "~/utils/is";

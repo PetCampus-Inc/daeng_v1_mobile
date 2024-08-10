@@ -7,9 +7,9 @@ import { Platform, Text, TouchableOpacity, View } from "react-native";
 import { getUniqueId } from "react-native-device-info";
 
 import SocialButton from "~/components/SocialButton";
+import useFirebaseAuth from "~/hooks/auth/useFirebaseAuth";
+import useFirebaseProvider from "~/hooks/auth/useFirebaseProvider";
 import useLogin from "~/hooks/auth/useLogin";
-import useFirebaseAuth from "~/hooks/useFirebaseAuth";
-import useFirebaseProvider from "~/hooks/useFirebaseProvider";
 import { LoginStackParams } from "~/navigator/LogInNavigator";
 import { FirebaseProvider } from "~/types/auth.types";
 

@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useSetRecoilState } from "recoil";
 
-import useFirebaseAuth from "~/hooks/useFirebaseAuth";
+import useFirebaseAuth from "~/hooks/auth/useFirebaseAuth";
 import { RootStackParams } from "~/navigator/RootNavigator";
 import { userState } from "~/store/user";
 

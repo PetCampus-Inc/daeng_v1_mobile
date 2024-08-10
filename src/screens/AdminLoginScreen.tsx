@@ -1,7 +1,7 @@
 import { KeyboardAvoidingView, Text, TextInput, View } from "react-native";
 
 import SocialButton from "~/components/SocialButton";
-import useKeyboardAvoiding from "~/hooks/useKeyboardAvoiding";
+import useKeyboardAvoiding from "~/hooks/webview/useKeyboardAvoiding";
 
 const AdminLoginScreen = () => {
   const keyboardAvoidingProps = useKeyboardAvoiding(44);
