@@ -1,5 +1,13 @@
+const pxToRem = (px, base = 16) => `${px / base}rem`;
+const range = (start, end, unit = 1) => {
+  const length = Math.ceil((end - start) / unit + 1);
+  return Array.from({ length }, (_, i) => start + i * unit);
+};
+
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
   theme: {
     colors: {
       transparent: "transparent",
@@ -49,12 +57,15 @@ module.exports = {
         3: "#FFF7E1"
       }
     },
-    fontWeight: {
-      DEFAULT: 400,
-      medium: 500,
-      bold: 700
-    },
     fontSize: {
+      xs: 12,
+      s: 14,
+      m: 16,
+      l: 18,
+      xl: 20,
+      "2xl": 24,
+      "3xl": 28,
+
       // Title
       "title-20": ["20px", { lineHeight: "26px", letterSpacing: "-1.2px", fontWeight: 400 }],
       "title-20-b": ["20px", { lineHeight: "28px", letterSpacing: "-0.24px", fontWeight: 700 }],
@@ -80,6 +91,24 @@ module.exports = {
       "caption-10": ["10px", { lineHeight: "17.5px", letterSpacing: "-0.12px", fontWeight: 400 }],
       "caption-12": ["12px", { lineHeight: "17.5px", letterSpacing: "-0.12px", fontWeight: 400 }],
       "caption-12-b": ["12px", { lineHeight: "20px", letterSpacing: "0.24px", fontWeight: 700 }]
+    },
+    spacing: {
+      px: "1px",
+      0: "0",
+      0.5: "2px",
+      1: "4px",
+      1.5: "6px",
+      2: "8px",
+      2.5: "10px",
+      3: "12px",
+      3.5: "14px",
+      ...(() => {
+        const spacingObject = {};
+        for (let i = 1; i <= 50; i++) {
+          spacingObject[i] = `${i * 4}px`;
+        }
+        return spacingObject;
+      })()
     },
     extend: {
       fontFamily: { roboto: ["Roboto-Medium"] }
