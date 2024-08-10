@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components/native";
 
 import RootNavigator from "~/navigator/RootNavigator";
 import theme from "~/styles/theme";
+import "~/styles/global.css";
 
 function App(): React.JSX.Element {
   return (

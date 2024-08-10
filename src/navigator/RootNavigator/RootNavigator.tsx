@@ -6,7 +6,7 @@ import {
 import SplashScreen from "react-native-splash-screen";
 
 import useAuth from "~/hooks/auth/useAuth";
-import LoginNavigator from "~/navigator/LogInNavigator";
+import LoginNavigator from "~/navigator/LoginNavigator";
 import HomeScreen from "~/screens/HomeScreen";
 
 const Stack = createNativeStackNavigator<RootStackParams>();
@@ -30,7 +30,7 @@ const RootNavigator = () => {
       <Stack.Screen
         name="LoginNavigator"
         component={LoginNavigator}
-        options={{ presentation: "formSheet", animation: "slide_from_bottom" }}
+        options={{ animation: "slide_from_bottom" }}
       />
     </Stack.Navigator>
   );

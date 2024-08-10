@@ -16,6 +16,7 @@ const useKeyboardAvoiding = (bottomOffset: number = 0) => {
   }, [isIOS, bottomOffset]);
 
   const keyboardAvoidingProps: KeyboardAvoidingViewProps = {
+    className: "flex-1",
     keyboardVerticalOffset: statusBarHeight,
     behavior: isIOS ? "padding" : "height"
   };

@@ -2,10 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ChevronLeft from "assets/svg/chevron-left.svg";
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 
 import AdminLoginScreen from "~/screens/AdminLoginScreen";
-import LoginScreen from "~/screens/LogInScreen";
+import LoginScreen from "~/screens/LoginScreen";
 
 const Stack = createNativeStackNavigator<LoginStackParams>();
 
@@ -17,8 +17,8 @@ export type LoginStackParams = {
 const BackButton = () => {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity onPress={() => navigation.goBack()}>
-      <ChevronLeft />
+    <TouchableOpacity className="w-8 h-8" onPress={() => navigation.goBack()}>
+      <ChevronLeft className="text-foreground" color="#000" />
     </TouchableOpacity>
   );
 };

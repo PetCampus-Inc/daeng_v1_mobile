@@ -1,2 +1,2 @@
-export { default } from "./LogInNavigator";
-export * from "./LogInNavigator";
+export { default } from "./LoginNavigator";
+export * from "./LoginNavigator";

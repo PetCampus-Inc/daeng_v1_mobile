@@ -6,7 +6,7 @@ import {
   postAdminLogin,
   postMemberLogin
 } from "~/apis/auth";
-import { mockPostMemberLogin } from "~/apis/mock_api";
+import { mockPostAdminLogin, mockPostMemberLogin } from "~/apis/mock_api";
 import { userState } from "~/store/user";
 import { UserInfo } from "~/types/auth.types";
 import { isRole, isStatus } from "~/utils/is";
@@ -43,7 +43,7 @@ const useLogin = () => {
 
   const adminLogin = async (request: AdminLoginRequest): Promise<UserInfo> => {
     try {
-      const { headers, data } = await postAdminLogin(request);
+      const { headers, data } = await mockPostAdminLogin(request);
       const { authorization } = headers;
 
       return setUserAuthData(authorization, data.data.role, data.data.status);

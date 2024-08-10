@@ -1,38 +1,81 @@
-import { KeyboardAvoidingView, Text, TextInput, View } from "react-native";
+import ChevronLeft from "assets/svg/chevron-left.svg";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
+} from "react-native";
 
-import SocialButton from "~/components/SocialButton";
+import Button from "~/components/Button";
+import InputField from "~/components/InputField";
+import useAdminScreenLogic from "~/hooks/service/useAdminScreenLogic";
+import useKeyboardStatus from "~/hooks/useKeyboardStatus";
 import useKeyboardAvoiding from "~/hooks/webview/useKeyboardAvoiding";
+import { cn } from "~/utils/cn";
 
 const AdminLoginScreen = () => {
   const keyboardAvoidingProps = useKeyboardAvoiding(44);
+  const { handleLogin, handleTextChange, isValid, errors } = useAdminScreenLogic();
+  const { isKeyboardVisible } = useKeyboardStatus();
 
   return (
-    <KeyboardAvoidingView {...keyboardAvoidingProps}>
-      <View className="px-4 bg-white h-full">
-        <Text className="mt-[74] text-title-24-b font-bold text-foreground">
-          똑똑 관리자로 시작하기
-        </Text>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <KeyboardAvoidingView {...keyboardAvoidingProps}>
+        <View className="relative h-full px-4 bg-white">
+          <Text className="mt-[74] text-title-24-b text-foreground">똑똑 관리자로 시작하기</Text>
 
-        <View className="mt-[56]">
-          <View className="gap-y-2 mb-6">
-            <Text className="text-body-16 text-foreground">아이디</Text>
-            <TextInput
-              className="px-4 pb-1 border h-12 border-gray-4 rounded-lg text-label-16 text-foreground"
+          <View className="mt-14">
+            <InputField
+              // autoFocus
+              label="아이디"
               placeholder="아이디를 입력해 주세요"
+              error={errors.id}
+              onChangeText={handleTextChange("id")}
+            />
+            <View className="h-6" />
+            <InputField
+              label="비밀번호"
+              placeholder="비밀번호를 입력해 주세요"
+              error={errors.password}
+              onChangeText={handleTextChange("password")}
+              secureTextEntry
             />
           </View>
-          <View className="gap-y-2">
-            <Text className="text-body-16 text-foreground">비밀번호</Text>
-            <TextInput
-              className="px-4 pb-1 border h-12 border-gray-4 rounded-lg text-label-16 text-foreground"
-              placeholder="비밀번호를 입력해 주세요"
+
+          <View
+            className={`
+              absolute bottom-0 left-0 right-0 gap-y-4
+              ${isKeyboardVisible ? "px-0 pb-1" : "pb-6 px-4"}
+            `}
+          >
+            {!isKeyboardVisible && (
+              <TouchableOpacity className="flex flex-row items-center self-center px-2 py-1">
+                <Text className="text-label-14-m text-gray-2">처음이신가요? 회원가입하기</Text>
+                <View className="rotate-180 size-5">
+                  <ChevronLeft color="#858585" />
+                </View>
+              </TouchableOpacity>
+            )}
+
+            <Button
+              className={cn("bg-primary", isKeyboardVisible ? "rounded-none" : "")}
+              labelClassName="font-bold text-white"
+              label="로그인"
+              onPress={handleLogin}
+              disabled={!isValid}
             />
           </View>
         </View>
 
-        <SocialButton className="absolute bottom-6 left-4 right-4" social="ADMIN" />
-      </View>
-    </KeyboardAvoidingView>
+        {/* <Modal animationType="slide" visible={true}>
+          <View className="flex-1">
+            <WebView path="admin/signup" />
+          </View>
+        </Modal> */}
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 

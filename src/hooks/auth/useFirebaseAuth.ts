@@ -1,12 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { GOOGLE_WEB_CLIENT_ID, GOOGLE_WEB_CLIENT_ID_IOS } from "@env";
 import appleAuth from "@invertase/react-native-apple-authentication";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { getAccessToken, login } from "@react-native-seoul/kakao-login";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 const firebaseAuth = auth();
+
+const googleSigninConfigure = () => {
+  GoogleSignin.configure({
+    webClientId: GOOGLE_WEB_CLIENT_ID,
+    iosClientId: GOOGLE_WEB_CLIENT_ID_IOS,
+    offlineAccess: true
+  });
+};
 
 interface LoginHookParams {
   onSuccess?: (IdToken: string) => void;
@@ -134,6 +143,10 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
   }, [handleAuthSuccess, onError]);
 
   const firebaseSignOut = useCallback(async () => firebaseAuth.signOut(), []);
+
+  useEffect(() => {
+    googleSigninConfigure();
+  }, []);
 
   return {
     getFirebaseToken,
