@@ -12,11 +12,17 @@ import { MessageDataType, WebViewMessage } from "~/types/message.types";
 
 interface MessageHandlerOptions {
   webviewRef: RefObject<WebView>;
+  onCallback?: (message: WebViewMessage) => void;
   onSuccess?: (data: MessageDataType["Response"]) => void;
   onError?: (err: Error) => void;
 }
 
-const useMessageHandler = ({ webviewRef, onSuccess, onError }: MessageHandlerOptions) => {
+const useMessageHandler = ({
+  webviewRef,
+  onSuccess,
+  onError,
+  onCallback
+}: MessageHandlerOptions) => {
   const { postMessage } = usePostMessage({ webviewRef });
   const { save } = useSaveImage();
   const { select } = useSelectImage();
@@ -24,9 +30,13 @@ const useMessageHandler = ({ webviewRef, onSuccess, onError }: MessageHandlerOpt
   const logout = useLogout();
 
   const messageHandler = useCallback(
-    async ({ type, data, requestId }: WebViewMessage) => {
+    async (message: WebViewMessage) => {
       try {
         let response: MessageDataType["Response"];
+
+        if (onCallback) onCallback(message);
+
+        const { type, data, requestId } = message;
 
         switch (type) {
           case "SAVE_IMAGE":
@@ -58,11 +68,11 @@ const useMessageHandler = ({ webviewRef, onSuccess, onError }: MessageHandlerOpt
         onSuccess?.(response);
       } catch (error) {
         const newError = error instanceof Error ? error : new Error(String(error));
-        postMessage("ERROR", newError.message, requestId);
+        postMessage("ERROR", newError.message, message.requestId);
         onError?.(newError);
       }
     },
-    [navigation, postMessage, save, select, onSuccess, onError, logout]
+    [navigation, postMessage, save, select, onCallback, onSuccess, onError, logout]
   );
 
   return { messageHandler };

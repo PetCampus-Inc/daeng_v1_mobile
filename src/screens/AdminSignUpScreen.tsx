@@ -7,7 +7,7 @@ import useAdminSignUpScreenLogic from "~/hooks/service/useAdminSignScreenLogic";
 
 const AdminSignUpScreen = () => {
   const webviewRef = useRef<WebViewElement>(null);
-  const { handleMessage } = useAdminSignUpScreenLogic();
+  const { handleMessage } = useAdminSignUpScreenLogic({ webviewRef });
 
   return (
     <View className="flex-1">

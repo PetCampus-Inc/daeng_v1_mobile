@@ -19,7 +19,7 @@ export type LoginStackParams = {
 const BackButton = () => {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity className="w-8 h-8" onPress={() => navigation.goBack()}>
+    <TouchableOpacity className="w-6 h-6" onPress={() => navigation.goBack()}>
       <ChevronLeft className="text-foreground" color="#000" />
     </TouchableOpacity>
   );

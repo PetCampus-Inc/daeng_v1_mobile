@@ -5,7 +5,6 @@ import KeyboardAvoidingWebView from "~/components/KeyboardAvoidingWebView";
 import { type WebViewElement } from "~/components/WebView";
 import useLogout from "~/hooks/auth/useLogout";
 import usePostAuthData from "~/hooks/auth/usePostAuthData";
-import useMessageHandler from "~/hooks/webview/useMessageHandler";
 import useWebViewMessage from "~/hooks/webview/useWebViewMessage";
 
 const HomeScreen = () => {
@@ -14,8 +13,7 @@ const HomeScreen = () => {
   const [isWebViewLoaded, setIsWebViewLoaded] = useState(false);
 
   usePostAuthData(webviewRef, isWebViewLoaded);
-  const { messageHandler } = useMessageHandler({ webviewRef });
-  const { handleMessage } = useWebViewMessage({ onSubscribe: messageHandler });
+  const { handleMessage } = useWebViewMessage({ webviewRef });
   const logout = useLogout();
 
   return (
@@ -29,7 +27,7 @@ const HomeScreen = () => {
         onLoadEnd={() => setIsWebViewLoaded(true)}
       />
       <TouchableOpacity
-        className="flex bg-primary-3 px-2 py-1 rounded-md absolute bottom-28 right-5"
+        className="absolute flex px-2 py-1 rounded-md bg-primary-3 bottom-28 right-5"
         onPress={logout}
       >
         <Text className="text-white">로그아웃</Text>

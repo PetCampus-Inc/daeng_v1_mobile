@@ -4,6 +4,7 @@ import ChevronLeft from "assets/svg/chevron-left.svg";
 import {
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -19,7 +20,7 @@ import { LoginStackParams } from "~/navigator/LoginNavigator";
 import { cn } from "~/utils/cn";
 
 const AdminLoginScreen = () => {
-  const keyboardAvoidingProps = useKeyboardAvoiding(44);
+  const keyboardAvoidingProps = useKeyboardAvoiding(48);
   const { handleLogin, handleTextChange, isValid, errors } = useAdminScreenLogic();
   const { isKeyboardVisible } = useKeyboardStatus();
   const { navigate } = useNavigation<NativeStackNavigationProp<LoginStackParams>>();
@@ -32,7 +33,7 @@ const AdminLoginScreen = () => {
         <View className="relative h-full px-4 bg-white">
           <Text className="mt-[74] text-title-24-b text-foreground">똑똑 관리자로 시작하기</Text>
 
-          <View className="mt-14">
+          <View className="mt-14 gap-y-6">
             <InputField
               // autoFocus
               label="아이디"
@@ -40,7 +41,6 @@ const AdminLoginScreen = () => {
               error={errors.id}
               onChangeText={handleTextChange("id")}
             />
-            <View className="h-6" />
             <InputField
               label="비밀번호"
               placeholder="비밀번호를 입력해 주세요"
@@ -53,7 +53,7 @@ const AdminLoginScreen = () => {
           <View
             className={`
               absolute bottom-0 left-0 right-0 gap-y-4
-              ${isKeyboardVisible ? "px-0 pb-1" : "pb-6 px-4"}
+              ${isKeyboardVisible ? "px-0" : "pb-6 px-4"}
             `}
           >
             {!isKeyboardVisible && (
