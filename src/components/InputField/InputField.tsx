@@ -30,9 +30,10 @@ const InputField = ({
       <View>
         <TextInput
           className={`
-          px-4 h-[48] border text-m border-gray-4 rounded-lg text-foreground
+          px-4 h-12 border text-m border-gray-4 rounded-lg text-foreground transition-colors duration-200 focus:border-primary focus:text-primary
           ${error && "text-red-1"}
         `}
+          placeholderTextColor="#b5b5b5"
           placeholder="아이디를 입력해 주세요"
           secureTextEntry={secureTextEntry && !showPW}
           {...inputProps}
