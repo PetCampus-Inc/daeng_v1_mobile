@@ -11,6 +11,10 @@ const validators = {
   // CORE
   GO_BACK: z.null(),
   LOGOUT: z.null(),
+  ADMIN_LOGIN: z.object({
+    id: z.string(),
+    password: z.string()
+  }),
 
   // DEVICE ACTION
   CALL: z.string(),

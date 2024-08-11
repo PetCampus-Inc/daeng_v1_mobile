@@ -13,3 +13,13 @@ export interface UserInfo {
   role: Role;
   status: Status;
 }
+
+export interface MemberLoginRequest {
+  idToken: string;
+  deviceId: string;
+}
+
+export interface AdminLoginRequest {
+  id: string;
+  password: string;
+}

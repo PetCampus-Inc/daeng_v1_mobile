@@ -1,9 +1,10 @@
-import { UserInfo } from "~/types/auth.types";
+import { AdminLoginRequest, UserInfo } from "~/types/auth.types";
 
 interface CoreMessage {
   Request: {
     GO_BACK: null;
     LOGOUT: null;
+    ADMIN_LOGIN: AdminLoginRequest;
   };
   Response: {
     LOGOUT: null;

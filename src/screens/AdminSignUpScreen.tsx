@@ -3,19 +3,15 @@ import { View } from "react-native";
 
 import KeyboardAvoidingWebView from "~/components/KeyboardAvoidingWebView";
 import { WebViewElement } from "~/components/WebView";
-import useMessageHandler from "~/hooks/webview/useMessageHandler";
-import useWebViewMessage from "~/hooks/webview/useWebViewMessage";
+import useAdminSignUpScreenLogic from "~/hooks/service/useAdminSignScreenLogic";
 
 const AdminSignUpScreen = () => {
   const webviewRef = useRef<WebViewElement>(null);
-
-  const { messageHandler } = useMessageHandler({ webviewRef });
-  const { handleMessage } = useWebViewMessage({ onSubscribe: messageHandler });
+  const { handleMessage } = useAdminSignUpScreenLogic();
 
   return (
     <View className="flex-1">
       <KeyboardAvoidingWebView
-        className="flex-1"
         ref={webviewRef}
         path={"/admin/signup"}
         onMessage={handleMessage}

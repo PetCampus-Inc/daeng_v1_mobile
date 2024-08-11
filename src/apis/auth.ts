@@ -2,23 +2,13 @@ import axios, { AxiosResponse } from "axios";
 
 import { apiUrl } from "~/config/url";
 import { request, Response } from "~/libs/request";
-import { FirebaseProvider } from "~/types/auth.types";
+import { AdminLoginRequest, FirebaseProvider, MemberLoginRequest } from "~/types/auth.types";
 import { AdminRole, MemberRole, Role } from "~/types/role.types";
 import { Status } from "~/types/status.type";
 
 export interface LoginResponse<R = Role> {
   role: R;
   status: Status;
-}
-
-export interface MemberLoginRequest {
-  idToken: string;
-  deviceId: string;
-}
-
-export interface AdminLoginRequest {
-  id: string;
-  password: string;
 }
 
 export const postMemberLogin = async (
