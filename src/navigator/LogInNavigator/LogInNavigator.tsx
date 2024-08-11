@@ -5,6 +5,7 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 
 import AdminLoginScreen from "~/screens/AdminLoginScreen";
+import AdminSignUpScreen from "~/screens/AdminSignUpScreen";
 import LoginScreen from "~/screens/LoginScreen";
 
 const Stack = createNativeStackNavigator<LoginStackParams>();
@@ -12,6 +13,7 @@ const Stack = createNativeStackNavigator<LoginStackParams>();
 export type LoginStackParams = {
   Login: undefined;
   AdminLogin: undefined;
+  AdminSignUp: undefined;
 };
 
 const BackButton = () => {
@@ -38,6 +40,7 @@ const LoginNavigator = () => {
           headerLeft: BackButton
         }}
       />
+      <Stack.Screen name="AdminSignUp" component={AdminSignUpScreen} />
     </Stack.Navigator>
   );
 };

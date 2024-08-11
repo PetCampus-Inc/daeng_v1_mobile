@@ -1,3 +1,5 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ChevronLeft from "assets/svg/chevron-left.svg";
 import {
   Keyboard,
@@ -13,12 +15,16 @@ import InputField from "~/components/InputField";
 import useAdminScreenLogic from "~/hooks/service/useAdminScreenLogic";
 import useKeyboardStatus from "~/hooks/useKeyboardStatus";
 import useKeyboardAvoiding from "~/hooks/webview/useKeyboardAvoiding";
+import { LoginStackParams } from "~/navigator/LoginNavigator";
 import { cn } from "~/utils/cn";
 
 const AdminLoginScreen = () => {
   const keyboardAvoidingProps = useKeyboardAvoiding(44);
   const { handleLogin, handleTextChange, isValid, errors } = useAdminScreenLogic();
   const { isKeyboardVisible } = useKeyboardStatus();
+  const { navigate } = useNavigation<NativeStackNavigationProp<LoginStackParams>>();
+
+  const handleSignUpClick = () => navigate("AdminSignUp");
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -51,7 +57,10 @@ const AdminLoginScreen = () => {
             `}
           >
             {!isKeyboardVisible && (
-              <TouchableOpacity className="flex flex-row items-center self-center px-2 py-1">
+              <TouchableOpacity
+                className="flex flex-row items-center self-center px-2 py-1"
+                onPress={handleSignUpClick}
+              >
                 <Text className="text-label-14-m text-gray-2">처음이신가요? 회원가입하기</Text>
                 <View className="rotate-180 size-5">
                   <ChevronLeft color="#858585" />
@@ -68,12 +77,6 @@ const AdminLoginScreen = () => {
             />
           </View>
         </View>
-
-        {/* <Modal animationType="slide" visible={true}>
-          <View className="flex-1">
-            <WebView path="admin/signup" />
-          </View>
-        </Modal> */}
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
