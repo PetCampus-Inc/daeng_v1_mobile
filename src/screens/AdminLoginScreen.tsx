@@ -21,7 +21,7 @@ import { cn } from "~/utils/cn";
 
 const AdminLoginScreen = () => {
   const keyboardAvoidingProps = useKeyboardAvoiding(48);
-  const { handleLogin, handleTextChange, isValid, errors } = useAdminScreenLogic();
+  const { handleLogin, handleTextChange, isValid, values, errors } = useAdminScreenLogic();
   const { isKeyboardVisible } = useKeyboardStatus();
   const { navigate } = useNavigation<NativeStackNavigationProp<LoginStackParams>>();
 
@@ -38,12 +38,14 @@ const AdminLoginScreen = () => {
               // autoFocus
               label="아이디"
               placeholder="아이디를 입력해 주세요"
+              value={values.id}
               error={errors.id}
               onChangeText={handleTextChange("id")}
             />
             <InputField
               label="비밀번호"
               placeholder="비밀번호를 입력해 주세요"
+              value={values.password}
               error={errors.password}
               onChangeText={handleTextChange("password")}
               secureTextEntry
