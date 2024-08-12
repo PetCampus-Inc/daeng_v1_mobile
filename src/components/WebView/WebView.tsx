@@ -26,7 +26,7 @@ const WebView = forwardRef<ParentWebView, WebViewProps>(
     return (
       <ParentWebView
         ref={webviewRef}
-        className="flex-1"
+        bounces={false}
         hideKeyboardAccessoryView={true}
         scalesPageToFit={false}
         automaticallyAdjustContentInsets={false}

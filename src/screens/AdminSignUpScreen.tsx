@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import { View } from "react-native";
 
 import KeyboardAvoidingWebView from "~/components/KeyboardAvoidingWebView";
 import { WebViewElement } from "~/components/WebView";
@@ -10,14 +9,12 @@ const AdminSignUpScreen = () => {
   const { handleMessage } = useAdminSignUpScreenLogic({ webviewRef });
 
   return (
-    <View className="flex-1">
-      <KeyboardAvoidingWebView
-        ref={webviewRef}
-        path={"/admin/signup"}
-        onMessage={handleMessage}
-        sharedCookiesEnabled={true}
-      />
-    </View>
+    <KeyboardAvoidingWebView
+      ref={webviewRef}
+      path={"/admin/signup"}
+      onMessage={handleMessage}
+      sharedCookiesEnabled={true}
+    />
   );
 };
 

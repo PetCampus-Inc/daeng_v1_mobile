@@ -1,16 +1,27 @@
 import React, { forwardRef } from "react";
-import { KeyboardAvoidingView } from "react-native";
+import { Dimensions, Platform } from "react-native";
+import Animated, { useAnimatedKeyboard, useAnimatedStyle } from "react-native-reanimated";
+import { useSafeAreaFrame } from "react-native-safe-area-context";
 
 import WebView, { WebViewElement, WebViewProps } from "~/components/WebView";
-import useKeyboardAvoiding from "~/hooks/webview/useKeyboardAvoiding";
+
+const height = Dimensions.get("window").height;
 
 const KeyboardAvoidingWebView = forwardRef<WebViewElement, WebViewProps>((webviewProps, ref) => {
-  const keyboardAvoidingProps = useKeyboardAvoiding(0);
+  const keyboard = useAnimatedKeyboard();
+  const { y } = useSafeAreaFrame();
+  const bottomSafeAreaHeight = Platform.OS === "ios" ? y : 0;
+
+  const animatedStyles = useAnimatedStyle(() => ({
+    maxHeight: height - keyboard.height.value - bottomSafeAreaHeight
+  }));
+
+  console.log(keyboard.height.value);
 
   return (
-    <KeyboardAvoidingView className="flex-1 bg-white" {...keyboardAvoidingProps}>
+    <Animated.View className="flex-1" style={animatedStyles}>
       <WebView ref={ref} {...webviewProps} />
-    </KeyboardAvoidingView>
+    </Animated.View>
   );
 });
 
