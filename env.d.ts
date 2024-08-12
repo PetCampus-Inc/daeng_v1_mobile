@@ -2,6 +2,7 @@ declare module "@env" {
   export const SERVER_API_PATH: string;
   export const SERVER_DOMAIN: string;
   export const DEV_SERVER_DOMAIN: string;
+  export const DEV_SERVER_DOMAIN_NOT_EMULATOR: string;
 
   export const GOOGLE_WEB_CLIENT_ID: string;
   export const GOOGLE_WEB_CLIENT_ID_IOS: string;
