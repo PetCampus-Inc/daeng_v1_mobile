@@ -10,7 +10,7 @@ function App(): React.JSX.Element {
   return (
     <RecoilRoot>
       <View className="flex-1">
-        <SafeAreaView className="flex-1">
+        <SafeAreaView className="flex-1 bg-white">
           <NavigationContainer>
             <RootNavigator />
           </NavigationContainer>

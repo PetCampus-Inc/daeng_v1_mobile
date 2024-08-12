@@ -30,6 +30,7 @@ const WebView = forwardRef<ParentWebView, WebViewProps>(
         hideKeyboardAccessoryView={true}
         scalesPageToFit={false}
         automaticallyAdjustContentInsets={false}
+        webviewDebuggingEnabled={__DEV__}
         onMessage={handleMessageInterceptor}
         injectedJavaScript={debuggingScript}
         source={{ uri: `${baseUrl}${fullPath}`, headers }}
