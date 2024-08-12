@@ -1,23 +1,23 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { RecoilRoot } from "recoil";
-import { ThemeProvider } from "styled-components/native";
 
+import LoadingView from "~/components/LoadingView";
 import RootNavigator from "~/navigator/RootNavigator";
-import theme from "~/styles/theme";
 import "~/styles/global.css";
 
 function App(): React.JSX.Element {
   return (
-    <SafeAreaView className="flex-1">
-      <ThemeProvider theme={theme}>
-        <RecoilRoot>
+    <RecoilRoot>
+      <View className="flex-1">
+        <SafeAreaView className="flex-1">
           <NavigationContainer>
             <RootNavigator />
           </NavigationContainer>
-        </RecoilRoot>
-      </ThemeProvider>
-    </SafeAreaView>
+        </SafeAreaView>
+        <LoadingView />
+      </View>
+    </RecoilRoot>
   );
 }
 

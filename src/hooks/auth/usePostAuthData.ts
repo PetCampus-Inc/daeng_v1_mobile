@@ -1,8 +1,9 @@
 import { RefObject, useCallback, useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { WebViewElement } from "~/components/WebView";
 import usePostMessage from "~/hooks/webview/usePostMessage";
+import { loadingState } from "~/store/loading";
 import { loginState, userState } from "~/store/user";
 
 /**
@@ -16,12 +17,13 @@ const usePostAuthData = (webviewRef: RefObject<WebViewElement>, isWebViewLoaded:
   const user = useRecoilValue(userState);
   const isLogin = useRecoilValue(loginState);
   const isPrepared = user && user !== "pending" && isLogin && isWebViewLoaded;
+  const setLoading = useSetRecoilState(loadingState);
 
   const handleAuthenticated = useCallback(() => {
     if (!isPrepared) return;
-    console.log(user);
+    setLoading(false);
     postMessage("AUTH_DATA", user);
-  }, [postMessage, isPrepared, user]);
+  }, [postMessage, setLoading, isPrepared, user]);
 
   useEffect(() => {
     if (isPrepared) handleAuthenticated();

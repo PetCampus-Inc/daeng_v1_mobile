@@ -1,9 +1,3 @@
-const pxToRem = (px, base = 16) => `${px / base}rem`;
-const range = (start, end, unit = 1) => {
-  const length = Math.ceil((end - start) / unit + 1);
-  return Array.from({ length }, (_, i) => start + i * unit);
-};
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],

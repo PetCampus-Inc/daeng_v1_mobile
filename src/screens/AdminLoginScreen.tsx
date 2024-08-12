@@ -4,7 +4,6 @@ import ChevronLeft from "assets/svg/chevron-left.svg";
 import {
   Keyboard,
   KeyboardAvoidingView,
-  Platform,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,

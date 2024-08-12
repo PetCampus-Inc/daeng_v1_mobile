@@ -3,18 +3,21 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useMemo } from "react";
 import { Platform } from "react-native";
 import { getUniqueId } from "react-native-device-info";
+import { useSetRecoilState } from "recoil";
 
 import useFirebaseAuth from "~/hooks/auth/useFirebaseAuth";
 import useFirebaseProvider from "~/hooks/auth/useFirebaseProvider";
 import useLogin from "~/hooks/auth/useLogin";
 import { LoginStackParams } from "~/navigator/LoginNavigator";
 import { RootStackParams } from "~/navigator/RootNavigator";
+import { loadingState } from "~/store/loading";
 import { FirebaseProvider } from "~/types/auth.types";
 
 const useLoginScreenLogic = () => {
   const loginNavigation = useNavigation<NativeStackNavigationProp<LoginStackParams>>();
   const rootNavigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const lastLoginProvider = useFirebaseProvider();
+  const setLoading = useSetRecoilState(loadingState);
 
   const { memberLogin } = useLogin();
   const { kakaoLogin, googleLogin, appleLogin } = useFirebaseAuth({
@@ -24,6 +27,7 @@ const useLoginScreenLogic = () => {
   const handleAdminLogin = () => loginNavigation.navigate("AdminLogin");
   const handleSuccessAuth = async (idToken: string) => {
     try {
+      setLoading(true);
       const deviceId = await getUniqueId();
       await memberLogin({ idToken, deviceId });
       rootNavigation.navigate("Home");
