@@ -516,6 +516,7 @@
 				DEVELOPMENT_TEAM = SN9D62F47F;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = daeng_v1_mobile/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "똑독";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -545,6 +546,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SN9D62F47F;
 				INFOPLIST_FILE = daeng_v1_mobile/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "똑독";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
