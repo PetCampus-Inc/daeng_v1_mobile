@@ -77,6 +77,41 @@ module.exports = {
   plugins: [
     ({ addUtilities }) => {
       addUtilities({
+        // Size
+        ".typo-size-10": {
+          fontSize: "10px",
+          lineHeight: "13px"
+        },
+        ".typo-size-12": {
+          fontSize: "12px",
+          lineHeight: "15px"
+        },
+        ".typo-size-14": {
+          fontSize: "14px",
+          lineHeight: "17px"
+        },
+        ".typo-size-16": {
+          fontSize: "16px",
+          lineHeight: "20px"
+        },
+        ".typo-size-18": {
+          fontSize: "18px",
+          lineHeight: "24px"
+        },
+        ".typo-size-20": {
+          fontSize: "20px",
+          lineHeight: "27px"
+        },
+        ".typo-size-24": {
+          fontSize: "24px",
+          lineHeight: "30px"
+        },
+        ".typo-size-28": {
+          fontSize: "28px",
+          lineHeight: "36px"
+        },
+
+        // Title
         ".typo-title-20": {
           fontSize: "20px",
           lineHeight: "26px",
@@ -107,6 +142,8 @@ module.exports = {
           letterSpacing: "0px",
           fontWeight: "700"
         },
+
+        // Body
         ".typo-body-16": {
           fontSize: "16px",
           lineHeight: "23px",
@@ -131,6 +168,8 @@ module.exports = {
           letterSpacing: "0px",
           fontWeight: "700"
         },
+
+        // Label
         ".typo-label-14": {
           fontSize: "14px",
           lineHeight: "20px",
@@ -167,6 +206,8 @@ module.exports = {
           letterSpacing: "-0.192px",
           fontWeight: "700"
         },
+
+        // Caption
         ".typo-caption-10": {
           fontSize: "10px",
           lineHeight: "17.5px",

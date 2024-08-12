@@ -30,7 +30,7 @@ const InputField = ({
       <View>
         <TextInput
           className={`
-          px-4 h-12 border text-m border-gray-4 rounded-lg text-foreground transition-colors duration-200 focus:border-primary focus:text-primary
+          px-4 py-0 typo-size-16 h-12 border border-gray-4 rounded-lg text-foreground transition-colors duration-200 focus:border-primary focus:text-primary
           ${error && "text-red-1"}
         `}
           placeholderTextColor="#b5b5b5"
