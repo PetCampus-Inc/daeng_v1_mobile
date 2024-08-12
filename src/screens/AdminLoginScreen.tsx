@@ -30,7 +30,7 @@ const AdminLoginScreen = () => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView {...keyboardAvoidingProps}>
         <View className="relative h-full px-4 bg-white">
-          <Text className="mt-[74] text-title-24-b text-foreground">똑똑 관리자로 시작하기</Text>
+          <Text className="mt-[74] typo-title-24-b text-foreground">똑똑 관리자로 시작하기</Text>
 
           <View className="mt-14 gap-y-6">
             <InputField
@@ -62,7 +62,7 @@ const AdminLoginScreen = () => {
                 className="flex flex-row items-center self-center px-2 py-1"
                 onPress={handleSignUpClick}
               >
-                <Text className="text-label-14-m text-gray-2">처음이신가요? 회원가입하기</Text>
+                <Text className="typo-label-14-m text-gray-2">처음이신가요? 회원가입하기</Text>
                 <View className="rotate-180 size-5">
                   <ChevronLeft color="#858585" />
                 </View>

@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  /* Title */
+  .typo-title-20 {
+    @apply text-[20px] leading-[26px] tracking-[-1.2px] font-normal;
+  }
+  .typo-title-20-b {
+    @apply text-[20px] leading-[28px] tracking-[-0.24px] font-bold;
+  }
+  .typo-title-24 {
+    @apply text-[24px] leading-[26px] tracking-[-1.2px] font-normal;
+  }
+  .typo-title-24-b {
+    @apply text-[24px] leading-[32px] tracking-[-1.2px] font-bold;
+  }
+  .typo-title-28-b {
+    @apply text-[28px] leading-[40px] tracking-[0px] font-bold;
+  }
+
+  /* Body */
+  .typo-body-16 {
+    @apply text-[16px] leading-[23px] tracking-[-0.192px] font-normal;
+  }
+  .typo-body-16-b {
+    @apply text-[16px] leading-[23px] tracking-[-1.2px] font-bold;
+  }
+  .typo-body-18 {
+    @apply text-[18px] leading-[26px] tracking-[-1.2px] font-normal;
+  }
+  .typo-body-18-b {
+    @apply text-[18px] leading-[27px] tracking-[0px] font-bold;
+  }
+
+  /* Label */
+  .typo-label-14 {
+    @apply text-[14px] leading-[20px] tracking-[0.28px] font-normal;
+  }
+  .typo-label-14-m {
+    @apply text-[14px] leading-[25px] tracking-[0.28px] font-medium;
+  }
+  .typo-label-14-b {
+    @apply text-[14px] leading-[20px] tracking-[0.28px] font-bold;
+  }
+  .typo-label-16 {
+    @apply text-[16px] leading-[24px] tracking-[-0.192px] font-normal;
+  }
+  .typo-label-16-m {
+    @apply text-[16px] leading-[24px] tracking-[-1.2px] font-medium;
+  }
+  .typo-label-16-b {
+    @apply text-[16px] leading-[24px] tracking-[-0.192px] font-bold;
+  }
+
+  /* Caption */
+  .typo-caption-10 {
+    @apply text-[10px] leading-[17.5px] tracking-[-0.12px] font-normal;
+  }
+  .typo-caption-12 {
+    @apply text-[12px] leading-[17.5px] tracking-[-0.12px] font-normal;
+  }
+  .typo-caption-12-b {
+    @apply text-[12px] leading-[20px] tracking-[0.24px] font-bold;
+  }
+}

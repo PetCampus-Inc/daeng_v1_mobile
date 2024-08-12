@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 import { cn } from "~/utils/cn";
@@ -14,7 +13,7 @@ const Button = ({ className, label, icon, disabled, labelClassName, ...props }: 
     <TouchableOpacity
       disabled={disabled}
       className={cn(
-        "h-12 items-center justify-center rounded-lg border border-transparent transition-colors duration-200",
+        "h-12 items-center bg-primary justify-center rounded-lg border border-transparent transition-colors duration-200",
         className,
         disabled ? "bg-gray-5" : ""
       )}
@@ -22,8 +21,8 @@ const Button = ({ className, label, icon, disabled, labelClassName, ...props }: 
     >
       {icon && <View className="absolute left-4">{icon}</View>}
       <Text
-        className={clsx(
-          "text-label-16 transition-colors duration-200",
+        className={cn(
+          "text-white transition-colors duration-200 typo-label-16",
           labelClassName,
           disabled ? "!text-gray-2" : ""
         )}

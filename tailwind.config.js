@@ -51,41 +51,6 @@ module.exports = {
         3: "#FFF7E1"
       }
     },
-    fontSize: {
-      xs: 12,
-      s: 14,
-      m: 16,
-      l: 18,
-      xl: 20,
-      "2xl": 24,
-      "3xl": 28,
-
-      // Title
-      "title-20": ["20px", { lineHeight: "26px", letterSpacing: "-1.2px", fontWeight: 400 }],
-      "title-20-b": ["20px", { lineHeight: "28px", letterSpacing: "-0.24px", fontWeight: 700 }],
-      "title-24": ["24px", { lineHeight: "26px", letterSpacing: "-1.2px", fontWeight: 400 }],
-      "title-24-b": ["24px", { lineHeight: "32px", letterSpacing: "-1.2px", fontWeight: 700 }],
-      "title-28-b": ["28px", { lineHeight: "40px", letterSpacing: "0px", fontWeight: 700 }],
-
-      // Body
-      "body-16": ["16px", { lineHeight: "23px", letterSpacing: "-0.192px", fontWeight: 400 }],
-      "body-16-b": ["16px", { lineHeight: "23px", letterSpacing: "-1.2px", fontWeight: 700 }],
-      "body-18": ["18px", { lineHeight: "26px", letterSpacing: "-1.2px", fontWeight: 400 }],
-      "body-18-b": ["18px", { lineHeight: "27px", letterSpacing: "0px", fontWeight: 700 }],
-
-      // Label
-      "label-14": ["14px", { lineHeight: "20px", letterSpacing: "0.28px", fontWeight: 400 }],
-      "label-14-m": ["14px", { lineHeight: "25px", letterSpacing: "0.28px", fontWeight: 500 }],
-      "label-14-b": ["14px", { lineHeight: "20px", letterSpacing: "0.28px", fontWeight: 700 }],
-      "label-16": ["16px", { lineHeight: "24px", letterSpacing: "-0.192px", fontWeight: 400 }],
-      "label-16-m": ["16px", { lineHeight: "24px", letterSpacing: "-1.2px", fontWeight: 500 }],
-      "label-16-b": ["16px", { lineHeight: "24px", letterSpacing: "-0.192px", fontWeight: 700 }],
-
-      // Caption
-      "caption-10": ["10px", { lineHeight: "17.5px", letterSpacing: "-0.12px", fontWeight: 400 }],
-      "caption-12": ["12px", { lineHeight: "17.5px", letterSpacing: "-0.12px", fontWeight: 400 }],
-      "caption-12-b": ["12px", { lineHeight: "20px", letterSpacing: "0.24px", fontWeight: 700 }]
-    },
     spacing: {
       px: "1px",
       0: "0",
@@ -108,5 +73,119 @@ module.exports = {
       fontFamily: { roboto: ["Roboto-Medium"] }
     }
   },
-  plugins: []
+
+  plugins: [
+    ({ addUtilities }) => {
+      addUtilities({
+        ".typo-title-20": {
+          fontSize: "20px",
+          lineHeight: "26px",
+          letterSpacing: "-1.2px",
+          fontWeight: "400"
+        },
+        ".typo-title-20-b": {
+          fontSize: "20px",
+          lineHeight: "28px",
+          letterSpacing: "-0.24px",
+          fontWeight: "700"
+        },
+        ".typo-title-24": {
+          fontSize: "24px",
+          lineHeight: "26px",
+          letterSpacing: "-1.2px",
+          fontWeight: "400"
+        },
+        ".typo-title-24-b": {
+          fontSize: "24px",
+          lineHeight: "32px",
+          letterSpacing: "-1.2px",
+          fontWeight: "700"
+        },
+        ".typo-title-28-b": {
+          fontSize: "28px",
+          lineHeight: "40px",
+          letterSpacing: "0px",
+          fontWeight: "700"
+        },
+        ".typo-body-16": {
+          fontSize: "16px",
+          lineHeight: "23px",
+          letterSpacing: "-0.192px",
+          fontWeight: "400"
+        },
+        ".typo-body-16-b": {
+          fontSize: "16px",
+          lineHeight: "23px",
+          letterSpacing: "-1.2px",
+          fontWeight: "700"
+        },
+        ".typo-body-18": {
+          fontSize: "18px",
+          lineHeight: "26px",
+          letterSpacing: "-1.2px",
+          fontWeight: "400"
+        },
+        ".typo-body-18-b": {
+          fontSize: "18px",
+          lineHeight: "27px",
+          letterSpacing: "0px",
+          fontWeight: "700"
+        },
+        ".typo-label-14": {
+          fontSize: "14px",
+          lineHeight: "20px",
+          letterSpacing: "0.28px",
+          fontWeight: "400"
+        },
+        ".typo-label-14-m": {
+          fontSize: "14px",
+          lineHeight: "25px",
+          letterSpacing: "0.28px",
+          fontWeight: "500"
+        },
+        ".typo-label-14-b": {
+          fontSize: "14px",
+          lineHeight: "20px",
+          letterSpacing: "0.28px",
+          fontWeight: "700"
+        },
+        ".typo-label-16": {
+          fontSize: "16px",
+          lineHeight: "24px",
+          letterSpacing: "-0.192px",
+          fontWeight: "400"
+        },
+        ".typo-label-16-m": {
+          fontSize: "16px",
+          lineHeight: "24px",
+          letterSpacing: "-1.2px",
+          fontWeight: "500"
+        },
+        ".typo-label-16-b": {
+          fontSize: "16px",
+          lineHeight: "24px",
+          letterSpacing: "-0.192px",
+          fontWeight: "700"
+        },
+        ".typo-caption-10": {
+          fontSize: "10px",
+          lineHeight: "17.5px",
+          letterSpacing: "-0.12px",
+          fontWeight: "400"
+        },
+        ".typo-caption-12": {
+          fontSize: "12px",
+          lineHeight: "17.5px",
+          letterSpacing: "-0.12px",
+          fontWeight: "400"
+        },
+        ".typo-caption-12-b": {
+          fontSize: "12px",
+          lineHeight: "20px",
+          letterSpacing: "0.24px",
+          fontWeight: "700"
+        }
+      });
+    }
+  ]
 };

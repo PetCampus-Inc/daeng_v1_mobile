@@ -24,8 +24,8 @@ const InputField = ({
   return (
     <View className={`gap-y-2 ${className}`}>
       <View className="flex-row items-center justify-between px-1">
-        <Text className="text-body-16 text-foreground">{label}</Text>
-        {error && <Text className="text-red-1 text-caption-12">{error}</Text>}
+        <Text className="typo-body-16 text-foreground">{label}</Text>
+        {error && <Text className="text-red-1 typo-caption-12">{error}</Text>}
       </View>
       <View>
         <TextInput

@@ -17,7 +17,7 @@ const socials = {
   ADMIN: {
     label: "관리자로 시작하기",
     className: "bg-primary",
-    labelClassName: "text-white text-label-16-b",
+    labelClassName: "text-white font-bold",
     icon: null
   },
   KAKAO: {
