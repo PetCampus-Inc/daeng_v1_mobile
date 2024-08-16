@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { getUniqueId } from "react-native-device-info";
 
 import { getFirebaseProvider } from "~/apis/auth";
-import { FirebaseProvider } from "~/types/auth.types";
+import { SocialProvider } from "~/types/auth.types";
 
 const useFirebaseProvider = () => {
-  const [provider, setProvider] = useState<FirebaseProvider | null>(null);
+  const [provider, setProvider] = useState<SocialProvider | null>(null);
 
   const fetchLastLogin = async () => {
     try {

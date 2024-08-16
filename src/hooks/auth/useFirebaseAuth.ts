@@ -7,6 +7,8 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { getAccessToken, login } from "@react-native-seoul/kakao-login";
 import { useCallback, useEffect } from "react";
 
+import { SocialProvider } from "~/types/auth.types";
+
 const firebaseAuth = auth();
 
 const googleSigninConfigure = () => {
@@ -55,15 +57,18 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
   }, []);
 
   const handleAuthSuccess = useCallback(
-    async (credential: FirebaseAuthTypes.AuthCredential) => {
+    async (credential: FirebaseAuthTypes.AuthCredential): Promise<string> => {
       try {
         const { user } = await firebaseAuth.signInWithCredential(credential);
         const token = await user.getIdToken();
 
         onSuccess?.(token);
+
+        return token;
       } catch (error: any) {
         console.error("[Auth]", error);
         onError?.(error);
+        throw error;
       }
     },
     [onSuccess, onError]
@@ -72,15 +77,16 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
   /**
    * Kakao 로그인
    */
-  const kakaoLogin = useCallback(async (): Promise<void> => {
+  const kakaoLogin = useCallback(async (): Promise<string> => {
     try {
       // Kakao Auth
       const { idToken } = await login();
       const credential = auth.OIDCAuthProvider.credential("kakao", idToken);
-      await handleAuthSuccess(credential);
+      return await handleAuthSuccess(credential);
     } catch (error: any) {
       console.error("[Kakao Auth]", error);
       onError?.(error);
+      throw error;
     }
   }, [handleAuthSuccess, onError]);
 
@@ -102,7 +108,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
   /**
    * Google 로그인
    */
-  const googleLogin = useCallback(async (): Promise<void> => {
+  const googleLogin = useCallback(async (): Promise<string> => {
     try {
       // Google Auth
       await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -112,18 +118,19 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
 
       // Firebase Auth
       const credential = auth.GoogleAuthProvider.credential(googleAuthResult.idToken);
-      await handleAuthSuccess(credential);
+      return await handleAuthSuccess(credential);
     } catch (error: any) {
       console.log(error.message);
       console.error("[Google Auth]", error);
       onError?.(error);
+      throw error;
     }
   }, [handleAuthSuccess, onError]);
 
   /**
    * Apple 로그인
    */
-  const appleLogin = useCallback(async (): Promise<void> => {
+  const appleLogin = useCallback(async (): Promise<string> => {
     try {
       const appleAuthResult = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
@@ -135,14 +142,28 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
       const { identityToken, nonce } = appleAuthResult;
 
       const credential = auth.AppleAuthProvider.credential(identityToken, nonce);
-      await handleAuthSuccess(credential);
+      return await handleAuthSuccess(credential);
     } catch (error: any) {
       console.error("[Apple Auth]", error);
       onError?.(error);
+      throw error;
     }
   }, [handleAuthSuccess, onError]);
 
   const firebaseSignOut = useCallback(async () => firebaseAuth.signOut(), []);
+
+  const socialLogin = async (provider: SocialProvider) => {
+    switch (provider) {
+      case "KAKAO":
+        return await kakaoLogin();
+      case "GOOGLE":
+        return await googleLogin();
+      case "APPLE":
+        return await appleLogin();
+      default:
+        throw new Error("Unsupported Social Provider");
+    }
+  };
 
   useEffect(() => {
     googleSigninConfigure();
@@ -153,6 +174,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
     kakaoLogin,
     googleLogin,
     appleLogin,
+    socialLogin,
     firebaseSignOut
   };
 };

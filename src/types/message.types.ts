@@ -1,16 +1,18 @@
-import { AdminLoginRequest, UserInfo } from "~/types/auth.types";
+import { AdminLoginRequest, SocialAuthData, SocialProvider, UserInfo } from "~/types/auth.types";
 
 interface CoreMessage {
   Request: {
     GO_BACK: null;
     LOGOUT: null;
     ADMIN_LOGIN: AdminLoginRequest;
+    SOCIAL_LOGIN: SocialProvider;
   };
   Response: {
     LOGOUT: null;
     AUTH_DATA: UserInfo;
     ERROR: string;
     GO_BACK: null;
+    SOCIAL_LOGIN: SocialAuthData;
   };
 }
 

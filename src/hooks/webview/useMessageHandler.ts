@@ -1,7 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { RefObject, useCallback } from "react";
+import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
 
+import useFirebaseAuth from "~/hooks/auth/useFirebaseAuth";
 import useLogout from "~/hooks/auth/useLogout";
 import useSaveImage from "~/hooks/native/useSaveImage";
 import useSelectImage from "~/hooks/native/useSelectImage";
@@ -28,6 +30,7 @@ const useMessageHandler = ({
   const { select } = useSelectImage();
   const navigation = useNavigation();
   const logout = useLogout();
+  const { socialLogin } = useFirebaseAuth();
 
   const messageHandler = useCallback(
     async (message: WebViewMessage) => {
@@ -56,6 +59,12 @@ const useMessageHandler = ({
             navigation.canGoBack() && navigation.goBack();
             response = null;
             break;
+          case "SOCIAL_LOGIN":
+            response = {
+              idToken: await socialLogin(data),
+              deviceId: await getUniqueId()
+            };
+            break;
           case "LOGOUT":
             logout();
             response = null;
@@ -72,7 +81,7 @@ const useMessageHandler = ({
         onError?.(newError);
       }
     },
-    [navigation, postMessage, save, select, onCallback, onSuccess, onError, logout]
+    [navigation, postMessage, save, select, onCallback, onSuccess, onError, logout, socialLogin]
   );
 
   return { messageHandler };

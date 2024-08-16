@@ -11,7 +11,7 @@ import useLogin from "~/hooks/auth/useLogin";
 import { LoginStackParams } from "~/navigator/LoginNavigator";
 import { RootStackParams } from "~/navigator/RootNavigator";
 import { loadingState } from "~/store/loading";
-import { FirebaseProvider } from "~/types/auth.types";
+import { SocialProvider } from "~/types/auth.types";
 
 const useLoginScreenLogic = () => {
   const loginNavigation = useNavigation<NativeStackNavigationProp<LoginStackParams>>();
@@ -38,11 +38,9 @@ const useLoginScreenLogic = () => {
 
   const socialButtons = useMemo(
     () => [
-      { social: "KAKAO" as FirebaseProvider, onPress: kakaoLogin },
-      { social: "GOOGLE" as FirebaseProvider, onPress: googleLogin },
-      ...(Platform.OS === "ios"
-        ? [{ social: "APPLE" as FirebaseProvider, onPress: appleLogin }]
-        : [])
+      { social: "KAKAO" as SocialProvider, onPress: kakaoLogin },
+      { social: "GOOGLE" as SocialProvider, onPress: googleLogin },
+      ...(Platform.OS === "ios" ? [{ social: "APPLE" as SocialProvider, onPress: appleLogin }] : [])
     ],
     [kakaoLogin, googleLogin, appleLogin]
   );

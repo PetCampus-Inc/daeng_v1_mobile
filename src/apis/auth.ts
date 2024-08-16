@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 
 import { apiUrl } from "~/config/url";
 import { request, Response } from "~/libs/request";
-import { AdminLoginRequest, FirebaseProvider, MemberLoginRequest } from "~/types/auth.types";
+import { AdminLoginRequest, SocialProvider, MemberLoginRequest } from "~/types/auth.types";
 import { AdminRole, MemberRole, Role } from "~/types/role.types";
 
 interface LoginResponse<R = Role> {
@@ -43,8 +43,8 @@ export const postRefreshToken = async (accessToken: string): Promise<AxiosRespon
   return await axios.post<Response>(url, null, { headers });
 };
 
-export const getFirebaseProvider = async (deviceId: string): Promise<FirebaseProvider> => {
+export const getFirebaseProvider = async (deviceId: string): Promise<SocialProvider> => {
   const url = `${apiUrl}member/firebase/provider`;
-  const { data } = await request<FirebaseProvider>({ url, params: { deviceId } });
+  const { data } = await request<SocialProvider>({ url, params: { deviceId } });
   return data;
 };

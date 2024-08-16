@@ -71,7 +71,7 @@ const AdminLoginScreen = () => {
 
             <Button
               className={cn("bg-primary", isKeyboardVisible ? "rounded-none" : "")}
-              labelClassName="font-bold text-white"
+              labelClassName="text-white typo-label-16-b"
               label="로그인"
               onPress={handleLogin}
               disabled={!isValid}

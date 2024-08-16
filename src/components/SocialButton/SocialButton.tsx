@@ -5,11 +5,11 @@ import React from "react";
 import { TouchableOpacityProps } from "react-native";
 
 import Button from "~/components/Button";
-import { FirebaseProvider } from "~/types/auth.types";
+import { SocialProvider } from "~/types/auth.types";
 
 interface SocialButtonProps extends TouchableOpacityProps {
   className?: string;
-  social: "ADMIN" | FirebaseProvider;
+  social: "ADMIN" | SocialProvider;
   isLastLogin?: boolean;
 }
 
@@ -17,7 +17,7 @@ const socials = {
   ADMIN: {
     label: "관리자로 시작하기",
     className: "bg-primary",
-    labelClassName: "text-white font-bold",
+    labelClassName: "text-white typo-label-16-b",
     icon: null
   },
   KAKAO: {
