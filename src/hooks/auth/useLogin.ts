@@ -1,26 +1,18 @@
 import { useSetRecoilState } from "recoil";
 
-import {
-  AdminLoginRequest,
-  MemberLoginRequest,
-  postAdminLogin,
-  postMemberLogin
-} from "~/apis/auth";
-import { mockPostAdminLogin, mockPostMemberLogin } from "~/apis/mock_api";
+import { postAdminLogin, postMemberLogin } from "~/apis/auth";
 import { userState } from "~/store/user";
-import { UserInfo } from "~/types/auth.types";
-import { isRole, isStatus } from "~/utils/is";
+import { AdminLoginRequest, MemberLoginRequest, UserInfo } from "~/types/auth.types";
+import { isRole } from "~/utils/is";
 
 const useLogin = () => {
   const setUser = useSetRecoilState(userState);
 
-  const setUserAuthData = (authorization: string, role: string, status: string): UserInfo => {
+  const setUserAuthData = (authorization: string, role: string): UserInfo => {
     if (!isRole(role)) throw new Error(`Invalid role: ${role}`);
-    if (!isStatus(status)) throw new Error(`Invalid status: ${status}`);
 
     const newUser: UserInfo = {
       role,
-      status,
       accessToken: authorization.replace(/^Bearer\s/, "")
     };
 
@@ -31,11 +23,10 @@ const useLogin = () => {
   const memberLogin = async (request: MemberLoginRequest): Promise<UserInfo> => {
     try {
       // TODO : 테스트 후 변경
-      // const { headers, data } = await postMemberLogin(request);
-      const { headers, data } = await mockPostMemberLogin(request);
+      const { headers, data } = await postMemberLogin(request);
       const { authorization } = headers;
 
-      return setUserAuthData(authorization, data.data.role, data.data.status);
+      return setUserAuthData(authorization, data.data.role);
     } catch (error) {
       throw new Error(`Login failed: ${error}`);
     }
@@ -43,10 +34,10 @@ const useLogin = () => {
 
   const adminLogin = async (request: AdminLoginRequest): Promise<UserInfo> => {
     try {
-      const { headers, data } = await mockPostAdminLogin(request);
+      const { headers, data } = await postAdminLogin(request);
       const { authorization } = headers;
 
-      return setUserAuthData(authorization, data.data.role, data.data.status);
+      return setUserAuthData(authorization, data.data.role);
     } catch (error) {
       throw new Error("Login failed");
     }

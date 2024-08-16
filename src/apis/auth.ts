@@ -4,11 +4,9 @@ import { apiUrl } from "~/config/url";
 import { request, Response } from "~/libs/request";
 import { AdminLoginRequest, FirebaseProvider, MemberLoginRequest } from "~/types/auth.types";
 import { AdminRole, MemberRole, Role } from "~/types/role.types";
-import { Status } from "~/types/status.type";
 
-export interface LoginResponse<R = Role> {
+interface LoginResponse<R = Role> {
   role: R;
-  status: Status;
 }
 
 export const postMemberLogin = async (
