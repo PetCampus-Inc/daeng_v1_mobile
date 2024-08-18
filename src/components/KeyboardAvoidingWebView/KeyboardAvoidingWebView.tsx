@@ -16,8 +16,6 @@ const KeyboardAvoidingWebView = forwardRef<WebViewElement, WebViewProps>((webvie
     maxHeight: height - keyboard.height.value - bottomSafeAreaHeight
   }));
 
-  console.log(keyboard.height.value);
-
   return (
     <Animated.View className="flex-1" style={animatedStyles}>
       <WebView ref={ref} {...webviewProps} />
