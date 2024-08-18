@@ -1,7 +1,7 @@
 import { Asset, ImageLibraryOptions } from "react-native-image-picker";
 
 import { selectImage } from "~/native/selectImage";
-import uploadImageToS3 from "~/services/s3Service";
+// import uploadImageToS3 from "~/services/s3Service";
 
 interface SelectImageOptions {
   options?: ImageLibraryOptions;
@@ -9,9 +9,9 @@ interface SelectImageOptions {
 }
 
 const useSelectImage = ({ options, uploadToS3 }: SelectImageOptions = {}) => {
-  const uploadImagesToS3 = async (assets: Asset[]): Promise<void> => {
-    await Promise.all(assets.map(uploadImageToS3));
-  };
+  // const uploadImagesToS3 = async (assets: Asset[]): Promise<void> => {
+  //   await Promise.all(assets.map(uploadImageToS3));
+  // };
 
   const select = async (): Promise<string[]> => {
     try {
@@ -20,7 +20,7 @@ const useSelectImage = ({ options, uploadToS3 }: SelectImageOptions = {}) => {
       const uris = assets
         .map((image) => image.uri)
         .filter((uri): uri is string => uri !== undefined);
-      if (uploadToS3) await uploadImagesToS3(assets);
+      // if (uploadToS3) await uploadImagesToS3(assets);
 
       return uris;
     } catch (error) {

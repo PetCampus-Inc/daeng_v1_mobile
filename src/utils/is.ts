@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 import { WebViewMessage } from "~/types/message.types";
-import { AdminRole, MemberRole, Role } from "~/types/role.types";
 
 /**
  * WebView Message Type Guard
@@ -9,11 +8,6 @@ import { AdminRole, MemberRole, Role } from "~/types/role.types";
 const validators = {
   // CORE
   GO_BACK: z.null(),
-  LOGOUT: z.null(),
-  ADMIN_LOGIN: z.object({
-    id: z.string(),
-    password: z.string()
-  }),
   SOCIAL_LOGIN: z.union([z.literal("KAKAO"), z.literal("GOOGLE"), z.literal("APPLE")]),
 
   // DEVICE ACTION
@@ -32,33 +26,3 @@ export const isValidMessageData = (message: WebViewMessage): message is WebViewM
 export const isWebViewMessage = (obj: unknown): obj is WebViewMessage => {
   return obj !== null && typeof obj === "object" && "type" in obj && "data" in obj;
 };
-
-/**
- * Custom Error Type Guard
- */
-const CustomAxiosErrorSchema = z.object({
-  status: z.number(),
-  data: z.object({
-    status: z.number(),
-    message: z.string(),
-    code: z.string()
-  })
-});
-
-export type CustomAxiosError = z.infer<typeof CustomAxiosErrorSchema>;
-
-export const isCustomAxiosError = (error: unknown): error is CustomAxiosError => {
-  return CustomAxiosErrorSchema.safeParse(error).success;
-};
-
-export function isRole(role: string): role is Role {
-  return Object.values(Role).includes(role as Role);
-}
-
-export function isMemberRole(role: string): role is MemberRole {
-  return Object.values(MemberRole).includes(role as MemberRole);
-}
-
-export function isAdminRole(role: string): role is AdminRole {
-  return Object.values(AdminRole).includes(role as AdminRole);
-}

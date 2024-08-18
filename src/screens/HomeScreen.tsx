@@ -1,37 +1,24 @@
-import React, { useRef, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import React, { useRef } from "react";
+import { View } from "react-native";
+import SplashScreen from "react-native-splash-screen";
 
 import KeyboardAvoidingWebView from "~/components/KeyboardAvoidingWebView";
 import { type WebViewElement } from "~/components/WebView";
-import useLogout from "~/hooks/auth/useLogout";
-import usePostAuthData from "~/hooks/auth/usePostAuthData";
 import useWebViewMessage from "~/hooks/webview/useWebViewMessage";
 
 const HomeScreen = () => {
   const webviewRef = useRef<WebViewElement>(null);
-
-  const [isWebViewLoaded, setIsWebViewLoaded] = useState(false);
-
-  usePostAuthData(webviewRef, isWebViewLoaded);
   const { handleMessage } = useWebViewMessage({ webviewRef });
-  const logout = useLogout();
 
   return (
     <View className="flex-1">
       <KeyboardAvoidingWebView
         className="flex-1"
         ref={webviewRef}
-        path={"/native-redirect"}
         onMessage={handleMessage}
         sharedCookiesEnabled={true}
-        onLoadEnd={() => setIsWebViewLoaded(true)}
+        onLoadEnd={() => SplashScreen.hide()}
       />
-      <TouchableOpacity
-        className="absolute flex px-2 py-1 rounded-md bg-primary-3 bottom-28 right-5"
-        onPress={logout}
-      >
-        <Text className="text-white">로그아웃</Text>
-      </TouchableOpacity>
     </View>
   );
 };

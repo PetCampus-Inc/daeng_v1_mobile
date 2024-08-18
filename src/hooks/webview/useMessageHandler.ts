@@ -1,10 +1,8 @@
-import { useNavigation } from "@react-navigation/native";
 import { RefObject, useCallback } from "react";
 import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
 
 import useFirebaseAuth from "~/hooks/auth/useFirebaseAuth";
-import useLogout from "~/hooks/auth/useLogout";
 import useSaveImage from "~/hooks/native/useSaveImage";
 import useSelectImage from "~/hooks/native/useSelectImage";
 import usePostMessage from "~/hooks/webview/usePostMessage";
@@ -28,14 +26,13 @@ const useMessageHandler = ({
   const { postMessage } = usePostMessage({ webviewRef });
   const { save } = useSaveImage();
   const { select } = useSelectImage();
-  const navigation = useNavigation();
-  const logout = useLogout();
+
   const { socialLogin } = useFirebaseAuth();
 
   const messageHandler = useCallback(
     async (message: WebViewMessage) => {
       try {
-        let response: MessageDataType["Response"];
+        let response: MessageDataType["Response"] = null;
 
         if (onCallback) onCallback(message);
 
@@ -43,31 +40,22 @@ const useMessageHandler = ({
 
         switch (type) {
           case "SAVE_IMAGE":
-            response = await save(data);
+            await save(data);
             break;
           case "SELECT_IMAGE":
             response = await select();
             break;
           case "CALL":
             connectCall(data);
-            response = null;
             break;
           case "LAUNCH_CAMERA":
             response = await runCamera();
-            break;
-          case "GO_BACK":
-            navigation.canGoBack() && navigation.goBack();
-            response = null;
             break;
           case "SOCIAL_LOGIN":
             response = {
               idToken: await socialLogin(data),
               deviceId: await getUniqueId()
             };
-            break;
-          case "LOGOUT":
-            logout();
-            response = null;
             break;
           default:
             throw new Error(`지원하지 않는 메세지 타입입니다. [${type}]`);
@@ -81,7 +69,7 @@ const useMessageHandler = ({
         onError?.(newError);
       }
     },
-    [navigation, postMessage, save, select, onCallback, onSuccess, onError, logout, socialLogin]
+    [postMessage, save, select, onCallback, onSuccess, onError, socialLogin]
   );
 
   return { messageHandler };

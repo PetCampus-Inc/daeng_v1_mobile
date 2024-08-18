@@ -1,30 +1,21 @@
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RecoilRoot } from "recoil";
 
-import LoadingView from "~/components/LoadingView";
-import RootNavigator from "~/navigator/RootNavigator";
-import "~/styles/global.css";
+import HomeScreen from "~/screens/HomeScreen";
+import ImageSaveProgressView from "~/views/ImageSaveProgressView";
 
-const navTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: "white"
-  }
-};
+import "~/styles/global.css";
 
 function App(): React.JSX.Element {
   return (
     <RecoilRoot>
-      <View className="flex-1">
+      <SafeAreaProvider>
         <SafeAreaView className="flex-1">
-          <NavigationContainer theme={navTheme}>
-            <RootNavigator />
-          </NavigationContainer>
+          <HomeScreen />
         </SafeAreaView>
-        <LoadingView />
-      </View>
+        <ImageSaveProgressView />
+      </SafeAreaProvider>
     </RecoilRoot>
   );
 }
