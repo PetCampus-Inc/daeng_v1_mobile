@@ -25,7 +25,7 @@ interface DeviceActionMessage {
   };
   Response: {
     CALL: null;
-    SAVE_IMAGE: boolean;
+    SAVE_IMAGE: null;
     SELECT_IMAGE: string[] | boolean;
     LAUNCH_CAMERA: string;
   };
