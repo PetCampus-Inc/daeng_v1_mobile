@@ -1,7 +1,7 @@
 import React, { forwardRef, RefObject, useRef } from "react";
 import ParentWebView, { WebViewProps as ParentWebViewProps } from "react-native-webview";
 
-// import { baseUrl } from "~/config/url";
+import { baseUrl } from "~/config/url";
 import useBackHandler from "~/hooks/webview/useBackHandler";
 import useWebviewLog from "~/hooks/webview/useWebviewLog";
 
@@ -19,8 +19,6 @@ const WebView = forwardRef<ParentWebView, WebViewProps>(
     const localRef = useRef<ParentWebView>(null);
     const webviewRef = (ref as RefObject<ParentWebView>) || localRef;
     const fullPath = path.startsWith("/") ? path : `/${path}`;
-
-    const baseUrl = "http://localhost:3000";
 
     useBackHandler(webviewRef);
     const { debuggingScript, handleMessageInterceptor } = useWebviewLog(onMessage);
