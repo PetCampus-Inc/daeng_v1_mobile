@@ -20,6 +20,10 @@
             "package_name": "com.petcampus.knock",
             "certificate_hash": "3c2ee0effd478b083607bf941f7c1d3d33afe0a3"
           }
+        },
+        {
+          "client_id": "494514527970-ahp4roo670lkpt8upit6h95pskrkj124.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
@@ -30,6 +34,10 @@
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
+            {
+              "client_id": "494514527970-ahp4roo670lkpt8upit6h95pskrkj124.apps.googleusercontent.com",
+              "client_type": 3
+            },
             {
               "client_id": "494514527970-egreqtk354po5ea34h9psm31qagmf1vi.apps.googleusercontent.com",
               "client_type": 2,

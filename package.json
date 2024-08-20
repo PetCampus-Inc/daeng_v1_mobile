@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.3.0",
+    "@notifee/react-native": "^7.8.2",
     "@react-native-camera-roll/camera-roll": "^7.8.1",
     "@react-native-community/cli-platform-android": "^14.0.0",
     "@react-native-community/cli-platform-ios": "^14.0.0",
