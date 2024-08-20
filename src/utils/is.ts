@@ -6,15 +6,12 @@ import { WebViewMessage } from "~/types/message.types";
  * WebView Message Type Guard
  */
 const validators = {
-  // CORE
-  GO_BACK: z.null(),
-  SOCIAL_LOGIN: z.union([z.literal("KAKAO"), z.literal("GOOGLE"), z.literal("APPLE")]),
-
-  // DEVICE ACTION
   CALL: z.string(),
   SELECT_IMAGE: z.null(),
   LAUNCH_CAMERA: z.null(),
-  SAVE_IMAGE: z.union([z.string(), z.array(z.string())])
+  SAVE_IMAGE: z.union([z.string(), z.array(z.string())]),
+  FCM_TOKEN: z.string(),
+  SOCIAL_LOGIN: z.union([z.literal("KAKAO"), z.literal("GOOGLE"), z.literal("APPLE")])
 } as const;
 
 export const isValidMessageData = (message: WebViewMessage): message is WebViewMessage => {

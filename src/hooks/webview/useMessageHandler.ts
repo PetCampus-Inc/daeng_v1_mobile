@@ -1,6 +1,7 @@
 import { RefObject, useCallback } from "react";
 import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
+import { useRecoilValue } from "recoil";
 
 import useFirebaseAuth from "~/hooks/auth/useFirebaseAuth";
 import useSaveImage from "~/hooks/native/useSaveImage";
@@ -8,6 +9,7 @@ import useSelectImage from "~/hooks/native/useSelectImage";
 import usePostMessage from "~/hooks/webview/usePostMessage";
 import { connectCall } from "~/native/call";
 import { runCamera } from "~/native/camera";
+import { fcmTokenState } from "~/store/fcmToken";
 import { MessageDataType, WebViewMessage } from "~/types/message.types";
 
 interface MessageHandlerOptions {
@@ -23,10 +25,11 @@ const useMessageHandler = ({
   onError,
   onCallback
 }: MessageHandlerOptions) => {
+  const fcmToken = useRecoilValue(fcmTokenState);
+
   const { postMessage } = usePostMessage({ webviewRef });
   const { save } = useSaveImage();
   const { select } = useSelectImage();
-
   const { socialLogin } = useFirebaseAuth();
 
   const messageHandler = useCallback(
@@ -52,10 +55,16 @@ const useMessageHandler = ({
             response = await runCamera();
             break;
           case "SOCIAL_LOGIN":
+            if (!fcmToken) throw new Error("FCM 토큰이 없습니다.");
             response = {
               idToken: await socialLogin(data),
-              deviceId: await getUniqueId()
+              deviceId: await getUniqueId(),
+              fcmToken
             };
+            break;
+          case "FCM_TOKEN":
+            if (!fcmToken) throw new Error("FCM 토큰이 없습니다.");
+            response = fcmToken;
             break;
           default:
             throw new Error(`지원하지 않는 메세지 타입입니다. [${type}]`);
@@ -69,7 +78,7 @@ const useMessageHandler = ({
         onError?.(newError);
       }
     },
-    [postMessage, save, select, onCallback, onSuccess, onError, socialLogin]
+    [postMessage, save, select, onCallback, onSuccess, onError, socialLogin, fcmToken]
   );
 
   return { messageHandler };
