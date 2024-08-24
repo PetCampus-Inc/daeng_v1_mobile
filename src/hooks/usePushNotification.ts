@@ -1,11 +1,9 @@
 import notifee from "@notifee/react-native";
 import messaging from "@react-native-firebase/messaging";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { Platform } from "react-native";
-import { useSetRecoilState } from "recoil";
 
 import { requestMessagingPermission } from "~/permission/messaging";
-import { fcmTokenState } from "~/store/fcmToken";
 
 const firebaseMessaging = messaging();
 
@@ -18,24 +16,10 @@ const usePushNotification = ({
   onMessage,
   onNotificationOpenedApp
 }: PushNotificationOptions = {}) => {
-  const setFcmToken = useSetRecoilState(fcmTokenState);
-
-  const setupMessaging = useCallback(async () => {
-    try {
-      await requestMessagingPermission();
-      const fcmToken = await firebaseMessaging.getToken();
-      if (!fcmToken) throw new Error("FCM 토큰을 가져오는 데 실패했습니다.");
-      setFcmToken(fcmToken);
-    } catch (error) {
-      console.error("[Push Notification]", error);
-    }
-  }, [setFcmToken]);
-
   useEffect(() => {
-    setupMessaging();
+    requestMessagingPermission();
 
     const cleanupFunctions: (() => void)[] = [];
-
     // 앱 실행 중 알림을 받았을 때 (iOS, Android 공통)
     const foregroundMessageUnsubscribe = firebaseMessaging.onMessage((remoteMessage) => {
       if (remoteMessage.data && onMessage) onMessage(JSON.stringify(remoteMessage.data));
@@ -75,7 +59,7 @@ const usePushNotification = ({
     return () => {
       cleanupFunctions.forEach((cleanup) => cleanup());
     };
-  }, [setupMessaging, onMessage, onNotificationOpenedApp]);
+  }, [onMessage, onNotificationOpenedApp]);
 };
 
 export default usePushNotification;

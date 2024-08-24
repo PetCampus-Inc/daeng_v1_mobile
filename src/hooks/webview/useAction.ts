@@ -1,16 +1,15 @@
 import { RefObject, useCallback } from "react";
 import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
-import { useRecoilValue } from "recoil";
 
 import useFirebaseAuth from "~/hooks/auth/useFirebaseAuth";
 import useSaveImage from "~/hooks/native/useSaveImage";
 import useSelectImage from "~/hooks/native/useSelectImage";
 import { connectCall } from "~/native/call";
 import { runCamera } from "~/native/camera";
-import { fcmTokenState } from "~/store/fcmToken";
 import { ActionData, ActionRequest, ActionResponse, ActionType } from "~/types/action";
 import { SocialAuthData, SocialProvider } from "~/types/auth.types";
+import getFcmToken from "~/utils/getFcmToken";
 
 interface ActionOptions {
   webviewRef: RefObject<WebView>;
@@ -18,34 +17,34 @@ interface ActionOptions {
 }
 
 const useAction = ({ webviewRef, onError }: ActionOptions) => {
-  const fcmToken = useRecoilValue(fcmTokenState);
-
   const { save } = useSaveImage();
   const { select } = useSelectImage();
   const { socialLogin } = useFirebaseAuth();
 
   const postActionResponse = useCallback(
     (response: ActionResponse<ActionType>) => {
-      if (webviewRef.current) {
-        const message = JSON.stringify(response);
-        webviewRef.current.postMessage(message);
-      } else if (onError) onError(new Error("WebView 참조를 찾을 수 없습니다."));
+      if (!webviewRef.current) throw new Error("WebView 참조를 찾을 수 없습니다.");
+      const message = JSON.stringify(response);
+      webviewRef.current.postMessage(message);
     },
-    [webviewRef, onError]
+    [webviewRef]
+  );
+
+  const handleSocialLogin = useCallback(
+    async (provider: SocialProvider): Promise<SocialAuthData> => {
+      const [idToken, deviceId, fcmToken] = await Promise.all([
+        socialLogin(provider),
+        getUniqueId(),
+        getFcmToken()
+      ]);
+      return { idToken, deviceId, fcmToken };
+    },
+    [socialLogin]
   );
 
   return useCallback(
     async <T extends ActionType>(message: ActionRequest<T>) => {
       const { id, action, payload } = message;
-
-      const handleSocialLogin = async (provider: SocialProvider): Promise<SocialAuthData> => {
-        if (!fcmToken) throw new Error("FCM 토큰이 없습니다.");
-        return {
-          idToken: await socialLogin(provider),
-          deviceId: await getUniqueId(),
-          fcmToken
-        };
-      };
 
       try {
         let response: ActionData<T>["response"] = null;
@@ -67,8 +66,7 @@ const useAction = ({ webviewRef, onError }: ActionOptions) => {
             response = await handleSocialLogin(payload);
             break;
           case "FCM_TOKEN":
-            if (!fcmToken) throw new Error("FCM 토큰이 없습니다.");
-            response = fcmToken;
+            response = await getFcmToken();
             break;
           default:
             throw new Error(`지원하지 않는 메세지 타입입니다. [${action}]`);
@@ -81,7 +79,7 @@ const useAction = ({ webviewRef, onError }: ActionOptions) => {
         onError?.(newError);
       }
     },
-    [postActionResponse, save, select, onError, socialLogin, fcmToken]
+    [postActionResponse, save, select, onError, handleSocialLogin]
   );
 };
 
