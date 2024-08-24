@@ -1,0 +1,81 @@
+import notifee from "@notifee/react-native";
+import messaging from "@react-native-firebase/messaging";
+import { useCallback, useEffect } from "react";
+import { Platform } from "react-native";
+import { useSetRecoilState } from "recoil";
+
+import { requestMessagingPermission } from "~/permission/messaging";
+import { fcmTokenState } from "~/store/fcmToken";
+
+const firebaseMessaging = messaging();
+
+interface PushNotificationOptions {
+  onMessage?: (data: string) => void;
+  onNotificationOpenedApp?: (data: string) => void;
+}
+
+const usePushNotification = ({
+  onMessage,
+  onNotificationOpenedApp
+}: PushNotificationOptions = {}) => {
+  const setFcmToken = useSetRecoilState(fcmTokenState);
+
+  const setupMessaging = useCallback(async () => {
+    try {
+      await requestMessagingPermission();
+      const fcmToken = await firebaseMessaging.getToken();
+      if (!fcmToken) throw new Error("FCM 토큰을 가져오는 데 실패했습니다.");
+      setFcmToken(fcmToken);
+    } catch (error) {
+      console.error("[Push Notification]", error);
+    }
+  }, [setFcmToken]);
+
+  useEffect(() => {
+    setupMessaging();
+
+    const cleanupFunctions: (() => void)[] = [];
+
+    // 앱 실행 중 알림을 받았을 때 (iOS, Android 공통)
+    const foregroundMessageUnsubscribe = firebaseMessaging.onMessage((remoteMessage) => {
+      if (remoteMessage.data && onMessage) onMessage(JSON.stringify(remoteMessage.data));
+    });
+    cleanupFunctions.push(foregroundMessageUnsubscribe);
+
+    if (Platform.OS === "android") {
+      // Android: 백그라운드 상태에서 알림을 클릭해 앱을 실행했을 때
+      const backgroundMessageUnsubscribe = firebaseMessaging.onNotificationOpenedApp(
+        (remoteMessage) => {
+          console.log("NotificationOpenedApp (Android)");
+          if (remoteMessage.data && onNotificationOpenedApp) {
+            onNotificationOpenedApp(JSON.stringify(remoteMessage.data));
+          }
+        }
+      );
+      cleanupFunctions.push(backgroundMessageUnsubscribe);
+
+      // Android: 종료된 상태에서 알림을 클릭해 앱을 실행했을 때
+      firebaseMessaging.getInitialNotification().then((remoteMessage) => {
+        if (remoteMessage) {
+          if (remoteMessage.data && onNotificationOpenedApp) {
+            onNotificationOpenedApp(JSON.stringify(remoteMessage.data));
+          }
+        }
+      });
+    } else if (Platform.OS === "ios") {
+      // iOS: 종료 또는 백그라운드 상태에서 알림을 클릭해 앱을 실행했을 때
+      const iosForegroundEventUnsubscribe = notifee.onForegroundEvent(async ({ detail }) => {
+        if (detail.notification && onNotificationOpenedApp) {
+          onNotificationOpenedApp(JSON.stringify(detail.notification.data));
+        }
+      });
+      cleanupFunctions.push(iosForegroundEventUnsubscribe);
+    }
+
+    return () => {
+      cleanupFunctions.forEach((cleanup) => cleanup());
+    };
+  }, [setupMessaging, onMessage, onNotificationOpenedApp]);
+};
+
+export default usePushNotification;
