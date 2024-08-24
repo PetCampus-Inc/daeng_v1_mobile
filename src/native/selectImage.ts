@@ -1,17 +1,7 @@
-import { PermissionsAndroid, Platform } from "react-native";
+import { Platform } from "react-native";
 import { ImageLibraryOptions, launchImageLibrary, Asset } from "react-native-image-picker";
 
-async function requestMediaLibraryPermission() {
-  if (Platform.OS !== "android") return true;
-
-  const permission =
-    Platform.Version >= 33
-      ? PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES
-      : PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE;
-
-  const granted = await PermissionsAndroid.request(permission);
-  return granted === PermissionsAndroid.RESULTS.GRANTED;
-}
+import requestMediaLibraryPermission from "~/permission/mediaLibrary";
 
 const defaultOptions: ImageLibraryOptions = {
   mediaType: "photo",
@@ -20,9 +10,8 @@ const defaultOptions: ImageLibraryOptions = {
 
 export const selectImage = async (options?: ImageLibraryOptions): Promise<Asset[]> => {
   try {
-    if (Platform.OS === "android" && !(await requestMediaLibraryPermission())) {
+    if (!(await requestMediaLibraryPermission()))
       throw new Error("Media library permission denied");
-    }
 
     const response = await new Promise<{ assets?: Asset[] }>((resolve, reject) => {
       launchImageLibrary(options ?? defaultOptions, (res) => {
