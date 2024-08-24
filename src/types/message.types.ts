@@ -1,33 +1,27 @@
-import { SocialAuthData, SocialProvider } from "~/types/auth.types";
+export const MESSAGE_REQUEST_TYPES = ["GO_BACK"] as const;
 
-export interface EventMessage {
+export interface WebViewMessageMap {
   Request: {
-    CALL: string;
-    SAVE_IMAGE: string | string[];
-    SELECT_IMAGE: null;
-    LAUNCH_CAMERA: null;
-    FCM_TOKEN: null;
-    SOCIAL_LOGIN: SocialProvider;
+    GO_BACK: null;
   };
   Response: {
-    CALL: null;
-    SAVE_IMAGE: null;
-    SELECT_IMAGE: string[];
-    LAUNCH_CAMERA: string;
-    FCM_TOKEN: string;
-    SOCIAL_LOGIN: SocialAuthData;
-    ERROR: string;
+    NEW_NOTIFICATION: string;
+    PUSH_NOTIFICATION: string;
   };
 }
 
-export type MessageType = {
-  [K in "Request" | "Response"]: keyof EventMessage[K];
-};
+export type WebViewMessageType<T extends keyof WebViewMessageMap> = keyof WebViewMessageMap[T];
 
-export type MessageDataType = {
-  Request: EventMessage["Request"][MessageType["Request"]];
-  Response: EventMessage["Response"][MessageType["Response"]];
-};
+export type WebViewMessageData<
+  T extends keyof WebViewMessageMap,
+  K extends keyof WebViewMessageMap[T]
+> = WebViewMessageMap[T][K];
 
-export type WebViewMessage<T extends MessageType["Request"] = MessageType["Request"]> =
-  T extends unknown ? { type: T; data: EventMessage["Request"][T]; requestId: string } : never;
+export type WebViewMessageRequest<T extends WebViewMessageType<"Request">> = T extends unknown
+  ? { type: T; data: WebViewMessageData<"Request", T> }
+  : never;
+
+export type WebViewMessageResponse<T extends WebViewMessageType<"Response">> = {
+  type: T;
+  data: WebViewMessageData<"Response", T>;
+};

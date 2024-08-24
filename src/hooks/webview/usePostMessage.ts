@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import { WebViewElement } from "~/components/WebView";
-import { MessageData, MessageType } from "~/types/message.types";
+import { WebViewMessageData, WebViewMessageType } from "~/types/message.types";
 
 interface PostMessageParams {
   webviewRef: React.RefObject<WebViewElement>;
@@ -9,23 +9,18 @@ interface PostMessageParams {
 }
 
 const usePostMessage = ({ webviewRef, onError }: PostMessageParams) => {
-  const postMessage = useCallback(
-    <T extends MessageType["Response"]>(
+  return useCallback(
+    <T extends WebViewMessageType<"Response">>(
       type: T,
-      data: MessageData["Response"][T],
-      requestId?: string
+      data: WebViewMessageData<"Response", T>
     ) => {
       if (webviewRef.current) {
-        const message = JSON.stringify({ type, data, requestId: requestId ?? type });
+        const message = JSON.stringify({ type, data });
         webviewRef.current.postMessage(message);
-      } else {
-        onError?.(new Error("WebView 참조를 찾을 수 없습니다."));
-      }
+      } else onError?.(new Error("WebView 참조를 찾을 수 없습니다."));
     },
     [webviewRef, onError]
   );
-
-  return { postMessage };
 };
 
 export default usePostMessage;
