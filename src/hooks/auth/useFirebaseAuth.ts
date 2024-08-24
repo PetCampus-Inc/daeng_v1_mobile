@@ -152,18 +152,21 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
 
   const firebaseSignOut = useCallback(async () => firebaseAuth.signOut(), []);
 
-  const socialLogin = async (provider: SocialProvider) => {
-    switch (provider) {
-      case "KAKAO":
-        return await kakaoLogin();
-      case "GOOGLE":
-        return await googleLogin();
-      case "APPLE":
-        return await appleLogin();
-      default:
-        throw new Error("Unsupported Social Provider");
-    }
-  };
+  const socialLogin = useCallback(
+    async (provider: SocialProvider) => {
+      switch (provider) {
+        case "KAKAO":
+          return await kakaoLogin();
+        case "GOOGLE":
+          return await googleLogin();
+        case "APPLE":
+          return await appleLogin();
+        default:
+          throw new Error(`지원하지 않는 소셜 로그인입니다. [${provider}]`);
+      }
+    },
+    [kakaoLogin, googleLogin, appleLogin]
+  );
 
   useEffect(() => {
     googleSigninConfigure();
