@@ -23,9 +23,7 @@ const WebView = forwardRef<ParentWebView, WebViewProps>(
     useBackHandler(webviewRef);
     const { debuggingScript, handleMessageInterceptor } = useWebviewLog(onMessage);
 
-    /**
-     * 백그라운드 환경에서 웹뷰 강제 종료 현상 방지 (IOS)
-     */
+    /** 백그라운드 환경에서 웹뷰 강제 종료 현상 방지 (IOS) */
     const handleContentProcessDidTerminate = () => webviewRef.current?.reload();
 
     return (
@@ -37,6 +35,7 @@ const WebView = forwardRef<ParentWebView, WebViewProps>(
         scalesPageToFit={false}
         automaticallyAdjustContentInsets={false}
         webviewDebuggingEnabled={__DEV__}
+        sharedCookiesEnabled={true}
         onMessage={handleMessageInterceptor}
         onContentProcessDidTerminate={handleContentProcessDidTerminate}
         injectedJavaScript={debuggingScript}
