@@ -1,8 +1,9 @@
-export const MESSAGE_REQUEST_TYPES = ["GO_BACK"] as const;
+import { User } from "~/types/auth.types";
 
 export interface WebViewMessageMap {
   Request: {
     GO_BACK: null;
+    LOGIN_SUCCESS: User;
   };
   Response: {
     NEW_NOTIFICATION: string;

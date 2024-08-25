@@ -1,9 +1,9 @@
 import { z } from "zod";
 
+import { User } from "~/types/auth.types";
 import {
   WebViewMessageRequest,
   WebViewMessageType,
-  MESSAGE_REQUEST_TYPES,
   WebViewMessageData
 } from "~/types/message.types";
 
@@ -12,8 +12,11 @@ type RequestDataSchemaType = {
 };
 
 const requestDataSchema: RequestDataSchemaType = {
-  GO_BACK: z.null()
+  GO_BACK: z.null(),
+  LOGIN_SUCCESS: z.enum([User.ADMIN, User.MEMBER])
 } as const;
+
+const MESSAGE_REQUEST_TYPES = Object.keys(requestDataSchema) as WebViewMessageType<"Request">[];
 
 /**
  * 메세지가 `WebViewMessageRequest` 타입인지 확인합니다.
@@ -27,9 +30,7 @@ export function isWebViewMessageRequest<T extends WebViewMessageType<"Request">>
 
   const { type, data } = message as WebViewMessageRequest<T>;
 
-  const isMessageType =
-    typeof type === "string" &&
-    MESSAGE_REQUEST_TYPES.includes(type as WebViewMessageType<"Request">);
+  const isMessageType = typeof type === "string" && MESSAGE_REQUEST_TYPES.includes(type);
 
   const schema = requestDataSchema[type];
   const isValidateData = schema ? schema.safeParse(data).success : false;

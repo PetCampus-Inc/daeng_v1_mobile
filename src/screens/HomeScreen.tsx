@@ -3,18 +3,22 @@ import SplashScreen from "react-native-splash-screen";
 
 import KeyboardAvoidingWebView from "~/components/KeyboardAvoidingWebView";
 import { type WebViewElement } from "~/components/WebView";
+import useTokenCookieManager from "~/hooks/auth/useTokenCookieManager";
 import usePushNotification from "~/hooks/usePushNotification";
-import useAction from "~/hooks/webview/useAction";
+import useActionController from "~/hooks/webview/useActionController";
+import useMessageController from "~/hooks/webview/useMessageController";
+import useMessageDispatcher from "~/hooks/webview/useMessageDispatcher";
 import usePostMessage from "~/hooks/webview/usePostMessage";
-import useWebViewMessageHandler from "~/hooks/webview/useWebViewMessageHandler";
 
 const HomeScreen = () => {
   const webviewRef = useRef<WebViewElement>(null);
 
   const postMessage = usePostMessage({ webviewRef });
-  const onAction = useAction({ webviewRef });
-  const handleMessage = useWebViewMessageHandler({ onAction });
+  const onMessage = useMessageController();
+  const onAction = useActionController({ webviewRef });
+  const handleMessage = useMessageDispatcher({ onMessage, onAction });
 
+  useTokenCookieManager();
   usePushNotification({
     onMessage: (message) => postMessage("NEW_NOTIFICATION", message),
     onNotificationOpenedApp: (message) => postMessage("PUSH_NOTIFICATION", message)
@@ -25,7 +29,6 @@ const HomeScreen = () => {
       className="flex-1"
       ref={webviewRef}
       onMessage={handleMessage}
-      sharedCookiesEnabled={true}
       onLoadEnd={() => SplashScreen.hide()}
     />
   );
