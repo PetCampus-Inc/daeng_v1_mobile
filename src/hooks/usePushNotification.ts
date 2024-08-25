@@ -8,10 +8,17 @@ import { requestMessagingPermission } from "~/permission/messaging";
 const firebaseMessaging = messaging();
 
 interface PushNotificationOptions {
+  /** 앱 실행 중에 푸시 알림을 받았을 때 호출될 함수 */
   onMessage?: (data: string) => void;
+  /** 백그라운드 또는 종료된 상태에서 푸시 알림을 클릭했을 때 호출될 함수 */
   onNotificationOpenedApp?: (data: string) => void;
 }
 
+/**
+ * 푸시 알림을 처리하는 훅입니다.
+ * @param onMessage 앱 실행 중에 푸시 알림을 받았을 때 호출될 함수
+ * @param onNotificationOpenedApp 백그라운드 또는 종료된 상태에서 푸시 알림을 클릭했을 때 호출될 함수
+ */
 const usePushNotification = ({
   onMessage,
   onNotificationOpenedApp

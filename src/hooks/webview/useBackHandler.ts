@@ -2,9 +2,11 @@ import { RefObject, useCallback, useEffect } from "react";
 import { BackHandler } from "react-native";
 import WebView from "react-native-webview";
 
+// TODO: 히스토리 없을 때, 뒤로가기 두번 누르면 앱 종료 추가
+
 /**
- * WebView에서 뒤로가기 버튼을 눌렀을 때의 동작을 핸들링
- * @param webviewRef Webview 참조
+ * `WebView`에서 뒤로가기 버튼을 눌렀을 때의 동작을 핸들링합니다.
+ * @param webviewRef `Webview` 참조
  */
 const useBackHandler = (webviewRef: RefObject<WebView>) => {
   const handleBackPress = useCallback(() => {

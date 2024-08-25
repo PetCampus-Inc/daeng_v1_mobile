@@ -1,13 +1,20 @@
-import { useCallback } from "react";
+import { RefObject, useCallback } from "react";
 
 import { WebViewElement } from "~/components/WebView";
 import { WebViewMessageData, WebViewMessageType } from "~/types/message.types";
 
 interface PostMessageParams {
-  webviewRef: React.RefObject<WebViewElement>;
+  /** `WebView`의 `RefObject` */
+  webviewRef: RefObject<WebViewElement>;
+  /** 에러 발생 시 호출될 함수 */
   onError?: (err: Error) => void;
 }
 
+/**
+ * `WebView`에 메시지를 보내는 훅입니다.
+ * @param webviewRef `WebView`의 `RefObject`
+ * @param onError 에러 발생 시 호출될 함수
+ */
 const usePostMessage = ({ webviewRef, onError }: PostMessageParams) => {
   return useCallback(
     <T extends WebViewMessageType<"Response">>(

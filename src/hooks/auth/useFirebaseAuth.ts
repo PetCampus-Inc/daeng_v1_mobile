@@ -20,14 +20,19 @@ const googleSigninConfigure = () => {
 };
 
 interface LoginHookParams {
+  /** 로그인 완료 후, `Firebase` 인증 성공 시 호출될 함수 */
   onSuccess?: (IdToken: string) => void;
+  /** `Firebase` 인증 실패 시 호출될 함수 */
   onError?: (error: Error) => void;
 }
 
+/**
+ * `Firebase`를 연동해 소셜 로그인을 처리하는 훅입니다.
+ * @param onSuccess 로그인 완료 후, `Firebase` 인증 성공 시 호출될 함수
+ * @param onError `Firebase` 인증 실패 시 호출될 함수
+ */
 const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
-  /**
-   * Firebase 유저 검증 후 IDToken을 반환합니다.
-   */
+  /** `Firebase` 유저 검증 후 `IDToken`을 반환합니다. */
   const getFirebaseToken = useCallback(async (): Promise<string | null> => {
     const user = firebaseAuth.currentUser;
     if (user) {
@@ -56,6 +61,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
     }
   }, []);
 
+  /** `Firebase` 인증 성공을 처리합니다. */
   const handleAuthSuccess = useCallback(
     async (credential: FirebaseAuthTypes.AuthCredential): Promise<string> => {
       try {
@@ -74,12 +80,9 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
     [onSuccess, onError]
   );
 
-  /**
-   * Kakao 로그인
-   */
+  /** 카카오 로그인 */
   const kakaoLogin = useCallback(async (): Promise<string> => {
     try {
-      // Kakao Auth
       const { idToken } = await login();
       const credential = auth.OIDCAuthProvider.credential("kakao", idToken);
       return await handleAuthSuccess(credential);
@@ -105,9 +108,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
     return true;
   };
 
-  /**
-   * Google 로그인
-   */
+  /** 구글 로그인 */
   const googleLogin = useCallback(async (): Promise<string> => {
     try {
       // Google Auth
@@ -127,9 +128,7 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
     }
   }, [handleAuthSuccess, onError]);
 
-  /**
-   * Apple 로그인
-   */
+  /** 애플 로그인 */
   const appleLogin = useCallback(async (): Promise<string> => {
     try {
       const appleAuthResult = await appleAuth.performRequest({
@@ -150,10 +149,15 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
     }
   }, [handleAuthSuccess, onError]);
 
+  /** `Firebase` 로그아웃 */
   const firebaseSignOut = useCallback(async () => firebaseAuth.signOut(), []);
 
+  /**
+   * 소셜 로그인을 처리합니다.
+   * @param provider 소셜 로그인 제공자 (`KAKAO`, `GOOGLE`, `APPLE`)
+   */
   const socialLogin = useCallback(
-    async (provider: SocialProvider) => {
+    async (provider: SocialProvider): Promise<string> => {
       switch (provider) {
         case "KAKAO":
           return await kakaoLogin();
@@ -174,9 +178,6 @@ const useFirebaseAuth = ({ onSuccess, onError }: LoginHookParams = {}) => {
 
   return {
     getFirebaseToken,
-    kakaoLogin,
-    googleLogin,
-    appleLogin,
     socialLogin,
     firebaseSignOut
   };
