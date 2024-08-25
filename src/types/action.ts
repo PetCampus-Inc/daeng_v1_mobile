@@ -1,15 +1,6 @@
 import { SocialAuthData, SocialProvider } from "~/types/auth.types";
 
-export const ACTION_TYPES = [
-  "CALL",
-  "SAVE_IMAGE",
-  "SELECT_IMAGE",
-  "LAUNCH_CAMERA",
-  "FCM_TOKEN",
-  "SOCIAL_LOGIN"
-] as const;
-
-export interface ActionMap {
+export interface NativeActionMap {
   CALL: {
     request: string;
     response: null;
@@ -36,17 +27,17 @@ export interface ActionMap {
   };
 }
 
-export type ActionType = keyof ActionMap;
+export type NativeActionType = keyof NativeActionMap;
 
-export type ActionData<T extends ActionType> = ActionMap[T];
+export type NativeActionData<T extends NativeActionType> = NativeActionMap[T];
 
-export type ActionRequest<T extends ActionType> = T extends unknown
-  ? { id: string; action: T; payload: ActionData<T>["request"] }
+export type NativeActionRequest<T extends NativeActionType> = T extends unknown
+  ? { id: string; action: T; payload: NativeActionData<T>["request"] }
   : never;
 
-export type ActionResponse<T extends ActionType> = {
+export type NativeActionResponse<T extends NativeActionType> = {
   id: string;
   status: "SUCCESS" | "ERROR";
   action: T;
-  payload: ActionData<T>["response"];
+  payload: NativeActionData<T>["response"];
 };

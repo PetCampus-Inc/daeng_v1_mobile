@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-import { ACTION_TYPES, ActionType, ActionRequest, ActionData } from "~/types/action";
+import { NativeActionType, NativeActionRequest, NativeActionData } from "~/types/action";
 
 type RequestPayloadSchemaType = {
-  [K in ActionType]: z.ZodType<ActionData<K>["request"]>;
+  [K in NativeActionType]: z.ZodType<NativeActionData<K>["request"]>;
 };
 
 const requestPayloadSchema: RequestPayloadSchemaType = {
@@ -15,18 +15,21 @@ const requestPayloadSchema: RequestPayloadSchemaType = {
   SOCIAL_LOGIN: z.union([z.literal("KAKAO"), z.literal("GOOGLE"), z.literal("APPLE")])
 } as const;
 
+const NATIVE_ACTION_TYPES = Object.keys(requestPayloadSchema) as NativeActionType[];
+
 /**
  * 메세지가 `ActionRequest` 타입인지 확인합니다.
  * @param message - unknown
  * @return boolean
  */
-export function isActionRequest<T extends ActionType>(
+export function isNativeActionRequest<T extends NativeActionType>(
   message: unknown
-): message is ActionRequest<T> {
+): message is NativeActionRequest<T> {
   if (typeof message !== "object" || message === null) return false;
-  const { id, action, payload } = message as ActionRequest<T>;
+  const { id, action, payload } = message as NativeActionRequest<T>;
 
-  const isAction = typeof action === "string" && ACTION_TYPES.includes(action as ActionType);
+  const isAction =
+    typeof action === "string" && NATIVE_ACTION_TYPES.includes(action as NativeActionType);
 
   const schema = requestPayloadSchema[action];
   const isActionRequestPayload = schema ? schema.safeParse(payload).success : false;
