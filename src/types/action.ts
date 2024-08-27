@@ -6,7 +6,7 @@ export interface NativeActionMap {
     response: null;
   };
   SAVE_IMAGE: {
-    request: string[];
+    request: string;
     response: null;
   };
   SELECT_IMAGE: {

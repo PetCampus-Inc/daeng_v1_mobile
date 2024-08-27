@@ -3,10 +3,10 @@ import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
 
 import useFirebaseAuth from "~/hooks/auth/useFirebaseAuth";
-import useSaveImage from "~/hooks/native/useSaveImage";
 import useSelectImage from "~/hooks/native/useSelectImage";
 import { connectCall } from "~/native/call";
 import { runCamera } from "~/native/camera";
+import saveImage from "~/native/saveImage";
 import {
   NativeActionData,
   NativeActionRequest,
@@ -29,7 +29,6 @@ interface ActionControllerOptions {
  * @param onError 에러 발생 시 호출될 함수
  */
 const useActionController = ({ webviewRef, onError }: ActionControllerOptions) => {
-  const { save } = useSaveImage();
   const { select } = useSelectImage();
   const { socialLogin } = useFirebaseAuth();
 
@@ -63,7 +62,7 @@ const useActionController = ({ webviewRef, onError }: ActionControllerOptions) =
 
         switch (action) {
           case "SAVE_IMAGE":
-            await save(payload);
+            await saveImage(payload);
             break;
           case "SELECT_IMAGE":
             response = await select();
@@ -91,7 +90,7 @@ const useActionController = ({ webviewRef, onError }: ActionControllerOptions) =
         onError?.(errMsg);
       }
     },
-    [postActionResponse, save, select, onError, handleSocialLogin]
+    [postActionResponse, select, onError, handleSocialLogin]
   );
 };
 

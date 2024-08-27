@@ -4,7 +4,6 @@ import { RecoilRoot } from "recoil";
 
 import HomeScreen from "~/screens/HomeScreen";
 import ImageSaveProgressView from "~/views/ImageSaveProgressView";
-
 import "~/styles/global.css";
 
 function App(): React.JSX.Element {
