@@ -30,15 +30,19 @@ const WebView = forwardRef<ParentWebView, WebViewProps>(
       <ParentWebView
         ref={webviewRef}
         bounces={false}
-        originWhitelist={["*"]}
-        hideKeyboardAccessoryView={true}
-        scalesPageToFit={false}
-        automaticallyAdjustContentInsets={false}
-        webviewDebuggingEnabled={__DEV__}
-        sharedCookiesEnabled={true}
         onMessage={handleMessageInterceptor}
         onContentProcessDidTerminate={handleContentProcessDidTerminate}
+        originWhitelist={["*"]}
+        scalesPageToFit={false}
+        automaticallyAdjustContentInsets={false}
         injectedJavaScript={debuggingScript}
+        webviewDebuggingEnabled={__DEV__}
+        /** 키보드 액세서리 뷰 숨기기 */
+        hideKeyboardAccessoryView={true}
+        /** 쿠키 공유 활성화 */
+        sharedCookiesEnabled={true}
+        /** IOS 뒤로가기 제스처 활성화 */
+        allowsBackForwardNavigationGestures={true}
         source={{
           uri: `${baseUrl}${fullPath}`,
           headers: {
