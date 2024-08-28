@@ -4,6 +4,7 @@ export interface WebViewMessageMap {
   Request: {
     GO_BACK: null;
     LOGIN_SUCCESS: User;
+    REFRESH_TOKEN: null;
   };
   Response: {
     NEW_NOTIFICATION: string;

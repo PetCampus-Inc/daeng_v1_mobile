@@ -33,7 +33,10 @@ export default function useMessageController({ onError }: MessageControllerOptio
       try {
         switch (type) {
           case "LOGIN_SUCCESS":
-            await handleLogin(data);
+            handleLogin(data);
+            break;
+          case "REFRESH_TOKEN":
+            extractAndSaveRefreshToken();
             break;
           default:
             throw new Error(`지원하지 않는 메세지 타입입니다. [${type}]`);
@@ -44,6 +47,6 @@ export default function useMessageController({ onError }: MessageControllerOptio
         onError?.(errMsg);
       }
     },
-    [onError, handleLogin]
+    [onError, handleLogin, extractAndSaveRefreshToken]
   );
 }
