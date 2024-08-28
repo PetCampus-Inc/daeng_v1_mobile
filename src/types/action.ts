@@ -31,9 +31,13 @@ export type NativeActionType = keyof NativeActionMap;
 
 export type NativeActionData<T extends NativeActionType> = NativeActionMap[T];
 
-export type NativeActionRequest<T extends NativeActionType> = T extends unknown
-  ? { id: string; action: T; payload: NativeActionData<T>["request"] }
-  : never;
+export type NativeActionRequest = {
+  [T in NativeActionType]: {
+    id: string;
+    action: T;
+    payload: NativeActionData<T>["request"];
+  };
+}[NativeActionType];
 
 export type NativeActionResponse<T extends NativeActionType> = {
   id: string;

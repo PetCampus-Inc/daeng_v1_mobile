@@ -54,7 +54,7 @@ const useActionController = ({ webviewRef, onError }: ActionControllerOptions) =
   );
 
   return useCallback(
-    async <T extends NativeActionType>(message: NativeActionRequest<T>) => {
+    async <T extends NativeActionType>(message: NativeActionRequest) => {
       const { id, action, payload } = message;
 
       try {
