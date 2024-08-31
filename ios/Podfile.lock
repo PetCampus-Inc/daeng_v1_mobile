@@ -2419,6 +2419,8 @@ PODS:
     - React-Core
   - react-native-encrypted-storage (4.0.3):
     - React-Core
+  - react-native-get-random-values (1.11.0):
+    - React-Core
   - react-native-image-picker (7.1.2):
     - DoubleConversion
     - glog
@@ -2892,6 +2894,7 @@ DEPENDENCIES:
   - "react-native-cameraroll (from `../node_modules/@react-native-camera-roll/camera-roll`)"
   - "react-native-cookies (from `../node_modules/@react-native-cookies/cookies`)"
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
+  - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-image-resizer (from `../node_modules/@bam.tech/react-native-image-resizer`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -3050,6 +3053,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-cookies/cookies"
   react-native-encrypted-storage:
     :path: "../node_modules/react-native-encrypted-storage"
+  react-native-get-random-values:
+    :path: "../node_modules/react-native-get-random-values"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-image-resizer:
@@ -3207,6 +3212,7 @@ SPEC CHECKSUMS:
   react-native-cameraroll: 77d8c06f9c667feda5b2d165ead8e2ddd2cf68a3
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
+  react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-image-picker: 5bd900eec966c8f9fe32c5ec844afcd71d052030
   react-native-image-resizer: fd0c333eca55147bd55c5e054cac95dcd0da6814
   react-native-netinfo: 076df4f9b07f6670acf4ce9a75aac8d34c2e2ccc
