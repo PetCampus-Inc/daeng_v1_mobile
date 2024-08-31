@@ -12,7 +12,12 @@ const requestPayloadSchema: RequestPayloadSchemaType = {
   LAUNCH_CAMERA: z.null(),
   SAVE_IMAGE: z.string(),
   FCM_TOKEN: z.null(),
-  SOCIAL_LOGIN: z.union([z.literal("KAKAO"), z.literal("GOOGLE"), z.literal("APPLE")])
+  SOCIAL_LOGIN: z.union([z.literal("KAKAO"), z.literal("GOOGLE"), z.literal("APPLE")]),
+  S3_UPLOAD: z.object({
+    key: z.string(),
+    imageUri: z.string(),
+    maxSize: z.number().optional()
+  })
 } as const;
 
 const NATIVE_ACTION_TYPES = Object.keys(requestPayloadSchema) as NativeActionType[];
@@ -22,11 +27,9 @@ const NATIVE_ACTION_TYPES = Object.keys(requestPayloadSchema) as NativeActionTyp
  * @param message - unknown
  * @return boolean
  */
-export function isNativeActionRequest<T extends NativeActionType>(
-  message: unknown
-): message is NativeActionRequest<T> {
+export function isNativeActionRequest(message: unknown): message is NativeActionRequest {
   if (typeof message !== "object" || message === null) return false;
-  const { id, action, payload } = message as NativeActionRequest<T>;
+  const { id, action, payload } = message as NativeActionRequest;
 
   const isAction =
     typeof action === "string" && NATIVE_ACTION_TYPES.includes(action as NativeActionType);

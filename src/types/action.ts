@@ -1,3 +1,4 @@
+import { S3UploadParams } from "~/services/S3Upload";
 import { SocialAuthData, SocialProvider } from "~/types/auth.types";
 
 export interface NativeActionMap {
@@ -24,6 +25,10 @@ export interface NativeActionMap {
   SOCIAL_LOGIN: {
     request: SocialProvider;
     response: SocialAuthData;
+  };
+  S3_UPLOAD: {
+    request: S3UploadParams;
+    response: string;
   };
 }
 

@@ -7,6 +7,7 @@ import useSelectImage from "~/hooks/native/useSelectImage";
 import { connectCall } from "~/native/call";
 import { runCamera } from "~/native/camera";
 import saveImage from "~/native/saveImage";
+import S3Upload from "~/services/S3Upload";
 import {
   NativeActionData,
   NativeActionRequest,
@@ -78,6 +79,13 @@ const useActionController = ({ webviewRef, onError }: ActionControllerOptions) =
             break;
           case "FCM_TOKEN":
             response = await getFcmToken();
+            break;
+          case "S3_UPLOAD":
+            response = await S3Upload({
+              imageUri: payload.imageUri,
+              key: payload.key,
+              maxSize: payload.maxSize
+            });
             break;
           default:
             throw new Error(`지원하지 않는 메세지 타입입니다. [${action}]`);

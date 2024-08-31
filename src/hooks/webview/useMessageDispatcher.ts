@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { WebViewMessageEvent } from "react-native-webview";
 
-import { NativeActionRequest, NativeActionType } from "~/types/action";
+import { NativeActionRequest } from "~/types/action";
 import { WebViewMessageRequest, WebViewMessageType } from "~/types/message.types";
 import { isNativeActionRequest } from "~/utils/is/action";
 import { isWebViewMessageRequest } from "~/utils/is/message";
@@ -10,7 +10,7 @@ interface MessageDispatcherOptions {
   /** `WebView`로 부터 메세지를 받으면 호출 됩니다. */
   onMessage?: (message: WebViewMessageRequest<WebViewMessageType<"Request">>) => void;
   /** `WebView`로 부터 `Action` 메세지를 받으면 호출 됩니다. */
-  onAction?: (message: NativeActionRequest<NativeActionType>) => void;
+  onAction?: (message: NativeActionRequest) => void;
   /** `WebView` 통신 중 오류가 발생하면 호출 됩니다. */
   onError?: (err: Error) => void;
 }
