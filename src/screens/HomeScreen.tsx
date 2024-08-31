@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import { View } from "react-native";
 import SplashScreen from "react-native-splash-screen";
+import { WebViewNavigation } from "react-native-webview";
+import { useSetRecoilState } from "recoil";
 
 import KeyboardAvoidingWebView from "~/components/KeyboardAvoidingWebView";
 import { type WebViewElement } from "~/components/WebView";
@@ -11,9 +13,11 @@ import useActionController from "~/hooks/webview/useActionController";
 import useMessageController from "~/hooks/webview/useMessageController";
 import useMessageDispatcher from "~/hooks/webview/useMessageDispatcher";
 import usePostMessage from "~/hooks/webview/usePostMessage";
+import { webNavigationState } from "~/store/webNavigationState";
 
 const HomeScreen = () => {
   const webviewRef = useRef<WebViewElement>(null);
+  const setWebNavigationState = useSetRecoilState(webNavigationState);
 
   const { renderButtons } = useValueTest();
 
@@ -28,6 +32,13 @@ const HomeScreen = () => {
     onNotificationOpenedApp: (message) => postMessage("PUSH_NOTIFICATION", message)
   });
 
+  const handleNavigationStateChange = (nav: WebViewNavigation) => {
+    setWebNavigationState({
+      url: nav.url,
+      canGoBack: nav.canGoBack
+    });
+  };
+
   return (
     <View className="flex-1">
       <KeyboardAvoidingWebView
@@ -35,6 +46,7 @@ const HomeScreen = () => {
         ref={webviewRef}
         onMessage={handleMessage}
         onLoadEnd={() => SplashScreen.hide()}
+        onNavigationStateChange={handleNavigationStateChange}
       />
       {renderButtons}
     </View>
