@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>494514527970-egreqtk354po5ea34h9psm31qagmf1vi.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.494514527970-egreqtk354po5ea34h9psm31qagmf1vi</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>494514527970-8tetl75dk2lpe00neh6r9h5gumk1rj7t.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB_C3KK6TDXZ5crJjuGGd4Cl9oO40MCBlc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>494514527970</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.petcampus.knock</string>
+	<key>PROJECT_ID</key>
+	<string>petcampus-ff26f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>petcampus-ff26f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:494514527970:ios:bfc519e400bfc1f50c48bb</string>
+</dict>
+</plist>

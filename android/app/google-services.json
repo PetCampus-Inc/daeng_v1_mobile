@@ -1,26 +1,52 @@
 {
   "project_info": {
-    "project_number": "678302067561",
-    "project_id": "daeng-b7219",
-    "storage_bucket": "daeng-b7219.appspot.com"
+    "project_number": "494514527970",
+    "project_id": "petcampus-ff26f",
+    "storage_bucket": "petcampus-ff26f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:678302067561:android:e3369b791a23852bf16bf8",
+        "mobilesdk_app_id": "1:494514527970:android:1aaffb0f0340ef920c48bb",
         "android_client_info": {
           "package_name": "com.petcampus.knock"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "494514527970-8tetl75dk2lpe00neh6r9h5gumk1rj7t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.petcampus.knock",
+            "certificate_hash": "3c2ee0effd478b083607bf941f7c1d3d33afe0a3"
+          }
+        },
+        {
+          "client_id": "494514527970-ahp4roo670lkpt8upit6h95pskrkj124.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDAd-xsGzJQpiB4pgNY7Fv0NF-FiMsQH1g"
+          "current_key": "AIzaSyB_qFZjVVjgFB44GJt-W7knprj4WzQe0mE"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "494514527970-ahp4roo670lkpt8upit6h95pskrkj124.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "494514527970-egreqtk354po5ea34h9psm31qagmf1vi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.petcampus.knock",
+                "app_store_id": "6501984584"
+              }
+            }
+          ]
         }
       }
     }
