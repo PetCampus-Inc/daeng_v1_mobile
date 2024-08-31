@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 
+import useLogout from "~/hooks/auth/useLogout";
 import useTokenCookieManager from "~/hooks/auth/useTokenCookieManager";
 import useUser from "~/hooks/auth/useUser";
 import { User } from "~/types/auth.types";
@@ -15,6 +16,7 @@ interface MessageControllerOptions {
  * @param onError 에러 발생 시 호출될 함수
  */
 export default function useMessageController({ onError }: MessageControllerOptions = {}) {
+  const logout = useLogout();
   const { setUser } = useUser();
   const { extractAndSaveRefreshToken } = useTokenCookieManager();
 
@@ -38,6 +40,9 @@ export default function useMessageController({ onError }: MessageControllerOptio
           case "REFRESH_TOKEN":
             extractAndSaveRefreshToken();
             break;
+          case "LOGOUT":
+            logout();
+            break;
           default:
             throw new Error(`지원하지 않는 메세지 타입입니다. [${type}]`);
         }
@@ -47,6 +52,6 @@ export default function useMessageController({ onError }: MessageControllerOptio
         onError?.(errMsg);
       }
     },
-    [onError, handleLogin, extractAndSaveRefreshToken]
+    [onError, handleLogin, extractAndSaveRefreshToken, logout]
   );
 }

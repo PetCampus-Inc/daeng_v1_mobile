@@ -13,7 +13,9 @@ type RequestDataSchemaType = {
 
 const requestDataSchema: RequestDataSchemaType = {
   GO_BACK: z.null(),
-  LOGIN_SUCCESS: z.enum([User.ADMIN, User.MEMBER])
+  LOGIN_SUCCESS: z.enum([User.ADMIN, User.MEMBER]),
+  LOGOUT: z.null(),
+  REFRESH_TOKEN: z.null()
 } as const;
 
 const MESSAGE_REQUEST_TYPES = Object.keys(requestDataSchema) as WebViewMessageType<"Request">[];
@@ -29,7 +31,7 @@ export function isWebViewMessageRequest<T extends WebViewMessageType<"Request">>
   if (typeof message !== "object" || message === null) return false;
 
   const { type, data } = message as WebViewMessageRequest<T>;
-
+  console.log("type", type);
   const isMessageType = typeof type === "string" && MESSAGE_REQUEST_TYPES.includes(type);
 
   const schema = requestDataSchema[type];
