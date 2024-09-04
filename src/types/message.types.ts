@@ -1,9 +1,7 @@
-import { User } from "~/types/auth.types";
-
 export interface WebViewMessageMap {
   Request: {
     GO_BACK: null;
-    LOGIN_SUCCESS: User;
+    LOGIN_SUCCESS: null;
     REFRESH_TOKEN: null;
     LOGOUT: null;
   };

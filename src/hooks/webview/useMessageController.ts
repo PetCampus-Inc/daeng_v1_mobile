@@ -2,8 +2,6 @@ import { useCallback } from "react";
 
 import useLogout from "~/hooks/auth/useLogout";
 import useTokenCookieManager from "~/hooks/auth/useTokenCookieManager";
-import useUser from "~/hooks/auth/useUser";
-import { User } from "~/types/auth.types";
 import { WebViewMessageRequest, WebViewMessageType } from "~/types/message.types";
 
 interface MessageControllerOptions {
@@ -17,16 +15,7 @@ interface MessageControllerOptions {
  */
 export default function useMessageController({ onError }: MessageControllerOptions = {}) {
   const logout = useLogout();
-  const { setUser } = useUser();
   const { extractAndSaveRefreshToken } = useTokenCookieManager();
-
-  const handleLogin = useCallback(
-    async (user: User) => {
-      await setUser(user);
-      await extractAndSaveRefreshToken();
-    },
-    [setUser, extractAndSaveRefreshToken]
-  );
 
   return useCallback(
     async <T extends WebViewMessageType<"Request">>(message: WebViewMessageRequest<T>) => {
@@ -35,7 +24,7 @@ export default function useMessageController({ onError }: MessageControllerOptio
       try {
         switch (type) {
           case "LOGIN_SUCCESS":
-            handleLogin(data);
+            await extractAndSaveRefreshToken();
             break;
           case "REFRESH_TOKEN":
             extractAndSaveRefreshToken();
@@ -52,6 +41,6 @@ export default function useMessageController({ onError }: MessageControllerOptio
         onError?.(errMsg);
       }
     },
-    [onError, handleLogin, extractAndSaveRefreshToken, logout]
+    [onError, extractAndSaveRefreshToken, logout]
   );
 }
