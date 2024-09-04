@@ -1,4 +1,1 @@
-export const KEYS = {
-  USER: "USER",
-  REFRESH_TOKEN: "REFRESH_TOKEN"
-};
+export const REFRESH_TOKEN_KEY = "REFRESH-TOKEN-KEY";
