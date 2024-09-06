@@ -23,9 +23,6 @@ export default function useMessageController({ onError }: MessageControllerOptio
 
       try {
         switch (type) {
-          case "LOGIN_SUCCESS":
-            await extractAndSaveRefreshToken();
-            break;
           case "REFRESH_TOKEN":
             extractAndSaveRefreshToken();
             break;
