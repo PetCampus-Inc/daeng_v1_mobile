@@ -11,12 +11,12 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2543AD95E71722A0F70DAF05 /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FE4B351021809A661C359B8 /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework */; };
-		47E39173B289916DCCFDBE28 /* Pods_daeng_v1_mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3FB5759A5A4195E3A7B109 /* Pods_daeng_v1_mobile.framework */; };
+		44A72340FC92BA2489765C7F /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1A473BB58D031CE91E9BBB8 /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework */; };
 		4C0C563D2BE21C3E0066164F /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C563C2BE21C3E0066164F /* main.jsbundle */; };
 		643412FFB9871D5B76C66196 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 33B79F3DEBB03BEF6201F61B /* PrivacyInfo.xcprivacy */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8BD04F742C597821003F4E0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BD04F732C597821003F4E0A /* GoogleService-Info.plist */; };
+		92B4447289A9BFAD2D9BBD07 /* Pods_daeng_v1_mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFB26CAABC4C1BF89C44106 /* Pods_daeng_v1_mobile.framework */; };
 		DB7491EC8CB345FC92973CDC /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04FA9472004B44DE9D176F16 /* Roboto-Medium.ttf */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +35,6 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* daeng_v1_mobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = daeng_v1_mobileTests.m; sourceTree = "<group>"; };
 		04FA9472004B44DE9D176F16 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
-		06DEA8A1D27DA727C95E9667 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daeng_v1_mobile-daeng_v1_mobileTests.release.xcconfig"; path = "Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* daeng_v1_mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = daeng_v1_mobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = daeng_v1_mobile/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = daeng_v1_mobile/AppDelegate.mm; sourceTree = "<group>"; };
@@ -43,17 +42,18 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = daeng_v1_mobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = daeng_v1_mobile/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = daeng_v1_mobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		2FE4B351021809A661C359B8 /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33B5111F2B85F8BCDAF9978A /* Pods-daeng_v1_mobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daeng_v1_mobile.release.xcconfig"; path = "Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile.release.xcconfig"; sourceTree = "<group>"; };
 		33B79F3DEBB03BEF6201F61B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = daeng_v1_mobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		4C0C563C2BE21C3E0066164F /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		5F3FB5759A5A4195E3A7B109 /* Pods_daeng_v1_mobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_daeng_v1_mobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		709139E528351F72133C749C /* Pods-daeng_v1_mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daeng_v1_mobile.debug.xcconfig"; path = "Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile.debug.xcconfig"; sourceTree = "<group>"; };
+		4CFB26CAABC4C1BF89C44106 /* Pods_daeng_v1_mobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_daeng_v1_mobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = daeng_v1_mobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B9407A02C58F2AE00093C5D /* daeng_v1_mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = daeng_v1_mobile.entitlements; path = daeng_v1_mobile/daeng_v1_mobile.entitlements; sourceTree = "<group>"; };
 		8BD04F732C597821003F4E0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "daeng_v1_mobile/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		B2D1C0D1C17FD104667E0609 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daeng_v1_mobile-daeng_v1_mobileTests.debug.xcconfig"; path = "Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A1A473BB58D031CE91E9BBB8 /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B04021685816A9E8F8F65D36 /* Pods-daeng_v1_mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daeng_v1_mobile.debug.xcconfig"; path = "Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile.debug.xcconfig"; sourceTree = "<group>"; };
+		B093423BFA7E423562CF3E02 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daeng_v1_mobile-daeng_v1_mobileTests.debug.xcconfig"; path = "Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B4FC802B4382BCC54D58AE96 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daeng_v1_mobile-daeng_v1_mobileTests.release.xcconfig"; path = "Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		FD6DFD35C49864F0D9CC5CD5 /* Pods-daeng_v1_mobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daeng_v1_mobile.release.xcconfig"; path = "Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2543AD95E71722A0F70DAF05 /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework in Frameworks */,
+				44A72340FC92BA2489765C7F /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47E39173B289916DCCFDBE28 /* Pods_daeng_v1_mobile.framework in Frameworks */,
+				92B4447289A9BFAD2D9BBD07 /* Pods_daeng_v1_mobile.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,8 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5F3FB5759A5A4195E3A7B109 /* Pods_daeng_v1_mobile.framework */,
-				2FE4B351021809A661C359B8 /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework */,
+				4CFB26CAABC4C1BF89C44106 /* Pods_daeng_v1_mobile.framework */,
+				A1A473BB58D031CE91E9BBB8 /* Pods_daeng_v1_mobile_daeng_v1_mobileTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -164,10 +164,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				709139E528351F72133C749C /* Pods-daeng_v1_mobile.debug.xcconfig */,
-				FD6DFD35C49864F0D9CC5CD5 /* Pods-daeng_v1_mobile.release.xcconfig */,
-				B2D1C0D1C17FD104667E0609 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.debug.xcconfig */,
-				06DEA8A1D27DA727C95E9667 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.release.xcconfig */,
+				B04021685816A9E8F8F65D36 /* Pods-daeng_v1_mobile.debug.xcconfig */,
+				33B5111F2B85F8BCDAF9978A /* Pods-daeng_v1_mobile.release.xcconfig */,
+				B093423BFA7E423562CF3E02 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.debug.xcconfig */,
+				B4FC802B4382BCC54D58AE96 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -179,12 +179,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "daeng_v1_mobileTests" */;
 			buildPhases = (
-				D930D0366D692F22D616EA31 /* [CP] Check Pods Manifest.lock */,
+				10D8127BBD51F28890BD3076 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				82E5676CC73A8DE627660E3D /* [CP] Embed Pods Frameworks */,
-				9DA7BB380816A3663E61DE58 /* [CP] Copy Pods Resources */,
+				B7418261E4BA44327856CAB3 /* [CP] Embed Pods Frameworks */,
+				73895204A0CDC0CB744E7654 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -200,14 +200,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "daeng_v1_mobile" */;
 			buildPhases = (
-				AB9CDC6E5F37B7D9B3018E67 /* [CP] Check Pods Manifest.lock */,
+				18572A55DF06BD2477B6035F /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				4E560EC3FBB3D24215988C86 /* [CP] Embed Pods Frameworks */,
-				183E39D17218D565A8037F5F /* [CP] Copy Pods Resources */,
-				F8961C61AB7744664D04F899 /* [CP-User] [RNFB] Core Configuration */,
+				50EAD6CBCB727D04BC332D71 /* [CP] Embed Pods Frameworks */,
+				0E429ADA98842B3D7406D3AB /* [CP] Copy Pods Resources */,
+				DEAEA4486E54156A4A33A83E /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -294,7 +294,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		183E39D17218D565A8037F5F /* [CP] Copy Pods Resources */ = {
+		0E429ADA98842B3D7406D3AB /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -311,80 +311,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4E560EC3FBB3D24215988C86 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		82E5676CC73A8DE627660E3D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9DA7BB380816A3663E61DE58 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AB9CDC6E5F37B7D9B3018E67 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-daeng_v1_mobile-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D930D0366D692F22D616EA31 /* [CP] Check Pods Manifest.lock */ = {
+		10D8127BBD51F28890BD3076 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -406,7 +333,80 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F8961C61AB7744664D04F899 /* [CP-User] [RNFB] Core Configuration */ = {
+		18572A55DF06BD2477B6035F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-daeng_v1_mobile-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		50EAD6CBCB727D04BC332D71 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile/Pods-daeng_v1_mobile-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		73895204A0CDC0CB744E7654 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7418261E4BA44327856CAB3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-daeng_v1_mobile-daeng_v1_mobileTests/Pods-daeng_v1_mobile-daeng_v1_mobileTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DEAEA4486E54156A4A33A83E /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -452,7 +452,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2D1C0D1C17FD104667E0609 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.debug.xcconfig */;
+			baseConfigurationReference = B093423BFA7E423562CF3E02 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -481,7 +481,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06DEA8A1D27DA727C95E9667 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.release.xcconfig */;
+			baseConfigurationReference = B4FC802B4382BCC54D58AE96 /* Pods-daeng_v1_mobile-daeng_v1_mobileTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -507,7 +507,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 709139E528351F72133C749C /* Pods-daeng_v1_mobile.debug.xcconfig */;
+			baseConfigurationReference = B04021685816A9E8F8F65D36 /* Pods-daeng_v1_mobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -538,7 +538,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FD6DFD35C49864F0D9CC5CD5 /* Pods-daeng_v1_mobile.release.xcconfig */;
+			baseConfigurationReference = 33B5111F2B85F8BCDAF9978A /* Pods-daeng_v1_mobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
