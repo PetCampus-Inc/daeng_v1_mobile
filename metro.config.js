@@ -34,5 +34,5 @@ const config = makeMetroConfig({
 });
 
 module.exports = withNativeWind(config, {
-  input: "./src/styles/global.css"
+  input: "./src/app/styles/global.css"
 });

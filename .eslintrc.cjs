@@ -24,6 +24,29 @@ module.exports = {
           "object",
           "type"
         ],
+        pathGroups: [
+          {
+            pattern: "@_app/**",
+            group: "internal",
+            position: "before"
+          },
+          {
+            pattern: "@_entities/**",
+            group: "internal",
+            position: "before"
+          },
+          {
+            pattern: "@_screens/**",
+            group: "internal",
+            position: "before"
+          },
+          {
+            pattern: "@_shared/**",
+            group: "internal",
+            position: "before"
+          }
+        ],
+        pathGroupsExcludedImportTypes: ["builtin"],
         "newlines-between": "always",
         alphabetize: {
           order: "asc",

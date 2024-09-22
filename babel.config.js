@@ -21,7 +21,10 @@ module.exports = {
           ".json"
         ],
         alias: {
-          "~": "./src"
+          "@_app": "./src/app",
+          "@_entities": "./src/entities",
+          "@_screens": "./src/screens",
+          "@_shared": "./src/shared"
         }
       }
     ],

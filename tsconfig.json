@@ -11,9 +11,12 @@
     "removeComments": true,
     "skipLibCheck": true,
 
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "~/*": ["./*"]
+      "@_app/*": ["./src/app/*"],
+      "@_entities/*": ["./src/entities/*"],
+      "@_screens/*": ["./src/screens/*"],
+      "@_shared/*": ["./src/shared/*"]
     }
   },
   "include": ["src", "env.d.ts", "**/*.ts", "**/*.tsx"],
