@@ -3,7 +3,7 @@ import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
 
 import { SocialProvider, SocialAuthData, useFirebaseAuth } from "@_shared/lib/firebase/auth";
-import { connectCall, runCamera, saveImage, selectImage } from "@_shared/lib/native";
+import { connectCall, runCamera, saveMedia, selectImage } from "@_shared/lib/native";
 import {
   NativeActionResponse,
   NativeActionType,
@@ -56,8 +56,8 @@ export const useActionController = ({ webviewRef, onError }: ActionControllerOpt
         let response: NativeActionData<T>["response"] = null;
 
         switch (action) {
-          case "SAVE_IMAGE":
-            await saveImage(payload);
+          case "SAVE_MEDIA":
+            await saveMedia(payload);
             break;
           case "SELECT_IMAGE":
             response = await selectImage();

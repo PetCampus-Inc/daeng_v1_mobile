@@ -3,15 +3,15 @@ import { PermissionsAndroid, Platform } from "react-native";
 import RNFS from "react-native-fs";
 
 /**
- * 이미지 저장 함수
- * @param imageUrl 이미지 URL
- * @param albumName 앨범 이름 (기본값: "똑독")
- * @param imageName 이미지 이름 (기본값: "knockdog")
+ * 이미지 및 동영상 저장 함수
+ * @param mediaUrl 미디어 URL
+ * @param albumName 앨범 이름 (기본값: "똑독", 갤럭시만 사용)
+ * @param mediaName 미디어 이름 접두어 (기본값: "knockdog")
  */
-export const saveImage = async (
-  imageUrl: string,
+export const saveMedia = async (
+  mediaUrl: string,
   albumName: string = "똑독",
-  imageName: string = "knockdog"
+  mediaName: string = "knockdog"
 ) => {
   if (Platform.OS === "android" && !(await hasAndroidPermission()))
     throw new Error("Permission denied");
@@ -26,22 +26,28 @@ export const saveImage = async (
   await RNFS.mkdir(directory);
 
   const date = new Date();
-  const fileName = `${imageName}_${date.getTime()}.png`;
+  const extension = getFileExtension(mediaUrl);
+  const fileName = `${mediaName}_${date.getTime()}.${extension}`;
   const filePath = `${directory}/${fileName}`;
 
-  await fetch(imageUrl, filePath);
+  await fetch(mediaUrl, filePath);
 
   if (Platform.OS === "ios") {
-    await CameraRoll.saveAsset(filePath, { type: "photo", album: imageName });
+    await CameraRoll.saveAsset(filePath, { type: "auto", album: mediaName });
     await RNFS.unlink(filePath);
   } else if (Platform.OS === "android") {
     await RNFS.scanFile(filePath);
   }
 };
 
-const fetch = async (imageUrl: string, filePath: string) => {
+const getFileExtension = (url: string): string => {
+  const match = url.match(/\.([^.]+)$/);
+  return match ? match[1].toLowerCase() : "png";
+};
+
+const fetch = async (mediaUrl: string, filePath: string) => {
   return RNFS.downloadFile({
-    fromUrl: imageUrl,
+    fromUrl: mediaUrl,
     toFile: filePath
   }).promise;
 };
@@ -51,11 +57,11 @@ const hasAndroidPermission = async () => {
     if (Platform.OS !== "android") return true;
     if (Platform.Version >= 33) {
       return Promise.all([
-        PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES),
+        PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_MEDIAS),
         PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO)
       ]).then(
-        ([hasReadMediaImagesPermission, hasReadMediaVideoPermission]) =>
-          hasReadMediaImagesPermission && hasReadMediaVideoPermission
+        ([hasReadMediaMediasPermission, hasReadMediaVideoPermission]) =>
+          hasReadMediaMediasPermission && hasReadMediaVideoPermission
       );
     } else {
       return PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
@@ -70,11 +76,11 @@ const hasAndroidPermission = async () => {
     if (Platform.OS !== "android") return true;
     if (Platform.Version >= 33) {
       return PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+        PermissionsAndroid.PERMISSIONS.READ_MEDIA_MEDIAS,
         PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO
       ]).then(
         (statuses) =>
-          statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES] ===
+          statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_MEDIAS] ===
             PermissionsAndroid.RESULTS.GRANTED &&
           statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO] ===
             PermissionsAndroid.RESULTS.GRANTED
