@@ -27,6 +27,8 @@ export const saveMedia = async (
 
   const date = new Date();
   const extension = getFileExtension(mediaUrl);
+  if (!extension) throw new Error("지원하지 않는 파일 형식입니다.");
+
   const fileName = `${mediaName}_${date.getTime()}.${extension}`;
   const filePath = `${directory}/${fileName}`;
 
@@ -40,9 +42,12 @@ export const saveMedia = async (
   }
 };
 
-const getFileExtension = (url: string): string => {
-  const match = url.match(/\.([^.]+)$/);
-  return match ? match[1].toLowerCase() : "png";
+const getFileExtension = (url: string): string | null => {
+  const fileName = url.split("/").pop() || "";
+  const match = fileName.match(/\.([^.]+)$/);
+  const validExtensions = ["jpg", "jpeg", "png", "gif", "mp4", "mov"];
+  const extension = match ? match[1].toLowerCase() : "";
+  return validExtensions.includes(extension) ? extension : null;
 };
 
 const fetch = async (mediaUrl: string, filePath: string) => {
