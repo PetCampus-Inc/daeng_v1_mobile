@@ -26,7 +26,7 @@ module.exports = {
         4: "#FFCD4D"
       },
       second: "#D5A4CF",
-      br: {
+      brown: {
         2: "#C8A584",
         3: "#E4CAB1",
         4: "#EEE3D9",

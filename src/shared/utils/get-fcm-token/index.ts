@@ -1,0 +1,1 @@
+export { getFcmToken } from "./getFcmToken";
