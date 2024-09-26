@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
-import { View } from "react-native";
 import SplashScreen from "react-native-splash-screen";
-import WebView, { WebViewNavigation } from "react-native-webview";
+import { WebViewNavigation } from "react-native-webview";
 import { useSetRecoilState } from "recoil";
 
 import { useTokenCookieManager } from "@_shared/hooks/auth";
@@ -12,14 +11,12 @@ import {
   useMessageController,
   useActionController,
   useMessageDispatcher,
-  KeyboardAvoidingWebView
+  WebView
 } from "@_shared/ui/webview";
 
 export const HomeScreen = () => {
   const webviewRef = useRef<WebView>(null);
   const setWebRoute = useSetRecoilState(webRouteState);
-
-  // const { renderButtons } = useValueTest();
 
   const postMessage = usePostMessage({ webviewRef });
   const onMessage = useMessageController();
@@ -40,15 +37,12 @@ export const HomeScreen = () => {
   };
 
   return (
-    <View className="flex-1">
-      <KeyboardAvoidingWebView
-        className="flex-1"
-        ref={webviewRef}
-        onMessage={handleMessage}
-        onLoadEnd={() => SplashScreen.hide()}
-        onNavigationStateChange={handleNavigationStateChange}
-      />
-      {/* {renderButtons} */}
-    </View>
+    <WebView
+      className="flex-1"
+      ref={webviewRef}
+      onMessage={handleMessage}
+      onLoadEnd={() => SplashScreen.hide()}
+      onNavigationStateChange={handleNavigationStateChange}
+    />
   );
 };
