@@ -38,6 +38,7 @@ export const WebView = forwardRef<ParentWebView, WebViewProps>(
         automaticallyAdjustContentInsets={false}
         injectedJavaScript={debuggingScript}
         webviewDebuggingEnabled={__DEV__}
+        allowsInlineMediaPlayback
         /** 키보드 액세서리 뷰 숨기기 */
         hideKeyboardAccessoryView={true}
         /** 쿠키 공유 활성화 */
