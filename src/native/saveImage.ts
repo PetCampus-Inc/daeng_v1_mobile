@@ -14,7 +14,7 @@ async function hasAndroidPermission() {
           hasReadMediaImagesPermission && hasReadMediaVideoPermission
       );
     } else {
-      return PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+      return PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
     }
   };
 
@@ -36,7 +36,7 @@ async function hasAndroidPermission() {
             PermissionsAndroid.RESULTS.GRANTED
       );
     } else {
-      return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then(
+      return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE).then(
         (status) => status === PermissionsAndroid.RESULTS.GRANTED
       );
     }
