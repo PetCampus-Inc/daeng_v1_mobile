@@ -23,9 +23,6 @@ export const useMessageController = ({ onError }: MessageControllerOptions = {})
 
       try {
         switch (type) {
-          case "LOGIN_SUCCESS":
-            await extractAndSaveRefreshToken();
-            break;
           case "REFRESH_TOKEN":
             extractAndSaveRefreshToken();
             break;

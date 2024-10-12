@@ -8,7 +8,6 @@ type RequestDataSchemaType = {
 
 const requestDataSchema: RequestDataSchemaType = {
   GO_BACK: z.null(),
-  LOGIN_SUCCESS: z.null(),
   LOGOUT: z.null(),
   REFRESH_TOKEN: z.null()
 } as const;
