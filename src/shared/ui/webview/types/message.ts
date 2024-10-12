@@ -1,7 +1,6 @@
 export interface WebViewMessageMap {
   Request: {
     GO_BACK: null;
-    LOGIN_SUCCESS: null;
     REFRESH_TOKEN: null;
     LOGOUT: null;
   };
