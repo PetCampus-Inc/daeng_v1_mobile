@@ -19,7 +19,7 @@ interface PushNotificationOptions {
  * @param onMessage 앱 실행 중에 푸시 알림을 받았을 때 호출될 함수
  * @param onNotificationOpenedApp 백그라운드 또는 종료된 상태에서 푸시 알림을 클릭했을 때 호출될 함수
  */
-export const usePushNotification = ({
+export const useFirebaseCloudMessage = ({
   onMessage,
   onNotificationOpenedApp
 }: PushNotificationOptions = {}) => {
@@ -48,6 +48,10 @@ export const usePushNotification = ({
       // Android: 종료된 상태에서 알림을 클릭해 앱을 실행했을 때
       firebaseMessaging.getInitialNotification().then((remoteMessage) => {
         if (remoteMessage) {
+          console.log(
+            "🚀 ~ firebaseMessaging.getInitialNotification ~ remoteMessage:",
+            remoteMessage
+          );
           if (remoteMessage.data && onNotificationOpenedApp) {
             onNotificationOpenedApp(JSON.stringify(remoteMessage.data));
           }
@@ -57,6 +61,10 @@ export const usePushNotification = ({
       // iOS: 종료 또는 백그라운드 상태에서 알림을 클릭해 앱을 실행했을 때
       const iosForegroundEventUnsubscribe = notifee.onForegroundEvent(async ({ detail }) => {
         if (detail.notification && onNotificationOpenedApp) {
+          console.log(
+            "🚀 ~ iosForegroundEventUnsubscribe ~ detail.notification:",
+            detail.notification
+          );
           onNotificationOpenedApp(JSON.stringify(detail.notification.data));
         }
       });

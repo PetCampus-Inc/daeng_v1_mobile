@@ -1,1 +1,1 @@
-export { usePushNotification } from "./hooks/usePushNotification";
+export { useFirebaseCloudMessage } from "./hooks/useFirebaseCloudMessage";
