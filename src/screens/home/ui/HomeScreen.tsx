@@ -4,10 +4,9 @@ import { WebViewNavigation } from "react-native-webview";
 import { useSetRecoilState } from "recoil";
 
 import { useTokenCookieManager } from "@_shared/hooks/auth";
-import { usePushNotification } from "@_shared/lib/firebase/messaging";
+import { useNotificationRouting } from "@_shared/hooks/use-push-notification";
 import { webRouteState } from "@_shared/store/webRouteState";
 import {
-  usePostMessage,
   useMessageController,
   useActionController,
   useMessageDispatcher,
@@ -18,15 +17,14 @@ export const HomeScreen = () => {
   const webviewRef = useRef<WebView>(null);
   const setWebRoute = useSetRecoilState(webRouteState);
 
-  const postMessage = usePostMessage({ webviewRef });
   const onMessage = useMessageController();
   const onAction = useActionController({ webviewRef });
   const handleMessage = useMessageDispatcher({ onMessage, onAction });
 
   useTokenCookieManager();
-  usePushNotification({
-    onMessage: (message) => postMessage("NEW_NOTIFICATION", message),
-    onNotificationOpenedApp: (message) => postMessage("PUSH_NOTIFICATION", message)
+  useNotificationRouting({
+    onRouteChange: (route) =>
+      webviewRef.current?.injectJavaScript(`window.location.href = '${route}';`)
   });
 
   const handleNavigationStateChange = (nav: WebViewNavigation) => {
@@ -37,12 +35,14 @@ export const HomeScreen = () => {
   };
 
   return (
-    <WebView
-      className="flex-1"
-      ref={webviewRef}
-      onMessage={handleMessage}
-      onLoadEnd={() => SplashScreen.hide()}
-      onNavigationStateChange={handleNavigationStateChange}
-    />
+    <>
+      <WebView
+        className="flex-1"
+        ref={webviewRef}
+        onMessage={handleMessage}
+        onLoadEnd={() => SplashScreen.hide()}
+        onNavigationStateChange={handleNavigationStateChange}
+      />
+    </>
   );
 };
