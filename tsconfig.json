@@ -3,14 +3,12 @@
   "compilerOptions": {
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
-
     "allowJs": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "jsx": "react-native",
     "removeComments": true,
     "skipLibCheck": true,
-
     "baseUrl": ".",
     "paths": {
       "@_app/*": ["./src/app/*"],
@@ -19,6 +17,6 @@
       "@_shared/*": ["./src/shared/*"]
     }
   },
-  "include": ["src", "env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["src", "env.d.ts", "**/*.ts", "**/*.tsx", "nativewind-env.d.ts"],
   "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.cjs"]
 }

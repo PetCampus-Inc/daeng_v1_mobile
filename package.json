@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
-    "@bam.tech/react-native-image-resizer": "^3.0.10",
     "@invertase/react-native-apple-authentication": "^2.3.0",
     "@notifee/react-native": "^7.8.2",
     "@react-native-camera-roll/camera-roll": "^7.8.1",
