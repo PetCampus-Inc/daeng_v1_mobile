@@ -38,6 +38,7 @@ export const saveMedia = async (
     await CameraRoll.saveAsset(filePath, { type: "auto", album: mediaName });
     await RNFS.unlink(filePath);
   } else if (Platform.OS === "android") {
+    await CameraRoll.saveAsset(filePath, { type: "auto" });
     await RNFS.scanFile(filePath);
   }
 };
