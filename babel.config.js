@@ -24,6 +24,7 @@ module.exports = {
           "@_app": "./src/app",
           "@_entities": "./src/entities",
           "@_screens": "./src/screens",
+          "@_widgets": "./src/widgets",
           "@_shared": "./src/shared"
         }
       }
