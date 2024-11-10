@@ -25,6 +25,10 @@ export interface NativeActionMap {
     request: SocialProvider;
     response: SocialAuthData;
   };
+  SCAN_QR_CODE: {
+    request: null;
+    response: string;
+  };
 }
 
 export type NativeActionType = keyof NativeActionMap;

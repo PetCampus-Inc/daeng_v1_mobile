@@ -12,7 +12,8 @@ const requestPayloadSchema: RequestPayloadSchemaType = {
   LAUNCH_CAMERA: z.null(),
   SAVE_MEDIA: z.string(),
   FCM_TOKEN: z.null(),
-  SOCIAL_LOGIN: z.union([z.literal("KAKAO"), z.literal("GOOGLE"), z.literal("APPLE")])
+  SOCIAL_LOGIN: z.union([z.literal("KAKAO"), z.literal("GOOGLE"), z.literal("APPLE")]),
+  SCAN_QR_CODE: z.null()
 } as const;
 
 const NATIVE_ACTION_TYPES = Object.keys(requestPayloadSchema) as NativeActionType[];

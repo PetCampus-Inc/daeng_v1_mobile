@@ -2,6 +2,8 @@ import { RefObject, useCallback } from "react";
 import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
 
+import { useScanner } from "@_widgets/qr-scanner-modal";
+
 import { SocialProvider, SocialAuthData, useFirebaseAuth } from "@_shared/lib/firebase/auth";
 import { connectCall, runCamera, saveMedia, selectImage } from "@_shared/lib/native";
 import {
@@ -26,6 +28,7 @@ interface ActionControllerOptions {
  */
 export const useActionController = ({ webviewRef, onError }: ActionControllerOptions) => {
   const { socialLogin } = useFirebaseAuth();
+  const { openScanner } = useScanner();
 
   const postActionResponse = useCallback(
     (response: NativeActionResponse<NativeActionType>) => {
@@ -74,6 +77,9 @@ export const useActionController = ({ webviewRef, onError }: ActionControllerOpt
           case "FCM_TOKEN":
             response = await getFcmToken();
             break;
+          case "SCAN_QR_CODE":
+            response = await openScanner();
+            break;
           default:
             throw new Error(`지원하지 않는 메세지 타입입니다. [${action}]`);
         }
@@ -85,6 +91,6 @@ export const useActionController = ({ webviewRef, onError }: ActionControllerOpt
         onError?.(errMsg);
       }
     },
-    [postActionResponse, onError, handleSocialLogin]
+    [postActionResponse, openScanner, onError, handleSocialLogin]
   );
 };
