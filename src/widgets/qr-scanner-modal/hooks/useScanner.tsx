@@ -29,6 +29,7 @@ const useScanner = () => {
         <CodeScannerModal
           visible={isOpen}
           onRequestClose={close}
+          onClose={close}
           onScanned={(code) => {
             close();
             resolve(code);
