@@ -10,6 +10,7 @@ import "react-native-url-polyfill/auto";
 import "react-native-get-random-values";
 
 import "./styles/global.css";
+import { OverlayProvider } from "@_shared/hooks/use-overlay";
 
 if (typeof global.ReadableStream === "undefined") {
   global.ReadableStream = ReadableStream as unknown as typeof global.ReadableStream;
@@ -21,10 +22,10 @@ function App(): React.JSX.Element {
       <SafeAreaProvider>
         <SafeAreaView className="flex-1">
           <NavigationContainer>
-            <RootNavigation />
+            <OverlayProvider>
+              <RootNavigation />
+            </OverlayProvider>
           </NavigationContainer>
-
-          {/* <HomeScreen /> */}
         </SafeAreaView>
       </SafeAreaProvider>
     </RecoilRoot>

@@ -61,6 +61,11 @@ export default [
               position: "before"
             },
             {
+              pattern: "@_widgets/**",
+              group: "internal",
+              position: "before"
+            },
+            {
               pattern: "@_shared/**",
               group: "internal",
               position: "before"

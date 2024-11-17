@@ -2,6 +2,8 @@ import { RefObject, useCallback } from "react";
 import { getUniqueId } from "react-native-device-info";
 import WebView from "react-native-webview";
 
+import { useScanner } from "@_widgets/qr-scanner-modal";
+
 import { SocialProvider, SocialAuthData, useFirebaseAuth } from "@_shared/lib/firebase/auth";
 import { connectCall, runCamera, saveMedia, selectImage } from "@_shared/lib/native";
 import {
@@ -26,6 +28,7 @@ interface ActionControllerOptions {
  */
 export const useActionController = ({ webviewRef, onError }: ActionControllerOptions) => {
   const { socialLogin } = useFirebaseAuth();
+  const { openScanner } = useScanner();
 
   const postActionResponse = useCallback(
     (response: NativeActionResponse<NativeActionType>) => {
@@ -68,6 +71,9 @@ export const useActionController = ({ webviewRef, onError }: ActionControllerOpt
           case "LAUNCH_CAMERA":
             response = await runCamera();
             break;
+          case "QR_CODE_SCANNER":
+            response = await openScanner();
+            break;
           case "SOCIAL_LOGIN":
             response = await handleSocialLogin(payload);
             break;
@@ -85,6 +91,6 @@ export const useActionController = ({ webviewRef, onError }: ActionControllerOpt
         onError?.(errMsg);
       }
     },
-    [postActionResponse, onError, handleSocialLogin]
+    [postActionResponse, openScanner, onError, handleSocialLogin]
   );
 };

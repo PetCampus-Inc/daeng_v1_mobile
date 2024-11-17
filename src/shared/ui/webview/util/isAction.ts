@@ -10,6 +10,7 @@ const requestPayloadSchema: RequestPayloadSchemaType = {
   CALL: z.string(),
   SELECT_IMAGE: z.null(),
   LAUNCH_CAMERA: z.null(),
+  QR_CODE_SCANNER: z.null(),
   SAVE_MEDIA: z.string(),
   FCM_TOKEN: z.null(),
   SOCIAL_LOGIN: z.union([z.literal("KAKAO"), z.literal("GOOGLE"), z.literal("APPLE")])

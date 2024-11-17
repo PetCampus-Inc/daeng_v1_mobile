@@ -17,6 +17,13 @@ export interface NativeActionMap {
     request: null;
     response: string;
   };
+  QR_CODE_SCANNER: {
+    request: null;
+    response: {
+      schoolId: number;
+      schoolName: string;
+    };
+  };
   FCM_TOKEN: {
     request: null;
     response: string;
