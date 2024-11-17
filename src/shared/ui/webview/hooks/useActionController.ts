@@ -71,14 +71,14 @@ export const useActionController = ({ webviewRef, onError }: ActionControllerOpt
           case "LAUNCH_CAMERA":
             response = await runCamera();
             break;
+          case "QR_CODE_SCANNER":
+            response = await openScanner();
+            break;
           case "SOCIAL_LOGIN":
             response = await handleSocialLogin(payload);
             break;
           case "FCM_TOKEN":
             response = await getFcmToken();
-            break;
-          case "SCAN_QR_CODE":
-            response = await openScanner();
             break;
           default:
             throw new Error(`지원하지 않는 메세지 타입입니다. [${action}]`);
