@@ -72,7 +72,8 @@ export const useActionController = ({ webviewRef, onError }: ActionControllerOpt
             response = await runCamera();
             break;
           case "QR_CODE_SCANNER":
-            response = await openScanner();
+            const result = await openScanner();
+            response = JSON.parse(result);
             break;
           case "SOCIAL_LOGIN":
             response = await handleSocialLogin(payload);
