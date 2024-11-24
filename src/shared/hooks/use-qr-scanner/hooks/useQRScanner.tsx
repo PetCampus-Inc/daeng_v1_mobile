@@ -5,10 +5,10 @@ import { useOverlay } from "@_shared/hooks/use-overlay";
 
 import { CodeScannerModal } from "../ui/QRScannerModal";
 
-const useScanner = () => {
+export const useQRScanner = () => {
   const overlay = useOverlay();
 
-  const openScanner = async (): Promise<string> => {
+  const openQRScanner = async (): Promise<string> => {
     const permission = await Camera.requestCameraPermission();
     const hasPermission = permission === "granted";
 
@@ -39,7 +39,5 @@ const useScanner = () => {
     });
   };
 
-  return { openScanner };
+  return { openQRScanner };
 };
-
-export { useScanner };

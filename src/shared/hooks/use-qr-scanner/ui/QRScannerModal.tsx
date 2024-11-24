@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Modal, ModalProps, StyleSheet, TouchableHighlight, View } from "react-native";
 import { Camera, useCameraDevice, useCodeScanner } from "react-native-vision-camera";
 
-import { ScannerOverlay } from "@_widgets/qr-scanner-modal/ui/SacnnerOverlay";
-
 import CloseIcon from "@_shared/assets/svg/close.svg";
 import TorchIcon from "@_shared/assets/svg/torch.svg";
+
+import { ScannerOverlay } from "../ui/ScannerOverlay";
 
 interface QRScannerModalProps extends ModalProps {
   onScanned?: (code: string) => void;
