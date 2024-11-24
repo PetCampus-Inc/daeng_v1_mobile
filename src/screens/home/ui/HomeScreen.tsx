@@ -1,25 +1,17 @@
 import React, { useRef } from "react";
 import SplashScreen from "react-native-splash-screen";
-import { WebViewNavigation } from "react-native-webview";
+import WebView, { WebViewNavigation } from "react-native-webview";
 import { useSetRecoilState } from "recoil";
 
-import { useTokenCookieManager } from "@_shared/hooks/auth";
+import { BridgeWebView } from "@_widgets/bridge-webview";
+
 import { useNotificationRouting } from "@_shared/hooks/use-push-notification";
+import { useTokenCookieManager } from "@_shared/hooks/useTokenCookieManager";
 import { webRouteState } from "@_shared/store/webRouteState";
-import {
-  useMessageController,
-  useActionController,
-  useMessageDispatcher,
-  WebView
-} from "@_shared/ui/webview";
 
 export const HomeScreen = () => {
   const webviewRef = useRef<WebView>(null);
   const setWebRoute = useSetRecoilState(webRouteState);
-
-  const onMessage = useMessageController();
-  const onAction = useActionController({ webviewRef });
-  const handleMessage = useMessageDispatcher({ onMessage, onAction });
 
   useTokenCookieManager();
   useNotificationRouting({
@@ -36,10 +28,9 @@ export const HomeScreen = () => {
 
   return (
     <>
-      <WebView
+      <BridgeWebView
         className="flex-1"
         ref={webviewRef}
-        onMessage={handleMessage}
         onLoadEnd={() => SplashScreen.hide()}
         onNavigationStateChange={handleNavigationStateChange}
       />
