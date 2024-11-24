@@ -1,2 +1,2 @@
-export { useFirebaseAuth } from "./hooks/useFirebaseAuth";
-export * from "./model/social-auth-data";
+export { default } from "./lib/firebaseSocialAuth";
+export * from "./model/types";

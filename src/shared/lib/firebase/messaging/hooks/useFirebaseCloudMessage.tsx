@@ -3,7 +3,7 @@ import messaging from "@react-native-firebase/messaging";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 
-import { requestMessagingPermission } from "../lib/messaging-permission";
+import { requestMessagingPermission } from "../lib/messagingPermission";
 
 const firebaseMessaging = messaging();
 

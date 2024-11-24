@@ -4,7 +4,6 @@ import ParentWebView, { WebViewProps as ParentWebViewProps } from "react-native-
 import { baseUrl } from "@_shared/config/domain";
 
 import { useBackHandler } from "../hooks/useBackHandler";
-import { useWebviewLog } from "../hooks/useWebviewLog";
 
 interface Headers {
   [key: string]: string;
@@ -16,13 +15,12 @@ export interface WebViewProps extends ParentWebViewProps {
 }
 
 export const WebView = forwardRef<ParentWebView, WebViewProps>(
-  ({ path = "", headers, onMessage, ...props }, ref) => {
+  ({ path = "", headers, ...props }, ref) => {
     const localRef = useRef<ParentWebView>(null);
     const webviewRef = (ref as RefObject<ParentWebView>) || localRef;
     const fullPath = path.startsWith("/") ? path : `/${path}`;
 
     useBackHandler(webviewRef);
-    const { debuggingScript, handleMessageInterceptor } = useWebviewLog(onMessage);
 
     /** 백그라운드 환경에서 웹뷰 강제 종료 현상 방지 (IOS) */
     const handleContentProcessDidTerminate = () => webviewRef.current?.reload();
@@ -31,12 +29,10 @@ export const WebView = forwardRef<ParentWebView, WebViewProps>(
       <ParentWebView
         ref={webviewRef}
         bounces={false}
-        onMessage={handleMessageInterceptor}
         onContentProcessDidTerminate={handleContentProcessDidTerminate}
         originWhitelist={["*"]}
         scalesPageToFit={false}
         automaticallyAdjustContentInsets={false}
-        injectedJavaScript={debuggingScript}
         allowsInlineMediaPlayback
         webviewDebuggingEnabled={__DEV__}
         /** 키보드 액세서리 뷰 숨기기 */
