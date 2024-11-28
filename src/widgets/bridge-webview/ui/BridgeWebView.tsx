@@ -1,6 +1,7 @@
 import React, { forwardRef, RefObject, useRef } from "react";
 
 import { useQRScanner } from "@_shared/hooks/use-qr-scanner";
+import { useStackNavigation } from "@_shared/hooks/use-stack-navigation";
 import { useBridge, INJECT_DEBUGGING_SCRIPT } from "@_shared/lib/bridge";
 import { WebView, WebViewProps } from "@_shared/ui/webview";
 
@@ -16,7 +17,8 @@ export const BridgeWebView = forwardRef<WebView, BridgeWebViewProps>(
     const webviewRef = (ref as RefObject<WebView>) || localRef;
 
     const { openQRScanner } = useQRScanner();
-    const bridgeWithHookMethod = { openQRScanner, ...webViewBridge };
+    const stackNavigate = useStackNavigation();
+    const bridgeWithHookMethod = { openQRScanner, stackNavigate, ...webViewBridge };
 
     const { handleMessage } = useBridge({
       bridge: bridgeWithHookMethod,
