@@ -3,8 +3,10 @@
 /** 비동기 함수 */
 export type AsyncFunction = (...args: any[]) => Promise<any>;
 
+type BridgeFunction = AsyncFunction | Function;
+
 /** Bridge */
-export type Bridge = Record<string, AsyncFunction>;
+export type Bridge = Record<string, BridgeFunction>;
 
 /** WebView 메시지 */
 export type WebViewMessage =

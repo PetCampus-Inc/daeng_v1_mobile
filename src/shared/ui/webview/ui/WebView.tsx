@@ -3,8 +3,6 @@ import ParentWebView, { WebViewProps as ParentWebViewProps } from "react-native-
 
 import { baseUrl } from "@_shared/config/domain";
 
-import { useBackHandler } from "../hooks/useBackHandler";
-
 interface Headers {
   [key: string]: string;
 }
@@ -20,13 +18,12 @@ export const WebView = forwardRef<ParentWebView, WebViewProps>(
     const webviewRef = (ref as RefObject<ParentWebView>) || localRef;
     const fullPath = path.startsWith("/") ? path : `/${path}`;
 
-    useBackHandler(webviewRef);
-
     /** 백그라운드 환경에서 웹뷰 강제 종료 현상 방지 (IOS) */
     const handleContentProcessDidTerminate = () => webviewRef.current?.reload();
 
     return (
       <ParentWebView
+        className="flex-1"
         ref={webviewRef}
         bounces={false}
         onContentProcessDidTerminate={handleContentProcessDidTerminate}
@@ -36,11 +33,11 @@ export const WebView = forwardRef<ParentWebView, WebViewProps>(
         allowsInlineMediaPlayback
         webviewDebuggingEnabled={__DEV__}
         /** 키보드 액세서리 뷰 숨기기 */
-        hideKeyboardAccessoryView={true}
+        hideKeyboardAccessoryView
         /** 쿠키 공유 활성화 */
-        sharedCookiesEnabled={true}
+        sharedCookiesEnabled
         /** IOS 뒤로가기 제스처 활성화 */
-        allowsBackForwardNavigationGestures={true}
+        // allowsBackForwardNavigationGestures
         source={{
           uri: `${baseUrl}${fullPath}`,
           headers: {
