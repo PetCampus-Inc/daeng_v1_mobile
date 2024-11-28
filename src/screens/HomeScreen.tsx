@@ -27,13 +27,10 @@ export const HomeScreen = () => {
   };
 
   return (
-    <>
-      <BridgeWebView
-        className="flex-1"
-        ref={webviewRef}
-        onLoadEnd={() => SplashScreen.hide()}
-        onNavigationStateChange={handleNavigationStateChange}
-      />
-    </>
+    <BridgeWebView
+      ref={webviewRef}
+      onLoadEnd={() => SplashScreen.hide()}
+      onNavigationStateChange={handleNavigationStateChange}
+    />
   );
 };
