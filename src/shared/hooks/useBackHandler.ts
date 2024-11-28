@@ -1,3 +1,4 @@
+import { useNavigationState } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { BackHandler, ToastAndroid } from "react-native";
 
@@ -6,8 +7,13 @@ const DOUBLE_PRESS_DELAY = 2000;
 /** [AOS] `WebView`에서 뒤로가기 버튼을 눌렀을 때의 동작을 핸들링합니다. */
 export const useBackHandler = () => {
   const [lastBackPressed, setLastBackPressed] = useState(0);
+  const navigationState = useNavigationState((state) => state);
 
   const handleBackPress = useCallback(() => {
+    if (navigationState?.routes?.length > 1) {
+      return false;
+    }
+
     const now = new Date().getTime();
     const timeDiff = now - lastBackPressed;
 
@@ -18,7 +24,8 @@ export const useBackHandler = () => {
 
     setLastBackPressed(now);
     ToastAndroid.show("한번 더 누르면 앱을 끌 수 있어요.", ToastAndroid.SHORT);
-  }, [lastBackPressed]);
+    return true;
+  }, [lastBackPressed, navigationState]);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", handleBackPress);

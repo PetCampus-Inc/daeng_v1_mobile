@@ -3,8 +3,6 @@ import ParentWebView, { WebViewProps as ParentWebViewProps } from "react-native-
 
 import { baseUrl } from "@_shared/config/domain";
 
-import { useBackHandler } from "../hooks/useBackHandler";
-
 interface Headers {
   [key: string]: string;
 }
@@ -19,8 +17,6 @@ export const WebView = forwardRef<ParentWebView, WebViewProps>(
     const localRef = useRef<ParentWebView>(null);
     const webviewRef = (ref as RefObject<ParentWebView>) || localRef;
     const fullPath = path.startsWith("/") ? path : `/${path}`;
-
-    useBackHandler();
 
     /** 백그라운드 환경에서 웹뷰 강제 종료 현상 방지 (IOS) */
     const handleContentProcessDidTerminate = () => webviewRef.current?.reload();
