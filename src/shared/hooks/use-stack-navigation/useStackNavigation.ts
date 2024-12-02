@@ -6,11 +6,21 @@ import { RootStackParamList } from "@_app/navigation/RootNavigation";
 export type Path = string | 0 | -1;
 
 export const useStackNavigation = () => {
-  const { push, pop, popToTop } = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { push, pop, popToTop, canGoBack } =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (path: Path) => {
-    if (path === 0) popToTop();
-    else if (path === -1) pop();
-    else push("WebView", { path });
+    switch (path) {
+      case 0:
+        popToTop();
+        break;
+      case -1:
+        if (canGoBack()) pop();
+        else throw new Error("스택이 없습니다.");
+        break;
+      default:
+        push("WebView", { path });
+        break;
+    }
   };
 };
