@@ -1,13 +1,18 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { useRef } from "react";
+import WebView from "react-native-webview";
 
 import { RootStackParamList } from "@_app/navigation/RootNavigation";
 
 import { BridgeWebView } from "@_widgets/bridge-webview";
 
-export const WebViewScreen = () => {
-  const {
-    params: { path }
-  } = useRoute<RouteProp<RootStackParamList, "WebView">>();
+import { useWebViewState } from "@_shared/hooks/useWebViewState";
 
-  return <BridgeWebView path={path} />;
+export const WebViewScreen = () => {
+  const webviewRef = useRef<WebView>(null);
+  const { params } = useRoute<RouteProp<RootStackParamList, "WebView">>();
+
+  const { onLoadEnd } = useWebViewState({ webviewRef });
+
+  return <BridgeWebView ref={webviewRef} path={params.path} onLoadEnd={onLoadEnd} />;
 };
