@@ -1,4 +1,6 @@
 declare module "@env" {
+  export const WEBVIEW_USER_AGENT: string;
+
   export const SERVER_API_PATH: string;
   export const SERVER_DOMAIN: string;
   export const DEV_SERVER_DOMAIN: string;
