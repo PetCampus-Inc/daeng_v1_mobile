@@ -3,6 +3,8 @@ import ParentWebView, { WebViewProps as ParentWebViewProps } from "react-native-
 
 import { baseUrl } from "@_shared/config/domain";
 
+import { configureWebViewSetting } from "../config/webviewConfig";
+
 interface Headers {
   [key: string]: string;
 }
@@ -25,19 +27,7 @@ export const WebView = forwardRef<ParentWebView, WebViewProps>(
       <ParentWebView
         className="flex-1"
         ref={webviewRef}
-        bounces={false}
         onContentProcessDidTerminate={handleContentProcessDidTerminate}
-        originWhitelist={["*"]}
-        scalesPageToFit={false}
-        automaticallyAdjustContentInsets={false}
-        allowsInlineMediaPlayback
-        webviewDebuggingEnabled={__DEV__}
-        /** 키보드 액세서리 뷰 숨기기 */
-        hideKeyboardAccessoryView
-        /** 쿠키 공유 활성화 */
-        sharedCookiesEnabled
-        /** IOS 뒤로가기 제스처 활성화 */
-        // allowsBackForwardNavigationGestures
         source={{
           uri: `${baseUrl}${fullPath}`,
           headers: {
@@ -45,6 +35,7 @@ export const WebView = forwardRef<ParentWebView, WebViewProps>(
             "Accept-Language": "ko"
           }
         }}
+        {...configureWebViewSetting}
         {...props}
       />
     );
