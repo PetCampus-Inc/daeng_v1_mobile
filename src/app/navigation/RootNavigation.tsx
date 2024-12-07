@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator();
 
 export type RootStackParamList = {
   Home: undefined;
-  WebView: { path: string };
+  WebView: { path: string; state?: any };
 };
 
 export const RootNavigation = () => {
