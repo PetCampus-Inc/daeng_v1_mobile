@@ -10,6 +10,8 @@ import { RootNavigation } from "@_app/navigation/RootNavigation";
 import { OverlayProvider } from "@_shared/hooks/use-overlay";
 import { Toast } from "@_shared/ui/toast";
 
+import { HybridAppContainer } from "./layout/HybridAppContainer";
+
 import "react-native-url-polyfill/auto";
 import "react-native-get-random-values";
 
@@ -26,9 +28,11 @@ function App(): React.JSX.Element {
         <SafeAreaView className="flex-1">
           <NavigationContainer>
             <ToastProvider renderToast={(props) => <Toast {...props} />}>
-              <OverlayProvider>
-                <RootNavigation />
-              </OverlayProvider>
+              <HybridAppContainer>
+                <OverlayProvider>
+                  <RootNavigation />
+                </OverlayProvider>
+              </HybridAppContainer>
             </ToastProvider>
           </NavigationContainer>
         </SafeAreaView>
