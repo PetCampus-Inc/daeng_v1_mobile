@@ -1,4 +1,3 @@
-import notifee from "@notifee/react-native";
 import messaging from "@react-native-firebase/messaging";
 import { useEffect } from "react";
 import { Platform } from "react-native";
@@ -8,8 +7,6 @@ import { requestMessagingPermission } from "../lib/messagingPermission";
 const firebaseMessaging = messaging();
 
 interface PushNotificationOptions {
-  /** 앱 실행 중에 푸시 알림을 받았을 때 호출될 함수 */
-  onMessage?: (data: string) => void;
   /** 백그라운드 또는 종료된 상태에서 푸시 알림을 클릭했을 때 호출될 함수 */
   onNotificationOpenedApp?: (data: string) => void;
 }
@@ -20,59 +17,31 @@ interface PushNotificationOptions {
  * @param onNotificationOpenedApp 백그라운드 또는 종료된 상태에서 푸시 알림을 클릭했을 때 호출될 함수
  */
 export const useFirebaseCloudMessage = ({
-  onMessage,
   onNotificationOpenedApp
 }: PushNotificationOptions = {}) => {
   useEffect(() => {
     requestMessagingPermission();
 
-    const cleanupFunctions: (() => void)[] = [];
-    // 앱 실행 중 알림을 받았을 때 (iOS, Android 공통)
-    const foregroundMessageUnsubscribe = firebaseMessaging.onMessage((remoteMessage) => {
-      if (remoteMessage.data && onMessage) onMessage(JSON.stringify(remoteMessage.data));
-    });
-    cleanupFunctions.push(foregroundMessageUnsubscribe);
-
     if (Platform.OS === "android") {
-      // Android: 백그라운드 상태에서 알림을 클릭해 앱을 실행했을 때
-      const backgroundMessageUnsubscribe = firebaseMessaging.onNotificationOpenedApp(
-        (remoteMessage) => {
-          console.log("NotificationOpenedApp (Android)");
-          if (remoteMessage.data && onNotificationOpenedApp) {
-            onNotificationOpenedApp(JSON.stringify(remoteMessage.data));
-          }
-        }
-      );
-      cleanupFunctions.push(backgroundMessageUnsubscribe);
-
-      // Android: 종료된 상태에서 알림을 클릭해 앱을 실행했을 때
-      firebaseMessaging.getInitialNotification().then((remoteMessage) => {
-        if (remoteMessage) {
-          console.log(
-            "🚀 ~ firebaseMessaging.getInitialNotification ~ remoteMessage:",
-            remoteMessage
-          );
-          if (remoteMessage.data && onNotificationOpenedApp) {
-            onNotificationOpenedApp(JSON.stringify(remoteMessage.data));
-          }
+      // Android 앱 종료 상태에서 푸시 알림을 클릭해 앱을 실행했을 때
+      firebaseMessaging.getInitialNotification().then((initialNotification) => {
+        if (initialNotification?.data && onNotificationOpenedApp) {
+          onNotificationOpenedApp(JSON.stringify(initialNotification.data));
+          return;
         }
       });
-    } else if (Platform.OS === "ios") {
-      // iOS: 종료 또는 백그라운드 상태에서 알림을 클릭해 앱을 실행했을 때
-      const iosForegroundEventUnsubscribe = notifee.onForegroundEvent(async ({ detail }) => {
-        if (detail.notification && onNotificationOpenedApp) {
-          console.log(
-            "🚀 ~ iosForegroundEventUnsubscribe ~ detail.notification:",
-            detail.notification
-          );
-          onNotificationOpenedApp(JSON.stringify(detail.notification.data));
-        }
-      });
-      cleanupFunctions.push(iosForegroundEventUnsubscribe);
     }
 
-    return () => {
-      cleanupFunctions.forEach((cleanup) => cleanup());
-    };
-  }, [onMessage, onNotificationOpenedApp]);
+    // 백그라운드 상태에서 알림을 클릭해 앱을 실행했을 때
+    const backgroundMessageUnsubscribe = firebaseMessaging.onNotificationOpenedApp(
+      (remoteMessage) => {
+        if (remoteMessage.data && onNotificationOpenedApp) {
+          onNotificationOpenedApp(JSON.stringify(remoteMessage.data));
+          return;
+        }
+      }
+    );
+
+    return () => backgroundMessageUnsubscribe();
+  }, [onNotificationOpenedApp]);
 };
