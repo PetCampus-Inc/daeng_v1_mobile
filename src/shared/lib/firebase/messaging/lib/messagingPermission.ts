@@ -1,4 +1,3 @@
-import notifee from "@notifee/react-native";
 import messaging from "@react-native-firebase/messaging";
 import { Platform, PermissionsAndroid } from "react-native";
 
@@ -6,9 +5,6 @@ const firebaseMessaging = messaging();
 
 export const requestMessagingPermission = async () => {
   try {
-    const hasPermission = await notifee.requestPermission();
-    if (hasPermission) return;
-
     if (Platform.OS === "ios") {
       const authStatus = await firebaseMessaging.requestPermission();
       const enabled =

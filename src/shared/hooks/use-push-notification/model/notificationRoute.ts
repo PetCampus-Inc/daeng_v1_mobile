@@ -1,6 +1,12 @@
 import { NotificationCategory, NotificationType } from "./pushNotification";
 
-export type TargetRoute = ((...args: number[]) => string) | string;
+export type RouteConfig = {
+  path: string;
+  stack: boolean;
+};
+
+export type TargetRoute = ((...args: number[]) => RouteConfig) | RouteConfig;
+
 export type WebLink = Record<NotificationType, TargetRoute>;
 export type NotificationRoute = {
   [K in NotificationCategory]: Partial<WebLink>;
@@ -8,27 +14,66 @@ export type NotificationRoute = {
 
 export const notificationRoute: NotificationRoute = {
   MEMBER: {
-    AGREEMENT_UPDATE: (dogId: number) => `/dog/${dogId}`,
-    AGENDA_ARRIVED: (dogId: number) => `/agenda/${dogId}`,
-    DOG_IMAGE: (dogId: number) => `/album/date-view/${dogId}`
+    AGREEMENT_UPDATE: (dogId: number) => ({
+      path: `/dog/${dogId}?tab=school`,
+      stack: true
+    }),
+    AGENDA_ARRIVED: (dogId: number) => ({
+      path: `/agenda/${dogId}`,
+      stack: true
+    }),
+    DOG_IMAGE: (dogId: number) => ({
+      path: `/album/date-view/${dogId}`,
+      stack: true
+    })
   },
   ATTENDANCE: {
-    TICKET_EXPIRED: (dogId: number) => `/admin/attendance/${dogId}?tab=ticket`,
-    AGREEMENT_UPDATE: (dogId: number) => `/admin/attendance/${dogId}?tab=agreement`,
-    NEW_DOG: "/admin/attendance"
+    TICKET_EXPIRED: (dogId: number) => ({
+      path: `/admin/attendance/${dogId}?tab=ticket`,
+      stack: true
+    }),
+    AGREEMENT_UPDATE: {
+      path: "/admin/attendance",
+      stack: false
+    },
+    NEW_DOG: {
+      path: "/admin/attendance",
+      stack: false
+    }
   },
   CARE: {
-    AGENDA_NOT_YET_SENT: (dogId: number) => (dogId ? `/admin/care/notice/${dogId}` : "/admin/care"),
-    IMAGE_NOT_YET_SENT: (dogId: number) => `/admin/care/gallery/${dogId}`
+    AGENDA_NOT_YET_SENT: {
+      path: "/admin/care",
+      stack: false
+    },
+    IMAGE_NOT_YET_SENT: {
+      path: "/admin/care/gallery",
+      stack: true
+    }
   },
   ENROLLMENT: {
-    ENROLLMENT_APPROVED: "/approval?role=APPROVED",
-    ENROLLMENT_DENIED: "/approval?role=APPROVAL_DENIED"
+    ENROLLMENT_APPROVED: {
+      path: "/approval?role=APPROVED",
+      stack: false
+    },
+    ENROLLMENT_DENIED: {
+      path: "/approval?role=APPROVAL_DENIED",
+      stack: false
+    }
   },
   MANAGEMENT: {
-    NEW_DOG: "/admin/school/enrollment/school-forms",
-    NEW_TEACHER: "/admin/school/teacher",
-    TEACHER_DROP_OUT: "/admin/school/teacher"
+    NEW_DOG: {
+      path: "/admin/school/enrollment/school-forms",
+      stack: true
+    },
+    NEW_TEACHER: {
+      path: "/admin/school/teacher",
+      stack: true
+    },
+    TEACHER_DROP_OUT: {
+      path: "/admin/school/teacher",
+      stack: true
+    }
   }
 };
 
