@@ -8,9 +8,9 @@ import { BridgeWebView } from "@_widgets/bridge-webview";
 
 import { useWebViewState } from "@_shared/hooks/useWebViewState";
 
-export const WebViewScreen = () => {
+export const StackScreen = () => {
   const webviewRef = useRef<WebView>(null);
-  const { params } = useRoute<RouteProp<RootStackParamList, "WebView">>();
+  const { params } = useRoute<RouteProp<RootStackParamList, "Stack">>();
 
   const { onLoadEnd } = useWebViewState({ webviewRef });
 

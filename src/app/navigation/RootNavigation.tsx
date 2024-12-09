@@ -1,20 +1,20 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { HomeScreen } from "@_screens/HomeScreen";
-import { WebViewScreen } from "@_screens/WebViewScreen";
+import { MainScreen } from "@_screens/MainScreen";
+import { StackScreen } from "@_screens/StackScreen";
 
 const Stack = createNativeStackNavigator();
 
 export type RootStackParamList = {
-  Home: undefined;
-  WebView: { path: string; state?: any };
+  Main: undefined;
+  Stack: { path: string; state?: any };
 };
 
 export const RootNavigation = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="WebView" component={WebViewScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Stack" component={StackScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
