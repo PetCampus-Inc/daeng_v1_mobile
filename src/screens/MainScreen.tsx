@@ -6,7 +6,7 @@ import { BridgeWebView } from "@_widgets/bridge-webview";
 
 import { useNotificationRouting } from "@_shared/hooks/use-push-notification";
 
-export const HomeScreen = () => {
+export const MainScreen = () => {
   const webviewRef = useRef<WebView>(null);
 
   useNotificationRouting({ webviewRef });
