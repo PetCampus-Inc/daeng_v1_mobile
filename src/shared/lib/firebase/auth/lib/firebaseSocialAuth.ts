@@ -37,7 +37,8 @@ export default async function firebaseSocialAuth(provider: SocialProvider) {
 
   const getAppleCredential = async () => {
     const { identityToken, nonce } = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: []
     });
 
     if (!identityToken) throw new Error("애플 인증 정보가 없습니다.");
