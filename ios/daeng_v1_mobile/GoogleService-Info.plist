@@ -7,7 +7,7 @@
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.494514527970-2nfsejlpj9vlqgu6simcpm1pjp0vmurr</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>494514527970-8tetl75dk2lpe00neh6r9h5gumk1rj7t.apps.googleusercontent.com</string>
+	<string>494514527970-79s26kivcsvafb6jronhrlquejt6k373.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyB_C3KK6TDXZ5crJjuGGd4Cl9oO40MCBlc</string>
 	<key>GCM_SENDER_ID</key>
@@ -19,7 +19,7 @@
 	<key>PROJECT_ID</key>
 	<string>petcampus-ff26f</string>
 	<key>STORAGE_BUCKET</key>
-	<string>petcampus-ff26f.appspot.com</string>
+	<string>petcampus-ff26f.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
