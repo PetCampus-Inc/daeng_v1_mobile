@@ -26,23 +26,31 @@ export default async function firebaseSocialAuth(provider: SocialProvider) {
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     const { idToken } = await GoogleSignin.signIn();
     if (!idToken) throw new Error("구글 인증 정보가 없습니다.");
-    return firebaseAuth.GoogleAuthProvider.credential(idToken);
+    const credential = firebaseAuth.GoogleAuthProvider.credential(idToken);
+    return { credential, userName: null };
   };
 
   const getKakaoCredential = async () => {
     const { idToken } = await kakaoLogin();
     if (!idToken) throw new Error("카카오 인증 정보가 없습니다.");
-    return firebaseAuth.OIDCAuthProvider.credential("kakao", idToken);
+    const credential = firebaseAuth.OIDCAuthProvider.credential("kakao", idToken);
+    return { credential, userName: null };
   };
 
   const getAppleCredential = async () => {
-    const { identityToken, nonce } = await appleAuth.performRequest({
+    const { identityToken, nonce, fullName } = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: []
+      requestedScopes: [appleAuth.Scope.FULL_NAME]
     });
 
+    let userName = null;
+    if (fullName && fullName.familyName && fullName.givenName) {
+      userName = `${fullName.familyName}${fullName.givenName}`;
+    }
+
     if (!identityToken) throw new Error("애플 인증 정보가 없습니다.");
-    return firebaseAuth.AppleAuthProvider.credential(identityToken, nonce);
+    const credential = firebaseAuth.AppleAuthProvider.credential(identityToken, nonce);
+    return { credential, userName };
   };
 
   const credentialMap = {
@@ -51,8 +59,10 @@ export default async function firebaseSocialAuth(provider: SocialProvider) {
     APPLE: getAppleCredential
   };
 
-  const credential = await credentialMap[provider]();
+  const { credential, userName } = await credentialMap[provider]();
   const { user } = await firebaseAuth().signInWithCredential(credential);
 
-  return user.getIdToken();
+  const idToken = await user.getIdToken();
+
+  return { idToken, userName };
 }
