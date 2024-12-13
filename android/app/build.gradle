@@ -87,8 +87,8 @@ android {
         applicationId "net.knockdog.petcampus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
-        versionName "0.5.3"
+        versionCode 9
+        versionName "0.5.5"
     }
     signingConfigs {
         debug {
