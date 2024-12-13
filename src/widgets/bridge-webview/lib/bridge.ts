@@ -7,7 +7,7 @@ import { removeRefreshToken, saveRefreshToken } from "@_shared/lib/refresh-token
 
 export const webViewBridge: Bridge = {
   call: async (telNumber: string) => connectCall(telNumber),
-  getIdToken: (provider: SocialProvider) => firebaseSocialAuth(provider),
+  socialAuth: (provider: SocialProvider) => firebaseSocialAuth(provider),
   getFcmToken,
   selectImage,
   saveMedia,
