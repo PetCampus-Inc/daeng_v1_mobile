@@ -1,15 +1,15 @@
-import { GOOGLE_WEB_CLIENT_ID, GOOGLE_WEB_CLIENT_ID_IOS } from "@env";
 import appleAuth from "@invertase/react-native-apple-authentication";
 import firebaseAuth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { login as kakaoLogin } from "@react-native-seoul/kakao-login";
+import Config from "react-native-config";
 
 import { SocialProvider } from "../model/types";
 
 const googleSigninConfigure = () => {
   GoogleSignin.configure({
-    webClientId: GOOGLE_WEB_CLIENT_ID,
-    iosClientId: GOOGLE_WEB_CLIENT_ID_IOS,
+    webClientId: Config.GOOGLE_WEB_CLIENT_ID,
+    iosClientId: Config.GOOGLE_WEB_CLIENT_ID_IOS,
     offlineAccess: true
   });
 };

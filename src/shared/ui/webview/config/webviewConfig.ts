@@ -1,10 +1,10 @@
-import { WEBVIEW_USER_AGENT } from "@env";
 import { Platform } from "react-native";
+import Config from "react-native-config";
 import { WebViewProps } from "react-native-webview";
 
 export const configureWebViewSetting: WebViewProps = {
   /** 유저 에이전트 */
-  userAgent: `${WEBVIEW_USER_AGENT}|${Platform.OS}`,
+  userAgent: `${Config.WEBVIEW_USER_AGENT}|${Platform.OS}`,
   /** 화이트 리스트 */
   originWhitelist: ["*"],
   /** 터치 및 스크롤 바운스 */

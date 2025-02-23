@@ -1,10 +1,10 @@
-import { S3_ACCESS_KEY_ID, S3_BUCKET, S3_REGION, S3_SECRET_ACCESS_KEY } from "@env";
+import Config from "react-native-config";
 
 const awsS3config = {
-  region: S3_REGION,
-  bucket: S3_BUCKET,
-  accessKeyID: S3_ACCESS_KEY_ID,
-  secretAccessKey: S3_SECRET_ACCESS_KEY
+  region: Config.S3_REGION,
+  bucket: Config.S3_BUCKET,
+  accessKeyID: Config.S3_ACCESS_KEY_ID,
+  secretAccessKey: Config.S3_SECRET_ACCESS_KEY
 };
 
 export default awsS3config;
