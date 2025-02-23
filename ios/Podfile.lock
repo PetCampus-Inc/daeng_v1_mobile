@@ -2632,6 +2632,10 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-config (1.5.5):
+    - react-native-config/App (= 1.5.5)
+  - react-native-config/App (1.5.5):
+    - React-Core
   - react-native-cookies (6.2.1):
     - React-Core
   - react-native-encrypted-storage (4.0.3):
@@ -3284,6 +3288,7 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - "react-native-cameraroll (from `../node_modules/@react-native-camera-roll/camera-roll`)"
+  - react-native-config (from `../node_modules/react-native-config`)
   - "react-native-cookies (from `../node_modules/@react-native-cookies/cookies`)"
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
@@ -3442,6 +3447,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-cameraroll:
     :path: "../node_modules/@react-native-camera-roll/camera-roll"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
   react-native-cookies:
     :path: "../node_modules/@react-native-cookies/cookies"
   react-native-encrypted-storage:
@@ -3604,6 +3611,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 858e7be7b51da78fd6a12b2461d92ea44e88c0f2
   React-microtasksnativemodule: a221789bbd16b09f083a60a4bec8623e2dfbb59f
   react-native-cameraroll: 9e51028e59dfdcd20de1916a75c263e427cb6292
+  react-native-config: 3367df9c1f25bb96197007ec531c7087ed4554c3
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06

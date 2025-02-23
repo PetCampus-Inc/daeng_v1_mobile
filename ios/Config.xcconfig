@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  daeng_v1_mobile
+//
+//  Created by southstar on 2/23/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include? "tmp.xcconfig"
