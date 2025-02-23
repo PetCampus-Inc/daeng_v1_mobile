@@ -1,6 +1,6 @@
 import Config from "react-native-config";
 
-const baseUrl = Config.DEV_SERVER_DOMAIN;
+const baseUrl = __DEV__ ? Config.DEV_SERVER_DOMAIN : Config.SERVER_DOMAIN;
 const apiUrl = `${baseUrl}/${Config.SERVER_API_PATH}`;
 
 console.info(`[Base Domain] ${baseUrl}`);
