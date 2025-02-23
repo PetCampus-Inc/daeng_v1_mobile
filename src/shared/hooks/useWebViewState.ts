@@ -13,7 +13,7 @@ interface WebViewStateOptions {
 export const useWebViewState = ({ webviewRef }: WebViewStateOptions) => {
   const {
     params: { state }
-  } = useRoute<RouteProp<RootStackParamList, "WebView">>();
+  } = useRoute<RouteProp<RootStackParamList, "Stack">>();
 
   const onLoadEnd = () => {
     if (state) {
