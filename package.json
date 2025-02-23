@@ -10,7 +10,9 @@
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "start": "react-native start",
     "test": "jest",
-    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
+    "clean-aos": "cd android && ./gradlew clean",
+    "clean-ios": "rm -rf ~/Library/Developer/Xcode/DerivedData && cd ios && rm -rf Podfile.lock && pod update && pod install"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
@@ -36,7 +38,6 @@
     "react-dom": "18.3.1",
     "react-native": "0.76.1",
     "react-native-device-info": "^11.1.0",
-    "react-native-dotenv": "^3.4.11",
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-fs": "^2.20.0",
     "react-native-get-random-values": "^1.11.0",
@@ -71,7 +72,6 @@
     "@react-native/metro-config": "0.76.1",
     "@react-native/typescript-config": "0.76.1",
     "@types/react": "^18.2.6",
-    "@types/react-native-dotenv": "^0.2.2",
     "@types/react-test-renderer": "18.0.0",
     "@typescript-eslint/eslint-plugin": "^8.12.2",
     "@typescript-eslint/parser": "^8.12.2",
@@ -88,6 +88,7 @@
     "jest": "^29.7.0",
     "prettier": "^3.3.3",
     "react-native-clean-project": "^4.0.3",
+    "react-native-config": "^1.5.5",
     "react-native-svg-transformer": "^1.5.0",
     "react-test-renderer": "18.3.1",
     "typescript": "5.0.4"
