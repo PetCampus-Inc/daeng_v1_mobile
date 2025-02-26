@@ -112,14 +112,14 @@ export const MapScreen = () => {
   const [markers, setMarkers] = useState<Location[]>(mockLocations);
 
   const [cameraPosition, setCameraPosition] = useState({
-    latitude: 37.45991, // 서울시청
+    latitude: 37.45991,
     longitude: 127.16193,
-    zoom: 15, // 적당한 줌 레벨
-    bearing: 0 // 정북 방향
+    zoom: 15,
+    bearing: 0,
+    tilt: 0
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
   const getCurrentLocation = () => {
     Geolocation.getCurrentPosition(
@@ -129,14 +129,15 @@ export const MapScreen = () => {
         console.log("현재 위치:", { latitude, longitude });
 
         // 현재 위치로 검색 수행
-        // searchLocations(latitude, longitude);
+        searchLocations(latitude, longitude);
 
         // 현재 위치로 카메라 이동
         setCameraPosition({
           latitude,
           longitude,
           zoom: 15,
-          bearing: 0
+          bearing: 0,
+          tilt: 0
         });
       },
       (error) => {
@@ -181,35 +182,23 @@ export const MapScreen = () => {
   const searchLocations = async (latitude: number, longitude: number) => {
     try {
       setIsLoading(true);
-      const cookies = await CookieManager.get(baseUrl);
-      const accessToken = cookies.accessToken;
 
       // API 엔드포인트를 실제 서버 주소로 변경해주세요
       const response = await fetch(
-        `https://api.knockdog.net/api/v0/school/search/map?lat=${latitude}&lng=${longitude}&radius=1000`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        }
+        `https://api.knockdog.net/api/v0/school/search/map?lat=${latitude}&lng=${longitude}&radius=1000`
       );
-
-      if (!response.ok) {
-        throw new Error("검색 중 오류가 발생했습니다");
-      }
-
       const data = await response.json();
-      setSearchResults(data);
 
       // 검색 결과를 마커로 표시
-      setMarkers(data);
+      setMarkers(data.data);
 
       // 카메라 위치 변경
       setCameraPosition({
         latitude,
         longitude,
         zoom: 15,
-        bearing: 0
+        bearing: 0,
+        tilt: 0
       });
     } catch (error) {
       Alert.alert("오류", "검색 중 문제가 발생했습니다.");
@@ -222,9 +211,9 @@ export const MapScreen = () => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <NaverMapView style={{ width: "100%", height: "75%" }} camera={cameraPosition}>
-        {markers.map((location) => (
+        {markers.map((location, index) => (
           <NaverMapMarkerOverlay
-            key={location.id}
+            key={`marker-${location.id}-${index}`}
             latitude={location.latitude}
             longitude={location.longitude}
             onTap={() => console.log(location.name)}
@@ -236,7 +225,9 @@ export const MapScreen = () => {
             }}
             width={30}
             height={40}
-            uri="https://picsum.photos/100/100"
+            image={{
+              uri: "https://picsum.photos/100/100"
+            }}
           />
         ))}
       </NaverMapView>
@@ -301,10 +292,11 @@ export const MapScreen = () => {
               latitude: lat,
               longitude: lng,
               zoom: 15,
-              bearing: 0
+              bearing: 0,
+              tilt: 0
             });
 
-            // searchLocations(lat, lng);
+            searchLocations(lat, lng);
           }}
         >
           <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
@@ -317,8 +309,8 @@ export const MapScreen = () => {
           onPress={() => {
             setCameraPosition({
               ...cameraPosition,
-              tilt: 60, // 더 기울어진 시점으로 변경
-              zoom: 17 // 더 확대
+              tilt: 60,
+              zoom: 17
             });
           }}
         >
