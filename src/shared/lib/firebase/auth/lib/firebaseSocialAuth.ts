@@ -3,6 +3,7 @@ import appleAuth from "@invertase/react-native-apple-authentication";
 import firebaseAuth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { login as kakaoLogin } from "@react-native-seoul/kakao-login";
+import { Alert } from "react-native";
 
 import { SocialProvider } from "../model/types";
 
@@ -23,34 +24,52 @@ export default async function firebaseSocialAuth(provider: SocialProvider) {
   googleSigninConfigure();
 
   const getGoogleCredential = async () => {
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    const { idToken } = await GoogleSignin.signIn();
-    if (!idToken) throw new Error("구글 인증 정보가 없습니다.");
-    const credential = firebaseAuth.GoogleAuthProvider.credential(idToken);
-    return { credential, userName: null };
+    try {
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      const { idToken } = await GoogleSignin.signIn();
+      if (!idToken) throw new Error("구글 인증 정보가 없습니다.");
+      const credential = firebaseAuth.GoogleAuthProvider.credential(idToken);
+      return { credential, userName: null };
+    } catch (error) {
+      const errMessage = error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.";
+      Alert.alert("구글 로그인 실패", errMessage);
+      throw error;
+    }
   };
 
   const getKakaoCredential = async () => {
-    const { idToken } = await kakaoLogin();
-    if (!idToken) throw new Error("카카오 인증 정보가 없습니다.");
-    const credential = firebaseAuth.OIDCAuthProvider.credential("kakao", idToken);
-    return { credential, userName: null };
+    try {
+      const { idToken } = await kakaoLogin();
+      if (!idToken) throw new Error("카카오 인증 정보가 없습니다.");
+      const credential = firebaseAuth.OIDCAuthProvider.credential("kakao", idToken);
+      return { credential, userName: null };
+    } catch (error) {
+      const errMessage = error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.";
+      Alert.alert("카카오 로그인 실패", errMessage);
+      throw error;
+    }
   };
 
   const getAppleCredential = async () => {
-    const { identityToken, nonce, fullName } = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.FULL_NAME]
-    });
+    try {
+      const { identityToken, nonce, fullName } = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.FULL_NAME]
+      });
 
-    let userName = null;
-    if (fullName && fullName.familyName && fullName.givenName) {
-      userName = `${fullName.familyName}${fullName.givenName}`;
+      let userName = null;
+      if (fullName && fullName.familyName && fullName.givenName) {
+        userName = `${fullName.familyName}${fullName.givenName}`;
+      }
+
+      if (!identityToken) throw new Error("애플 인증 정보가 없습니다.");
+      const credential = firebaseAuth.AppleAuthProvider.credential(identityToken, nonce);
+      return { credential, userName };
+    } catch (error) {
+      const errMessage = error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.";
+      Alert.alert("애플 로그인 실패", errMessage);
+      throw error;
     }
-
-    if (!identityToken) throw new Error("애플 인증 정보가 없습니다.");
-    const credential = firebaseAuth.AppleAuthProvider.credential(identityToken, nonce);
-    return { credential, userName };
   };
 
   const credentialMap = {

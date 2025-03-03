@@ -32,5 +32,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:494514527970:ios:89abe0f18120e1ab0c48bb</string>
+	<key>DATABASE_URL</key>
+	<string>https://petcampus-ff26f-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>
