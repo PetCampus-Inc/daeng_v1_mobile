@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "494514527970",
+    "firebase_url": "https://petcampus-ff26f-default-rtdb.firebaseio.com",
     "project_id": "petcampus-ff26f",
     "storage_bucket": "petcampus-ff26f.firebasestorage.app"
   },
@@ -19,6 +20,14 @@
           "android_info": {
             "package_name": "net.knockdog.petcampus",
             "certificate_hash": "3c2ee0effd478b083607bf941f7c1d3d33afe0a3"
+          }
+        },
+        {
+          "client_id": "494514527970-p7t9358uu024smbbbj3h7toijddp6una.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.knockdog.petcampus",
+            "certificate_hash": "2edf2b74dd305425a9c5bb36409bc3e0c694333b"
           }
         },
         {
