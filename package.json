@@ -15,6 +15,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
     "@invertase/react-native-apple-authentication": "^2.3.0",
+    "@notifee/react-native": "^9.1.8",
     "@react-native-camera-roll/camera-roll": "^7.8.1",
     "@react-native-community/netinfo": "^11.3.2",
     "@react-native-cookies/cookies": "^6.2.1",
@@ -95,5 +96,6 @@
   "engines": {
     "node": ">=18",
     "pnpm": ">=9"
-  }
+  },
+  "packageManager": "pnpm@10.7.0+sha512.6b865ad4b62a1d9842b61d674a393903b871d9244954f652b8842c2b553c72176b278f64c463e52d40fff8aba385c235c8c9ecf5cc7de4fd78b8bb6d49633ab6"
 }
