@@ -1,0 +1,16 @@
+services:
+  metro:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "8081:8081" # Metro Bundler
+      - "3000:3000" # WebView (Next.js dev server 등)
+    environment:
+      - REACT_NATIVE_PACKAGER_HOSTNAME=host.docker.internal
+    stdin_open: true
+    tty: true
+    command: sh -c "pnpm install && pnpm start"

@@ -21,6 +21,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 **/.xcode.env.local
+ios/GoogleService-Info.plist
 
 # Android/IntelliJ
 #
@@ -35,10 +36,12 @@ keystore.properties
 *.keystore
 !debug.keystore
 
+
 # node.js
 #
 node_modules/
 npm-debug.log
+pnpm-lock.yaml
 
 # fastlane
 #
@@ -67,3 +70,9 @@ npm-debug.log
 
 .env
 --cache-location
+
+
+
+#docker
+.pnpm-store/
+.bundle/
