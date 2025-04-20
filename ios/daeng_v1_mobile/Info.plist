@@ -38,6 +38,16 @@
 				<string>com.googleusercontent.apps.494514527970-egreqtk354po5ea34h9psm31qagmf1vi</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>net.knockdog.petcampus</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>knockdog</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -78,10 +88,10 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>QR코드 스캔, 프로필 사진 촬영을 위해 카메라 접근 권한이 필요합니다.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>사진 등록을 위해 갤러리 접근 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>사진을 갤러리에 저장하기 위해 저장 권한이 필요합니다.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>사진 등록을 위해 갤러리 접근 권한이 필요합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Medium.ttf</string>
