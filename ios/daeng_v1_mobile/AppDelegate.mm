@@ -2,6 +2,7 @@
 #import "RNSplashScreen.h"
 #import <RNKakaoLogins.h>
 
+#import <React/RCTLinkingManager.h>
 #import <React/RCTBundleURLProvider.h>
 #import <Firebase.h>
 
@@ -23,14 +24,16 @@
   return ret;
 }
 
-// kakao login
 - (BOOL)application:(UIApplication *)app
      openURL:(NSURL *)url
      options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
- if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
+  // 카카오 로그인 URL 처리
+  if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
     return [RNKakaoLogins handleOpenUrl: url];
- }
- return NO;
+  }
+  
+  // 일반 딥링크 URL 처리
+  return [RCTLinkingManager application:app openURL:url options:options];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
