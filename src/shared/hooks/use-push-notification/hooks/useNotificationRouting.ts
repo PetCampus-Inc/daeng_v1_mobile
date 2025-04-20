@@ -30,7 +30,7 @@ export const useNotificationRouting = ({ webviewRef }: NotificationRoutingProps)
       const data: NotificationData = JSON.parse(jsonData);
       const { path, stack } = getNotificationRoute(data);
 
-      if (stack) stackNavigation(path);
+      if (stack) stackNavigation({ method: "webview", path });
       else webviewRef.current?.injectJavaScript(`window.location.href = '${path}';`);
     },
     [webviewRef, stackNavigation]
