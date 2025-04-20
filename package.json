@@ -5,13 +5,15 @@
   "type": "commonjs",
   "scripts": {
     "android:reverse": "adb reverse tcp:3000 tcp:3000",
-    "android": "pnpm android:reverse && react-native run-android",
+    "android": "react-native run-android",
     "ios": "react-native run-ios --simulator=\"iPhone 16 Pro\"",
     "ios-device": "react-native run-ios --device=\"iPhone\" --mode Debug",
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "start": "react-native start",
     "test": "jest",
-    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
+    "clean-build:aos": "cd android && ./gradlew clean build --refresh-dependencies",
+    "clean-build:ios": "cd ios && pod deintegrate && pod cache clean --all && pnpx pod-install"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
