@@ -9,6 +9,9 @@ declare module "@env" {
   export const GOOGLE_WEB_CLIENT_ID: string;
   export const GOOGLE_WEB_CLIENT_ID_IOS: string;
 
+  export const APPLE_SERVICE_ID: string;
+  export const APPLE_REDIRECT_URI: string;
+
   export const S3_REGION: string;
   export const S3_BUCKET: string;
   export const S3_ACCESS_KEY_ID: string;
