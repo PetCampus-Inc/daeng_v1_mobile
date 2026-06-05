@@ -9,7 +9,8 @@ import firebaseAuth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import {
   getProfile as getKakaoProfile,
-  login as kakaoLogin
+  login as kakaoLogin,
+  loginWithKakaoAccount
 } from "@react-native-seoul/kakao-login";
 import { Alert, Platform } from "react-native";
 import EncryptedStorage from "react-native-encrypted-storage";
@@ -19,11 +20,20 @@ import { SocialProvider } from "../model/types";
 
 // Apple은 최초 로그인 1회에만 fullName을 반환하므로 클라이언트가 캐싱해야 함
 const APPLE_USERNAME_KEY_PREFIX = "APPLE_USERNAME:";
+const GOOGLE_WEB_CLIENT_ID_FALLBACK =
+  "494514527970-ahp4roo670lkpt8upit6h95pskrkj124.apps.googleusercontent.com";
+const GOOGLE_WEB_CLIENT_ID_IOS_FALLBACK =
+  "494514527970-egreqtk354po5ea34h9psm31qagmf1vi.apps.googleusercontent.com";
+
+const resolveConfigValue = (value: string | undefined, fallback: string) => {
+  if (value && value !== "undefined") return value;
+  return fallback;
+};
 
 const googleSigninConfigure = () => {
   GoogleSignin.configure({
-    webClientId: GOOGLE_WEB_CLIENT_ID,
-    iosClientId: GOOGLE_WEB_CLIENT_ID_IOS,
+    webClientId: resolveConfigValue(GOOGLE_WEB_CLIENT_ID, GOOGLE_WEB_CLIENT_ID_FALLBACK),
+    iosClientId: resolveConfigValue(GOOGLE_WEB_CLIENT_ID_IOS, GOOGLE_WEB_CLIENT_ID_IOS_FALLBACK),
     offlineAccess: true
   });
 };
@@ -69,7 +79,11 @@ export default async function firebaseSocialAuth(provider: SocialProvider) {
 
   const getKakaoCredential = async () => {
     try {
-      const { idToken } = await kakaoLogin();
+      const kakaoToken = await kakaoLogin().catch(async (error) => {
+        if (Platform.OS !== "android") throw error;
+        return loginWithKakaoAccount();
+      });
+      const { idToken } = kakaoToken;
       if (!idToken) throw new Error("카카오 인증 정보가 없습니다.");
       const credential = firebaseAuth.OIDCAuthProvider.credential("kakao", idToken);
 
